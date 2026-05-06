@@ -37,6 +37,16 @@
             },
         };
     </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+        }
+    </style>
 </head>
 <body class="min-h-screen bg-page font-sans text-gray-800 antialiased">
 
@@ -278,6 +288,16 @@
     btn.addEventListener('click', function () {
         var open = panel.classList.toggle('hidden') === false;
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    panel.addEventListener('click', function (e) {
+        var target = e.target;
+        if (!target || target.tagName !== 'A') return;
+        var href = target.getAttribute('href') || '';
+        if (href.charAt(0) !== '#') return;
+        if (window.matchMedia && window.matchMedia('(min-width: 640px)').matches) return; // sm+
+        panel.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
     });
 })();
 </script>
