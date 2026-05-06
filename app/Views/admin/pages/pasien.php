@@ -1,37 +1,73 @@
 <?php /** @var array<int, array<string, mixed>> $rows */ ?>
-<div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-    <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4">
-        <h2 class="text-sm font-semibold text-slate-900">Daftar pasien</h2>
-        <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600"><?= count($rows ?? []) ?> entri</span>
+<div class="space-y-4">
+    <?php if ($m = session()->getFlashdata('message')) : ?>
+        <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"><?= esc($m) ?></div>
+    <?php endif; ?>
+    <?php if ($e = session()->getFlashdata('error')) : ?>
+        <div class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"><?= esc($e) ?></div>
+    <?php endif; ?>
+
+    <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+            <h2 class="text-lg font-semibold text-slate-900">Daftar pasien</h2>
+            <p class="text-sm text-slate-500"><?= count($rows ?? []) ?> entri</p>
+        </div>
+        <a href="<?= esc(site_url('admin/pasien/create'), 'attr') ?>"
+           class="inline-flex items-center gap-2 rounded-xl bg-mint px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-mint/25 transition hover:bg-mint-dark">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Tambah pasien
+        </a>
     </div>
-    <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
-            <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                <tr>
-                    <th class="px-6 py-3">ID</th>
-                    <th class="px-6 py-3">Nama</th>
-                    <th class="px-6 py-3">Tgl lahir</th>
-                    <th class="px-6 py-3">JK</th>
-                    <th class="px-6 py-3">Telepon</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-                <?php if (empty($rows)) : ?>
+
+    <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
+                <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     <tr>
-                        <td colspan="5" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
+                        <th class="px-6 py-3">ID</th>
+                        <th class="px-6 py-3">Nama lengkap</th>
+                        <th class="px-6 py-3">Usia</th>
+                        <th class="px-6 py-3">Demam pagi</th>
+                        <th class="px-6 py-3">Demam sore</th>
+                        <th class="px-6 py-3">Dibuat</th>
+                        <th class="px-6 py-3 text-right">Aksi</th>
                     </tr>
-                <?php else : ?>
-                    <?php foreach ($rows as $r) : ?>
-                        <tr class="hover:bg-slate-50/80">
-                            <td class="whitespace-nowrap px-6 py-4 font-medium text-slate-900"><?= esc((string) ($r['id'] ?? '')) ?></td>
-                            <td class="px-6 py-4 text-slate-800"><?= esc((string) ($r['nama'] ?? '')) ?></td>
-                            <td class="whitespace-nowrap px-6 py-4 text-slate-600"><?= esc((string) ($r['tanggal_lahir'] ?? '—')) ?></td>
-                            <td class="px-6 py-4 text-slate-600"><?= esc((string) ($r['jenis_kelamin'] ?? '—')) ?></td>
-                            <td class="px-6 py-4 text-slate-600"><?= esc((string) ($r['telepon'] ?? '—')) ?></td>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    <?php if (($rows ?? []) === []) : ?>
+                        <tr>
+                            <td colspan="7" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
                         </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                    <?php else : ?>
+                        <?php foreach ($rows as $r) : ?>
+                            <?php $pid = (int) ($r['id'] ?? 0); ?>
+                            <tr class="hover:bg-slate-50/80">
+                                <td class="whitespace-nowrap px-6 py-4 font-medium"><?= esc((string) $pid) ?></td>
+                                <td class="px-6 py-4"><?= esc((string) ($r['nama'] ?? '')) ?></td>
+                                <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['usia'] ?? '—')) ?></td>
+                                <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['demam_pagi'] ?? '—')) ?></td>
+                                <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['demam_sore'] ?? '—')) ?></td>
+                                <td class="whitespace-nowrap px-6 py-4 text-slate-600"><?= esc((string) ($r['created_at'] ?? '—')) ?></td>
+                                <td class="whitespace-nowrap px-6 py-4 text-right">
+                                    <div class="flex flex-wrap items-center justify-end gap-2">
+                                        <a href="<?= esc(site_url('admin/pasien/' . $pid), 'attr') ?>"
+                                           class="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Detail</a>
+                                        <a href="<?= esc(site_url('admin/pasien/' . $pid . '/edit'), 'attr') ?>"
+                                           class="rounded-lg border border-mint/40 bg-mint/10 px-3 py-1.5 text-xs font-medium text-mint-dark hover:bg-mint/20">Edit</a>
+                                        <form action="<?= esc(site_url('admin/pasien/' . $pid . '/delete'), 'attr') ?>" method="post" class="inline"
+                                              onsubmit="return confirm('Hapus pasien ini?');">
+                                            <?= csrf_field() ?>
+                                            <button type="submit" class="rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-700 hover:bg-red-100">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

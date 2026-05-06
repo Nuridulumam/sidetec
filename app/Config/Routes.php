@@ -16,6 +16,12 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], static functio
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'adminauth'], static function ($routes) {
     $routes->get('/', 'AdminController::dashboard');
     $routes->get('pasien', 'AdminController::pasien');
+    $routes->get('pasien/create', 'AdminController::pasienCreate');
+    $routes->post('pasien/store', 'AdminController::pasienStore', ['filter' => 'csrf']);
+    $routes->get('pasien/(:num)/edit', 'AdminController::pasienEdit/$1');
+    $routes->post('pasien/(:num)/update', 'AdminController::pasienUpdate/$1', ['filter' => 'csrf']);
+    $routes->post('pasien/(:num)/delete', 'AdminController::pasienDelete/$1', ['filter' => 'csrf']);
+    $routes->get('pasien/(:num)', 'AdminController::pasienShow/$1');
     $routes->get('rule-klasifikasi', 'AdminController::ruleKlasifikasi');
     $routes->get('laporan', 'AdminController::laporan');
 

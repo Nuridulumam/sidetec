@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\PasienModel;
 use App\Models\UserModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -39,13 +40,158 @@ class AdminController extends BaseController
 
     public function pasien()
     {
-        $rows = db_connect()->table('pasien')->orderBy('id', 'DESC')->limit(50)->get()->getResultArray();
+        $rows = db_connect()->table('pasien')
+            ->select('id, nama, usia, demam_pagi, demam_sore, created_at')
+            ->orderBy('id', 'DESC')
+            ->limit(100)
+            ->get()
+            ->getResultArray();
 
         return view('admin/layout', [
             'title'    => 'Pasien',
             'active'   => 'pasien',
             'mainView' => view('admin/pages/pasien', ['rows' => $rows]),
         ]);
+    }
+
+    public function pasienCreate()
+    {
+        return view('admin/layout', [
+            'title'    => 'Tambah Pasien',
+            'active'   => 'pasien',
+            'mainView' => view('admin/pages/pasien_form', ['record' => null]),
+        ]);
+    }
+
+    public function pasienStore()
+    {
+        $rules = $this->pasienRules();
+
+        if (! $this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $data = $this->pasienPayloadFromRequest();
+        model(PasienModel::class)->insert($data);
+
+        return redirect()->to(site_url('admin/pasien'))->with('message', 'Pasien berhasil ditambahkan.');
+    }
+
+    public function pasienShow(string $id)
+    {
+        $pid = (int) $id;
+        $row = model(PasienModel::class)->find($pid);
+        if ($row === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        return view('admin/layout', [
+            'title'    => 'Detail Pasien',
+            'active'   => 'pasien',
+            'mainView' => view('admin/pages/pasien_detail', ['row' => $row]),
+        ]);
+    }
+
+    public function pasienEdit(string $id)
+    {
+        $pid  = (int) $id;
+        $row = model(PasienModel::class)->find($pid);
+        if ($row === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        return view('admin/layout', [
+            'title'    => 'Edit Pasien',
+            'active'   => 'pasien',
+            'mainView' => view('admin/pages/pasien_form', ['record' => $row]),
+        ]);
+    }
+
+    public function pasienUpdate(string $id)
+    {
+        $pid = (int) $id;
+
+        $existing = model(PasienModel::class)->find($pid);
+        if ($existing === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        $rules = $this->pasienRules();
+        if (! $this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $data = $this->pasienPayloadFromRequest();
+        model(PasienModel::class)->update($pid, $data);
+
+        return redirect()->to(site_url('admin/pasien'))->with('message', 'Pasien berhasil diperbarui.');
+    }
+
+    public function pasienDelete(string $id)
+    {
+        $pid = (int) $id;
+
+        $existing = model(PasienModel::class)->find($pid);
+        if ($existing === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        model(PasienModel::class)->delete($pid);
+
+        return redirect()->to(site_url('admin/pasien'))->with('message', 'Pasien berhasil dihapus.');
+    }
+
+    private function pasienRules(): array
+    {
+        $yesNoRule = 'required|in_list[0,1]';
+
+        return [
+            'nama'    => 'required|min_length[3]|max_length[191]',
+            'usia'    => 'required|is_natural_no_zero|less_than_equal_to[150]',
+            'demam_pagi' => 'required|decimal|greater_than_equal_to[30]|less_than_equal_to[45]',
+            'demam_sore' => 'required|decimal|greater_than_equal_to[30]|less_than_equal_to[45]',
+
+            'sakit_kepala'        => $yesNoRule,
+            'nyeri_otot'          => $yesNoRule,
+            'mual'                => $yesNoRule,
+            'muntah'              => $yesNoRule,
+            'nyeri_perut'         => $yesNoRule,
+            'diare'               => $yesNoRule,
+            'penurunan_kesadaran' => $yesNoRule,
+            'bradikardia_relatif' => $yesNoRule,
+            'lemas'               => $yesNoRule,
+
+            'penurunan_kesadaran_deskripsi' => 'required_if[penurunan_kesadaran,1]|permit_empty|max_length[2000]',
+        ];
+    }
+
+    private function pasienPayloadFromRequest(): array
+    {
+        $penurunan = $this->request->getPost('penurunan_kesadaran') === '1' ? 1 : 0;
+        $desc      = (string) ($this->request->getPost('penurunan_kesadaran_deskripsi') ?? '');
+        $desc      = trim($desc);
+
+        if ($penurunan === 0) {
+            $desc = '';
+        }
+
+        return [
+            'nama'    => (string) $this->request->getPost('nama'),
+            'usia'    => (int) $this->request->getPost('usia'),
+            'demam_pagi' => (float) $this->request->getPost('demam_pagi'),
+            'demam_sore' => (float) $this->request->getPost('demam_sore'),
+
+            'sakit_kepala'        => $this->request->getPost('sakit_kepala') === '1' ? 1 : 0,
+            'nyeri_otot'          => $this->request->getPost('nyeri_otot') === '1' ? 1 : 0,
+            'mual'                => $this->request->getPost('mual') === '1' ? 1 : 0,
+            'muntah'              => $this->request->getPost('muntah') === '1' ? 1 : 0,
+            'nyeri_perut'         => $this->request->getPost('nyeri_perut') === '1' ? 1 : 0,
+            'diare'               => $this->request->getPost('diare') === '1' ? 1 : 0,
+            'penurunan_kesadaran' => $penurunan,
+            'penurunan_kesadaran_deskripsi' => $desc === '' ? null : $desc,
+            'bradikardia_relatif' => $this->request->getPost('bradikardia_relatif') === '1' ? 1 : 0,
+            'lemas'               => $this->request->getPost('lemas') === '1' ? 1 : 0,
+        ];
     }
 
     public function ruleKlasifikasi()

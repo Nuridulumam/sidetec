@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($title ?? 'Admin') ?> — SIDETECT</title>
+    <link rel="icon" type="image/png" href="<?= esc(base_url('assets/images/logo_sidetect.png'), 'attr') ?>">
+    <link rel="apple-touch-icon" href="<?= esc(base_url('assets/images/logo_sidetect.png'), 'attr') ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -27,7 +29,12 @@
     <!-- Sidebar -->
     <aside class="fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-slate-800 bg-slate-900 text-slate-100 lg:static">
         <div class="flex h-16 shrink-0 items-center gap-3 border-b border-slate-800 px-5">
-            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-mint text-sm font-bold text-white">SD</span>
+            <img
+                src="<?= esc(base_url('assets/images/logo_sidetect.png'), 'attr') ?>"
+                alt="SIDETECT"
+                class="h-10 w-10 rounded-xl bg-white p-1 object-contain"
+                loading="lazy"
+            />
             <div>
                 <p class="text-sm font-semibold text-white">SIDETECT</p>
                 <p class="text-xs text-slate-400">Panel Admin</p>

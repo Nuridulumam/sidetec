@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIDETECT — Sistem Deteksi Dini Penyakit Tifoid</title>
     <meta name="description" content="SIDETECT membantu identifikasi awal kemungkinan penyakit tifoid melalui sistem deteksi dini berbasis informasi.">
+    <link rel="icon" type="image/png" href="<?= esc(base_url('assets/images/logo_sidetect.png'), 'attr') ?>">
+    <link rel="apple-touch-icon" href="<?= esc(base_url('assets/images/logo_sidetect.png'), 'attr') ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -55,7 +57,12 @@
     <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full bg-white px-5 py-3 shadow-nav sm:px-8 sm:py-3.5">
         <a href="#" class="flex shrink-0 items-center gap-2.5">
             <span class="flex h-10 w-10 items-center justify-center rounded-full bg-mint shadow-sm ring-4 ring-mint/25">
-                <!-- <span class="text-xs font-bold tracking-tight text-white">SD</span> untuk logo SIDETECT -->
+                <img
+                    src="<?= esc(base_url('assets/images/logo_sidetect.png'), 'attr') ?>"
+                    alt="SIDETECT"
+                    class="h-10 w-10 rounded-xl bg-white p-1 object-contain"
+                    loading="lazy"
+                >
             </span>
             <span class="text-xl font-bold tracking-tight text-gray-900">SIDETECT</span>
         </a>
@@ -119,8 +126,8 @@
                 <div class="relative lg:col-span-7 lg:min-h-[340px]">
                     <div class="relative mx-auto flex justify-center lg:absolute lg:bottom-0 lg:right-0 lg:mx-0 lg:w-[min(100%,520px)] lg:justify-end">
                         <img
-                            src="<?= esc(base_url('assets/images/hero_illustrations.jpg'), 'attr') ?>"
-                            alt="Ilustrasi pendampingan medis dan laboratorium"
+                            src="<?= esc(base_url('assets/images/logo_sidetect.png'), 'attr') ?>"
+                            alt="SIDETECT"
                             class="relative z-[15] max-h-[300px] w-auto max-w-full rounded-3xl object-cover object-center shadow-2xl ring-4 ring-white/20 sm:max-h-[360px] lg:max-h-[400px]"
                             width="520"
                             height="400"
