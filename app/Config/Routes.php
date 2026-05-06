@@ -6,3 +6,24 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin'], static function ($routes) {
+    $routes->get('login', 'AuthController::login');
+    $routes->post('login', 'AuthController::attemptLogin', ['filter' => 'csrf']);
+    $routes->get('logout', 'AuthController::logout');
+});
+
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'adminauth'], static function ($routes) {
+    $routes->get('/', 'AdminController::dashboard');
+    $routes->get('pasien', 'AdminController::pasien');
+    $routes->get('rule-klasifikasi', 'AdminController::ruleKlasifikasi');
+    $routes->get('laporan', 'AdminController::laporan');
+
+    $routes->get('users/create', 'AdminController::usersCreate');
+    $routes->post('users/store', 'AdminController::usersStore', ['filter' => 'csrf']);
+    $routes->get('users/(:num)/edit', 'AdminController::usersEdit/$1');
+    $routes->post('users/(:num)/update', 'AdminController::usersUpdate/$1', ['filter' => 'csrf']);
+    $routes->post('users/(:num)/delete', 'AdminController::usersDelete/$1', ['filter' => 'csrf']);
+    $routes->get('users/(:num)', 'AdminController::usersShow/$1');
+    $routes->get('users', 'AdminController::users');
+});
