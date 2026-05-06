@@ -9,6 +9,9 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class AdminController extends BaseController
 {
+    /** Nilai role yang diizinkan (harus selaras dengan dropdown di users_form). */
+    protected string $userRoleRule = 'required|regex_match[#^(admin|operator|superadmin|petugas poli|petugas sik)$#u]';
+
     public function initController(\CodeIgniter\HTTP\RequestInterface $request, ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
     {
         parent::initController($request, $response, $logger);
@@ -103,7 +106,7 @@ class AdminController extends BaseController
             'email'     => 'required|valid_email|max_length[191]|is_unique[users.email]',
             'password'  => 'required|min_length[8]',
             'full_name' => 'required|min_length[3]|max_length[150]',
-            'role'      => 'required|in_list[admin,operator]',
+            'role'      => $this->userRoleRule,
         ];
 
         if (! $this->validate($rules)) {
@@ -172,7 +175,7 @@ class AdminController extends BaseController
             'email'     => "required|valid_email|max_length[191]|is_unique[users.email,id,{$userId}]",
             'password'  => 'permit_empty|min_length[8]',
             'full_name' => 'required|min_length[3]|max_length[150]',
-            'role'      => 'required|in_list[admin,operator]',
+            'role'      => $this->userRoleRule,
         ];
 
         if (! $this->validate($rules)) {

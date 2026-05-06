@@ -38,6 +38,9 @@
         "sort-packages": true
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit",
+        "db:migrate": "php spark migrate",
+        "db:rollback": "php spark migrate:rollback",
+        "db:status": "php spark migrate:status"
     }
 }

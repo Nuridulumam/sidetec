@@ -54,10 +54,20 @@ $roleVal = old('role', $isEdit ? ($record['role'] ?? 'operator') : 'operator');
 
             <div>
                 <label for="role" class="block text-sm font-medium text-slate-700">Role</label>
+                <?php
+                $roleOptions = [
+                    'admin'          => 'Admin',
+                    'operator'       => 'Operator',
+                    'superadmin'     => 'Superadmin',
+                    'petugas poli'   => 'Petugas poli',
+                    'petugas sik'    => 'Petugas sik',
+                ];
+                ?>
                 <select name="role" id="role" required
                         class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
-                    <option value="admin" <?= $roleVal === 'admin' ? 'selected' : '' ?>>admin</option>
-                    <option value="operator" <?= $roleVal === 'operator' ? 'selected' : '' ?>>operator</option>
+                    <?php foreach ($roleOptions as $value => $label) : ?>
+                        <option value="<?= esc($value, 'attr') ?>" <?= (string) $roleVal === (string) $value ? 'selected' : '' ?>><?= esc($label) ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
