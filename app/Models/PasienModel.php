@@ -42,8 +42,6 @@ class PasienModel extends Model
     protected array $casts = [
         'id'                        => 'integer',
         'usia'                      => 'integer',
-        'demam_pagi'                => 'float',
-        'demam_sore'                => 'float',
         'sakit_kepala'              => 'integer',
         'nyeri_otot'                => 'integer',
         'mual'                      => 'integer',

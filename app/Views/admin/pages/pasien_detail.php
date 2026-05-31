@@ -1,4 +1,19 @@
 <?php /** @var array<string, mixed> $row */ ?>
+<?php
+$demamCfg = config('DemamKlasifikasi');
+$usia     = (int) ($row['usia'] ?? 0);
+$kelompok = $usia > 0 ? $demamCfg->kelompokUsiaLabel($usia) : '—';
+
+function demam_detail(string $label, int $usia, $demamCfg): string
+{
+    if ($label === '' || $usia <= 0) {
+        return '—';
+    }
+    $rentang = $demamCfg->rentangByLabel($label, $usia);
+
+    return esc($label) . ' <span class="text-slate-500">(' . esc($rentang) . ')</span>';
+}
+?>
 <div class="space-y-4">
     <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
@@ -24,15 +39,20 @@
                     </div>
                     <div class="flex items-start justify-between gap-4">
                         <dt class="text-slate-500">Usia</dt>
-                        <dd class="text-slate-900"><?= esc((string) ($row['usia'] ?? '—')) ?></dd>
+                        <dd class="text-slate-900">
+                            <?= esc((string) ($row['usia'] ?? '—')) ?>
+                            <?php if ($usia > 0) : ?>
+                                <span class="mt-1 block text-xs text-slate-500"><?= esc($kelompok) ?></span>
+                            <?php endif; ?>
+                        </dd>
                     </div>
                     <div class="flex items-start justify-between gap-4">
                         <dt class="text-slate-500">Demam pagi</dt>
-                        <dd class="text-slate-900"><?= esc((string) ($row['demam_pagi'] ?? '—')) ?> °C</dd>
+                        <dd class="text-slate-900"><?= demam_detail((string) ($row['demam_pagi'] ?? ''), $usia, $demamCfg) ?></dd>
                     </div>
                     <div class="flex items-start justify-between gap-4">
                         <dt class="text-slate-500">Demam sore</dt>
-                        <dd class="text-slate-900"><?= esc((string) ($row['demam_sore'] ?? '—')) ?> °C</dd>
+                        <dd class="text-slate-900"><?= demam_detail((string) ($row['demam_sore'] ?? ''), $usia, $demamCfg) ?></dd>
                     </div>
                 </dl>
             </div>

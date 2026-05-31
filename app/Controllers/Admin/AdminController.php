@@ -145,12 +145,13 @@ class AdminController extends BaseController
     private function pasienRules(): array
     {
         $yesNoRule = 'required|in_list[0,1]';
+        $demamRule = config('DemamKlasifikasi')->validationRule();
 
         return [
-            'nama'    => 'required|min_length[3]|max_length[191]',
-            'usia'    => 'required|is_natural_no_zero|less_than_equal_to[150]',
-            'demam_pagi' => 'required|decimal|greater_than_equal_to[30]|less_than_equal_to[45]',
-            'demam_sore' => 'required|decimal|greater_than_equal_to[30]|less_than_equal_to[45]',
+            'nama'       => 'required|min_length[3]|max_length[191]',
+            'usia'       => 'required|is_natural_no_zero|less_than_equal_to[150]',
+            'demam_pagi' => $demamRule,
+            'demam_sore' => $demamRule,
 
             'sakit_kepala'        => $yesNoRule,
             'nyeri_otot'          => $yesNoRule,
@@ -179,8 +180,8 @@ class AdminController extends BaseController
         return [
             'nama'    => (string) $this->request->getPost('nama'),
             'usia'    => (int) $this->request->getPost('usia'),
-            'demam_pagi' => (float) $this->request->getPost('demam_pagi'),
-            'demam_sore' => (float) $this->request->getPost('demam_sore'),
+            'demam_pagi' => (string) $this->request->getPost('demam_pagi'),
+            'demam_sore' => (string) $this->request->getPost('demam_sore'),
 
             'sakit_kepala'        => $this->request->getPost('sakit_kepala') === '1' ? 1 : 0,
             'nyeri_otot'          => $this->request->getPost('nyeri_otot') === '1' ? 1 : 0,

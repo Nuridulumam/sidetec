@@ -1,7 +1,9 @@
 <?php
 /** @var array<string, mixed>|null $record */
 $isEdit     = $record !== null;
-$formAction = $isEdit ? site_url('admin/pasien/' . (int) $record['id'] . '/update') : site_url('admin/pasien/store');
+$formAction = $isEdit
+    ? site_url('admin/pasien/' . (int) $record['id'] . '/update')
+    : site_url('admin/pasien/store');
 
 function yn_old(string $key, ?array $record): string
 {
@@ -11,8 +13,6 @@ function yn_old(string $key, ?array $record): string
     }
     return ((string) $val === '1') ? '1' : '0';
 }
-
-$penurunanVal = yn_old('penurunan_kesadaran', $record);
 ?>
 <div class="mx-auto max-w-3xl space-y-6">
     <?php
@@ -27,8 +27,12 @@ $penurunanVal = yn_old('penurunan_kesadaran', $record);
     <?php endif; ?>
 
     <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-        <h2 class="text-lg font-semibold text-slate-900"><?= $isEdit ? 'Edit pasien' : 'Tambah pasien' ?></h2>
-        <p class="mt-1 text-sm text-slate-500"><?= $isEdit ? 'Perbarui data pasien di bawah ini.' : 'Isi formulir untuk menambah pasien baru.' ?></p>
+        <h2 class="text-lg font-semibold text-slate-900">
+            <?= $isEdit ? 'Edit pasien' : 'Tambah pasien' ?>
+        </h2>
+        <p class="mt-1 text-sm text-slate-500">
+            <?= $isEdit ? 'Perbarui data pasien di bawah ini.' : 'Isi formulir untuk menambah pasien baru.' ?>
+        </p>
 
         <form action="<?= esc($formAction, 'attr') ?>" method="post" class="mt-8 space-y-8">
             <?= csrf_field() ?>
@@ -48,19 +52,7 @@ $penurunanVal = yn_old('penurunan_kesadaran', $record);
                            class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
                 </div>
 
-                <div>
-                    <label for="demam_pagi" class="block text-sm font-medium text-slate-700">Derajat demam pagi (°C)</label>
-                    <input type="number" name="demam_pagi" id="demam_pagi" required min="30" max="45" step="0.1"
-                           value="<?= esc(old('demam_pagi', $isEdit ? (string) ($record['demam_pagi'] ?? '') : '')) ?>"
-                           class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
-                </div>
-
-                <div>
-                    <label for="demam_sore" class="block text-sm font-medium text-slate-700">Derajat demam sore (°C)</label>
-                    <input type="number" name="demam_sore" id="demam_sore" required min="30" max="45" step="0.1"
-                           value="<?= esc(old('demam_sore', $isEdit ? (string) ($record['demam_sore'] ?? '') : '')) ?>"
-                           class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
-                </div>
+                <?= view('admin/partials/pasien_demam_fields', ['record' => $record]) ?>
             </div>
 
             <?php
@@ -75,7 +67,6 @@ $penurunanVal = yn_old('penurunan_kesadaran', $record);
                 'bradikardia_relatif' => 'Bradikardia relatif',
                 'lemas'               => 'Lemas',
             ];
-
             $radioClass = 'h-4 w-4 rounded-full border-slate-300 text-mint focus:ring-mint';
             ?>
 
@@ -90,11 +81,15 @@ $penurunanVal = yn_old('penurunan_kesadaran', $record);
                             <legend class="px-1 text-sm font-medium text-slate-800"><?= esc($label) ?></legend>
                             <div class="mt-2 flex items-center gap-6">
                                 <label class="inline-flex items-center gap-2 text-sm text-slate-700">
-                                    <input type="radio" name="<?= esc($key, 'attr') ?>" value="1" class="<?= esc($radioClass, 'attr') ?>" <?= $val === '1' ? 'checked' : '' ?> required>
+                                    <input type="radio" name="<?= esc($key, 'attr') ?>" value="1"
+                                           class="<?= esc($radioClass, 'attr') ?>"
+                                           <?= $val === '1' ? 'checked' : '' ?> required>
                                     Ya
                                 </label>
                                 <label class="inline-flex items-center gap-2 text-sm text-slate-700">
-                                    <input type="radio" name="<?= esc($key, 'attr') ?>" value="0" class="<?= esc($radioClass, 'attr') ?>" <?= $val === '0' ? 'checked' : '' ?> required>
+                                    <input type="radio" name="<?= esc($key, 'attr') ?>" value="0"
+                                           class="<?= esc($radioClass, 'attr') ?>"
+                                           <?= $val === '0' ? 'checked' : '' ?> required>
                                     Tidak
                                 </label>
                             </div>
@@ -117,32 +112,14 @@ $penurunanVal = yn_old('penurunan_kesadaran', $record);
                 <button type="submit" class="rounded-xl bg-mint px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-mint/25 hover:bg-mint-dark">
                     <?= $isEdit ? 'Simpan perubahan' : 'Simpan' ?>
                 </button>
-                <a href="<?= esc(site_url('admin/pasien'), 'attr') ?>" class="rounded-xl border border-slate-200 px-6 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">Batal</a>
+                <a href="<?= esc(site_url('admin/pasien'), 'attr') ?>"
+                   class="rounded-xl border border-slate-200 px-6 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">
+                    Batal
+                </a>
             </div>
         </form>
     </div>
 </div>
 
-<script>
-(function () {
-    function syncPkDesc() {
-        var wrap = document.getElementById('pk-desc-wrap');
-        var desc = document.getElementById('penurunan_kesadaran_deskripsi');
-        var yes = document.querySelector('input[name="penurunan_kesadaran"][value="1"]');
-        if (!wrap || !desc || !yes) return;
-
-        var show = !!yes.checked;
-        wrap.style.display = show ? '' : 'none';
-        if (!show) desc.value = '';
-    }
-
-    document.addEventListener('change', function (e) {
-        var t = e.target;
-        if (!t || t.name !== 'penurunan_kesadaran') return;
-        syncPkDesc();
-    });
-
-    syncPkDesc();
-})();
-</script>
-
+<?= view('admin/partials/pasien_demam_script') ?>
+<?= view('admin/partials/pasien_pk_desc_script') ?>

@@ -17,14 +17,14 @@ class AddPasienScreeningFields extends Migration
                 'after'      => 'nama',
             ],
             'demam_pagi' => [
-                'type'       => 'DECIMAL',
-                'constraint' => '4,1',
+                'type'       => 'VARCHAR',
+                'constraint' => 191,
                 'null'       => true,
                 'after'      => 'usia',
             ],
             'demam_sore' => [
-                'type'       => 'DECIMAL',
-                'constraint' => '4,1',
+                'type'       => 'VARCHAR',
+                'constraint' => 191,
                 'null'       => true,
                 'after'      => 'demam_pagi',
             ],
