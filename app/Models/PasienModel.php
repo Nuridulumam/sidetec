@@ -39,7 +39,7 @@ class PasienModel extends Model
         'alamat',
     ];
 
-    protected $casts = [
+    protected array $casts = [
         'id'                        => 'integer',
         'usia'                      => 'integer',
         'demam_pagi'                => 'float',

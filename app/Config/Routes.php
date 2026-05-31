@@ -23,6 +23,12 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'ad
     $routes->post('pasien/(:num)/delete', 'AdminController::pasienDelete/$1', ['filter' => 'csrf']);
     $routes->get('pasien/(:num)', 'AdminController::pasienShow/$1');
     $routes->get('rule-klasifikasi', 'AdminController::ruleKlasifikasi');
+    $routes->get('rule-klasifikasi/create', 'AdminController::ruleKlasifikasiCreate');
+    $routes->post('rule-klasifikasi/store', 'AdminController::ruleKlasifikasiStore', ['filter' => 'csrf']);
+    $routes->get('rule-klasifikasi/(:num)/edit', 'AdminController::ruleKlasifikasiEdit/$1');
+    $routes->post('rule-klasifikasi/(:num)/update', 'AdminController::ruleKlasifikasiUpdate/$1', ['filter' => 'csrf']);
+    $routes->post('rule-klasifikasi/(:num)/delete', 'AdminController::ruleKlasifikasiDelete/$1', ['filter' => 'csrf']);
+    $routes->get('rule-klasifikasi/(:num)', 'AdminController::ruleKlasifikasiShow/$1');
     $routes->get('laporan', 'AdminController::laporan');
 
     $routes->get('users/create', 'AdminController::usersCreate');

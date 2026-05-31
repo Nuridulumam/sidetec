@@ -45,13 +45,38 @@ class CreateSidetectInitialSchema extends Migration
 
         $this->forge->addField([
             'id'               => ['type' => 'INT', 'unsigned' => true, 'auto_increment' => true],
-            'nama_rule'        => ['type' => 'VARCHAR', 'constraint' => 191],
-            'deskripsi'        => ['type' => 'TEXT', 'null' => true],
-            'kondisi_json'     => ['type' => 'TEXT', 'null' => true],
-            'urutan'           => ['type' => 'INT', 'constraint' => 11, 'default' => 0],
-            'aktif'            => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 1],
+            'bradikardia_relatif' => [
+                'type'       => 'DECIMAL',
+                'constraint' => '6,2',
+                'null'       => true,
+            ],
+            'demam_pagi' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 191,
+                'null'       => true,
+            ],
+            'demam_sore' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 191,
+                'null'       => true,
+            ],
+            'mual' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1,
+                'null'       => true,
+            ],
+            'penurunan_kesadaran' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1,
+                'null'       => true,
+            ],
+            'hasil' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 191,
+                'null'       => true,
+            ],
             'created_at'       => ['type' => 'DATETIME', 'null' => true],
-            'updated_at'       => ['type' => 'DATETIME', 'null' => true],
+            'updated_at'       => ['type' => 'DATETIME', 'null' => true]
         ]);
         $this->forge->addKey('id', true);
         $this->forge->createTable('rule_klasifikasi');

@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\PasienModel;
+use App\Models\RuleKlasifikasiModel;
 use App\Models\UserModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -196,13 +197,134 @@ class AdminController extends BaseController
 
     public function ruleKlasifikasi()
     {
-        $rows = db_connect()->table('rule_klasifikasi')->orderBy('urutan', 'ASC')->orderBy('id', 'ASC')->get()->getResultArray();
+        $rows = model(RuleKlasifikasiModel::class)
+            ->orderBy('id', 'ASC')
+            ->findAll();
 
         return view('admin/layout', [
             'title'    => 'Rule Klasifikasi',
             'active'   => 'rules',
             'mainView' => view('admin/pages/rule_klasifikasi', ['rows' => $rows]),
         ]);
+    }
+
+    public function ruleKlasifikasiCreate()
+    {
+        return view('admin/layout', [
+            'title'    => 'Tambah Rule Klasifikasi',
+            'active'   => 'rules',
+            'mainView' => view('admin/pages/rule_klasifikasi_form', ['record' => null]),
+        ]);
+    }
+
+    public function ruleKlasifikasiStore()
+    {
+        if (! $this->validate($this->ruleKlasifikasiRules())) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        model(RuleKlasifikasiModel::class)->insert($this->ruleKlasifikasiPayloadFromRequest());
+
+        return redirect()->to(site_url('admin/rule-klasifikasi'))
+            ->with('message', 'Rule klasifikasi berhasil ditambahkan.');
+    }
+
+    public function ruleKlasifikasiShow(string $id)
+    {
+        $row = model(RuleKlasifikasiModel::class)->find((int) $id);
+        if ($row === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        return view('admin/layout', [
+            'title'    => 'Detail Rule Klasifikasi',
+            'active'   => 'rules',
+            'mainView' => view('admin/pages/rule_klasifikasi_detail', ['row' => $row]),
+        ]);
+    }
+
+    public function ruleKlasifikasiEdit(string $id)
+    {
+        $row = model(RuleKlasifikasiModel::class)->find((int) $id);
+        if ($row === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        return view('admin/layout', [
+            'title'    => 'Edit Rule Klasifikasi',
+            'active'   => 'rules',
+            'mainView' => view('admin/pages/rule_klasifikasi_form', ['record' => $row]),
+        ]);
+    }
+
+    public function ruleKlasifikasiUpdate(string $id)
+    {
+        $rid = (int) $id;
+
+        if (model(RuleKlasifikasiModel::class)->find($rid) === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        if (! $this->validate($this->ruleKlasifikasiRules())) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        model(RuleKlasifikasiModel::class)->update($rid, $this->ruleKlasifikasiPayloadFromRequest());
+
+        return redirect()->to(site_url('admin/rule-klasifikasi'))
+            ->with('message', 'Rule klasifikasi berhasil diperbarui.');
+    }
+
+    public function ruleKlasifikasiDelete(string $id)
+    {
+        $rid = (int) $id;
+
+        if (model(RuleKlasifikasiModel::class)->find($rid) === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        model(RuleKlasifikasiModel::class)->delete($rid);
+
+        return redirect()->to(site_url('admin/rule-klasifikasi'))
+            ->with('message', 'Rule klasifikasi berhasil dihapus.');
+    }
+
+    private function ruleKlasifikasiRules(): array
+    {
+        return [
+            'bradikardia_relatif' => 'required|decimal',
+            'demam_pagi'          => 'permit_empty|max_length[191]',
+            'demam_sore'          => 'permit_empty|max_length[191]',
+            'mual'                => 'permit_empty|in_list[0,1]',
+            'penurunan_kesadaran' => 'permit_empty|in_list[0,1]',
+            'hasil'               => 'required|min_length[1]|max_length[191]',
+        ];
+    }
+
+    private function ruleKlasifikasiPayloadFromRequest(): array
+    {
+        $demamPagi = trim((string) ($this->request->getPost('demam_pagi') ?? ''));
+        $demamSore = trim((string) ($this->request->getPost('demam_sore') ?? ''));
+        $hasil     = trim((string) ($this->request->getPost('hasil') ?? ''));
+
+        return [
+            'bradikardia_relatif' => (float) $this->request->getPost('bradikardia_relatif'),
+            'demam_pagi'          => $demamPagi === '' ? null : $demamPagi,
+            'demam_sore'          => $demamSore === '' ? null : $demamSore,
+            'mual'                => $this->ruleOptionalEnum('mual'),
+            'penurunan_kesadaran' => $this->ruleOptionalEnum('penurunan_kesadaran'),
+            'hasil'               => $hasil,
+        ];
+    }
+
+    private function ruleOptionalEnum(string $field): ?int
+    {
+        $raw = $this->request->getPost($field);
+        if ($raw === null || $raw === '') {
+            return null;
+        }
+
+        return $raw === '1' ? 1 : 0;
     }
 
     public function laporan()
