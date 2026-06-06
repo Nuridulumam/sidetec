@@ -21,8 +21,10 @@ function demam_detail(string $label, int $usia, $demamCfg): string
             <p class="text-sm text-slate-500">ID: <?= esc((string) ($row['id'] ?? '')) ?></p>
         </div>
         <div class="flex flex-wrap gap-2">
-            <a href="<?= esc(site_url('admin/pasien/' . (int) ($row['id'] ?? 0) . '/edit'), 'attr') ?>"
-               class="rounded-xl border border-mint/40 bg-mint/10 px-4 py-2 text-sm font-semibold text-mint-dark hover:bg-mint/20">Edit</a>
+            <?php if (in_array(session()->get('admin_role'), ['petugas poli', 'superadmin'], true)) : ?>
+                <a href="<?= esc(site_url('admin/pasien/' . (int) ($row['id'] ?? 0) . '/edit'), 'attr') ?>"
+                   class="rounded-xl border border-mint/40 bg-mint/10 px-4 py-2 text-sm font-semibold text-mint-dark hover:bg-mint/20">Edit</a>
+            <?php endif; ?>
             <a href="<?= esc(site_url('admin/pasien'), 'attr') ?>"
                class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">Kembali</a>
         </div>

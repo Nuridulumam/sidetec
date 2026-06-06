@@ -20,15 +20,27 @@ class RuleKlasifikasiModel extends Model
         'bradikardia_relatif',
         'demam_pagi',
         'demam_sore',
+        'sakit_kepala',
+        'nyeri_otot',
         'mual',
+        'muntah',
+        'nyeri_perut',
+        'diare',
         'penurunan_kesadaran',
+        'lemas',
         'hasil',
     ];
 
     protected array $casts = [
         'id'                  => 'integer',
-        'bradikardia_relatif' => 'float',
+        'bradikardia_relatif' => 'integer',
+        'sakit_kepala'        => 'integer',
+        'nyeri_otot'          => 'integer',
         'mual'                => 'integer',
+        'muntah'              => 'integer',
+        'nyeri_perut'         => 'integer',
+        'diare'               => 'integer',
         'penurunan_kesadaran' => 'integer',
+        'lemas'               => 'integer',
     ];
 }

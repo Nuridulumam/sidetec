@@ -293,11 +293,17 @@ class AdminController extends BaseController
     private function ruleKlasifikasiRules(): array
     {
         return [
-            'bradikardia_relatif' => 'required|decimal',
             'demam_pagi'          => 'permit_empty|max_length[191]',
             'demam_sore'          => 'permit_empty|max_length[191]',
+            'sakit_kepala'        => 'permit_empty|in_list[0,1]',
+            'nyeri_otot'          => 'permit_empty|in_list[0,1]',
             'mual'                => 'permit_empty|in_list[0,1]',
+            'muntah'              => 'permit_empty|in_list[0,1]',
+            'nyeri_perut'         => 'permit_empty|in_list[0,1]',
+            'diare'               => 'permit_empty|in_list[0,1]',
             'penurunan_kesadaran' => 'permit_empty|in_list[0,1]',
+            'bradikardia_relatif' => 'permit_empty|in_list[0,1]',
+            'lemas'               => 'permit_empty|in_list[0,1]',
             'hasil'               => 'required|min_length[1]|max_length[191]',
         ];
     }
@@ -309,11 +315,17 @@ class AdminController extends BaseController
         $hasil     = trim((string) ($this->request->getPost('hasil') ?? ''));
 
         return [
-            'bradikardia_relatif' => (float) $this->request->getPost('bradikardia_relatif'),
             'demam_pagi'          => $demamPagi === '' ? null : $demamPagi,
             'demam_sore'          => $demamSore === '' ? null : $demamSore,
+            'sakit_kepala'        => $this->ruleOptionalEnum('sakit_kepala'),
+            'nyeri_otot'          => $this->ruleOptionalEnum('nyeri_otot'),
             'mual'                => $this->ruleOptionalEnum('mual'),
+            'muntah'              => $this->ruleOptionalEnum('muntah'),
+            'nyeri_perut'         => $this->ruleOptionalEnum('nyeri_perut'),
+            'diare'               => $this->ruleOptionalEnum('diare'),
             'penurunan_kesadaran' => $this->ruleOptionalEnum('penurunan_kesadaran'),
+            'bradikardia_relatif' => $this->ruleOptionalEnum('bradikardia_relatif'),
+            'lemas'               => $this->ruleOptionalEnum('lemas'),
             'hasil'               => $hasil,
         ];
     }

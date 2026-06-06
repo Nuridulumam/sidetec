@@ -1,21 +1,26 @@
 <?php
 
-namespace App\Database\Migrations;
+namespace App\Database\Seeds;
 
-use CodeIgniter\Database\Migration;
+use CodeIgniter\Database\Seeder;
 
-/**
- * Menambah 3 pengguna contoh: superadmin, petugas poli, petugas sik.
- * Kata sandi default (dev): admin123 — samakan dengan akun admin lainnya di migrasi awal.
- */
-class SeedThreeStaffUsers extends Migration
+class SidetectSeeder extends Seeder
 {
-    public function up(): void
+    public function run(): void
     {
-        $now         = date('Y-m-d H:i:s');
+        $now          = date('Y-m-d H:i:s');
         $passwordHash = password_hash('admin123', PASSWORD_DEFAULT);
 
-        $rows = [
+        $users = [
+            [
+                'email'         => 'admin@sidetect.local',
+                'password_hash' => $passwordHash,
+                'full_name'     => 'Administrator',
+                'role'          => 'admin',
+                'is_active'     => 1,
+                'created_at'    => $now,
+                'updated_at'    => $now,
+            ],
             [
                 'email'         => 'superadmin@sidetect.local',
                 'password_hash' => $passwordHash,
@@ -45,15 +50,7 @@ class SeedThreeStaffUsers extends Migration
             ],
         ];
 
-        $this->db->table('users')->insertBatch($rows);
-    }
-
-    public function down(): void
-    {
-        $this->db->table('users')->whereIn('email', [
-            'superadmin@sidetect.local',
-            'petugas.poli@sidetect.local',
-            'petugas.sik@sidetect.local',
-        ])->delete();
+        // Memasukkan data pengguna secara batch
+        $this->db->table('users')->insertBatch($users);
     }
 }
