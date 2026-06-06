@@ -26,13 +26,14 @@
                         <th class="px-6 py-3">Demam pagi</th>
                         <th class="px-6 py-3">Demam sore</th>
                         <th class="px-6 py-3">Bradikardia relatif</th>
+                        <th class="px-6 py-3">Diagnosa</th>
                         <th class="px-6 py-3 text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                     <?php if (($rows ?? []) === []) : ?>
                         <tr>
-                            <td colspan="7" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
+                            <td colspan="8" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
                         </tr>
                     <?php else : ?>
                         <?php foreach ($rows as $r) : ?>
@@ -53,6 +54,18 @@
                                         $cls = $on ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-700';
                                         $txt = $on ? 'Ya' : 'Tidak';
                                         echo '<span class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ' . $cls . '">' . $txt . '</span>';
+                                    }
+                                    ?>
+                                </td>
+                                <td class="px-6 py-4 font-semibold">
+                                    <?php
+                                    $diag = $r['diagnosa'] ?? 'Tidak terklasifikasi';
+                                    if ($diag === 'Typhoid Fever') {
+                                        echo '<span class="inline-flex rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800">Typhoid Fever</span>';
+                                    } elseif ($diag === 'Non Typhoid Fever') {
+                                        echo '<span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Non Typhoid Fever</span>';
+                                    } else {
+                                        echo '<span class="inline-flex rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">Tidak terklasifikasi</span>';
                                     }
                                     ?>
                                 </td>

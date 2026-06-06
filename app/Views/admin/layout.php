@@ -72,7 +72,7 @@
 
 <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-slate-800 bg-slate-900 text-slate-100 lg:static">
+    <aside class="fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-slate-800 bg-slate-900 text-slate-100 lg:sticky lg:top-0 lg:h-screen">
         <div class="flex h-16 shrink-0 items-center gap-3 border-b border-slate-800 px-5">
             <img
                 src="<?= esc(base_url('assets/images/logo_sidetect.png'), 'attr') ?>"

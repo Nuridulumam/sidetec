@@ -42,7 +42,7 @@ class AdminController extends BaseController
     public function pasien()
     {
         $model = model(PasienModel::class);
-        $rows = $model->select('id, nama, usia, demam_pagi, demam_sore, bradikardia_relatif, created_at')
+        $rows = $model->select('id, nama, usia, demam_pagi, demam_sore, bradikardia_relatif, diagnosa, created_at')
             ->orderBy('id', 'DESC')
             ->paginate(10, 'default');
 

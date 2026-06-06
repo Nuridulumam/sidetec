@@ -39,6 +39,7 @@ class CreateSidetectTables extends Migration
             'penurunan_kesadaran'           => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
             'penurunan_kesadaran_deskripsi' => ['type' => 'TEXT', 'null' => true],
             'bradikardia_relatif'           => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
+            'diagnosa'                      => ['type' => 'VARCHAR', 'constraint' => 191, 'null' => true],
             'lemas'                         => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
             'tanggal_lahir'                 => ['type' => 'DATE', 'null' => true],
             'jenis_kelamin'                 => ['type' => 'ENUM', 'constraint' => ['L', 'P'], 'null' => true],

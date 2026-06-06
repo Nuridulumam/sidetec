@@ -15,8 +15,9 @@ function rule_yn_badge($val): string
 
 $rid = (int) ($row['id'] ?? 0);
 ?>
-<div class="space-y-4">
-    <div class="flex flex-wrap items-center justify-between gap-3">
+<div class="space-y-6">
+    <div class="mx-auto max-w-3xl space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
             <h2 class="text-lg font-semibold text-slate-900">Detail rule klasifikasi</h2>
             <p class="text-sm text-slate-500">ID: <?= esc((string) $rid) ?></p>
@@ -91,7 +92,10 @@ $rid = (int) ($row['id'] ?? 0);
             · Diperbarui: <?= esc((string) ($row['updated_at'] ?? '—')) ?>
         </div>
     </div>
+    </div>
 
+    <!-- Wider Reference Section -->
+    <div class="mx-auto max-w-5xl">
     <!-- Referensi & Interpretasi Bradikardia Relatif & Kategori Demam -->
     <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <!-- Legend at the top -->
@@ -336,5 +340,6 @@ $rid = (int) ($row['id'] ?? 0);
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
