@@ -53,6 +53,12 @@ class CreateSidetectTables extends Migration
         // 3. Tabel rule_klasifikasi
         $this->forge->addField([
             'id'                  => ['type' => 'INT', 'unsigned' => true, 'auto_increment' => true],
+            'usia'                => [
+                'type'       => 'INT',
+                'constraint' => 3,
+                'unsigned'   => true,
+                'null'       => true,
+            ],
             'demam_pagi'          => [
                 'type'       => 'VARCHAR',
                 'constraint' => 191,

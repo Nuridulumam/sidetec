@@ -17,6 +17,7 @@ class RuleKlasifikasiModel extends Model
     protected $updatedField  = 'updated_at';
 
     protected $allowedFields = [
+        'usia',
         'bradikardia_relatif',
         'demam_pagi',
         'demam_sore',
@@ -33,6 +34,7 @@ class RuleKlasifikasiModel extends Model
 
     protected array $casts = [
         'id'                  => 'integer',
+        'usia'                => 'integer',
         'bradikardia_relatif' => 'integer',
         'sakit_kepala'        => 'integer',
         'nyeri_otot'          => 'integer',

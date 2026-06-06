@@ -48,6 +48,18 @@ $inputClass = 'mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 '
             <?= csrf_field() ?>
 
             <div>
+                <h3 class="text-sm font-semibold text-slate-900">Kondisi Usia</h3>
+                <p class="mt-1 text-sm text-slate-500">Tentukan syarat usia untuk rule ini (opsional).</p>
+                <div class="mt-5 max-w-xs">
+                    <label for="usia" class="block text-sm font-medium text-slate-700">Usia (tahun)</label>
+                    <input type="number" name="usia" id="usia" min="1" max="150"
+                           value="<?= esc(old('usia', $isEdit && isset($record['usia']) ? (string)$record['usia'] : '')) ?>"
+                           class="<?= esc($inputClass, 'attr') ?>"
+                           placeholder="Semua Usia">
+                </div>
+            </div>
+
+            <div>
                 <h3 class="text-sm font-semibold text-slate-900">Kondisi Demam</h3>
                 <p class="mt-1 text-sm text-slate-500">Pilih kategori demam pagi dan sore yang harus dipenuhi (opsional).</p>
 
