@@ -18,10 +18,55 @@
                         mint: { DEFAULT: '#58C2B3', dark: '#4aa899' },
                     },
                     fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+                    screens: {
+                        '3xl': '1920px',
+                        '4k': '2560px',
+                    },
                 },
             },
         };
     </script>
+    <style>
+        /* Responsive font-size scaling across various devices */
+        html {
+            font-size: 14px; /* Mobile / Small Screens */
+        }
+        @media (min-width: 768px) {
+            html {
+                font-size: 14.5px; /* Tablet */
+            }
+        }
+        @media (min-width: 1024px) {
+            html {
+                font-size: 15px; /* Laptop Medium (lg) */
+            }
+        }
+        @media (min-width: 1280px) {
+            html {
+                font-size: 16px; /* Laptop Large / Standard Desktop (xl) */
+            }
+        }
+        @media (min-width: 1440px) {
+            html {
+                font-size: 16.5px; /* Larger Laptops */
+            }
+        }
+        @media (min-width: 1920px) {
+            html {
+                font-size: 18px; /* Desktop Full HD / 3xl */
+            }
+        }
+        @media (min-width: 2560px) {
+            html {
+                font-size: 22px; /* 4K QHD / iMac */
+            }
+        }
+        @media (min-width: 3840px) {
+            html {
+                font-size: 26px; /* 4K UHD Ultra */
+            }
+        }
+    </style>
 </head>
 <body class="min-h-screen bg-slate-100 font-sans text-slate-800 antialiased">
 
