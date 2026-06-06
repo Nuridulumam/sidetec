@@ -52,5 +52,9 @@ class SidetectSeeder extends Seeder
 
         // Memasukkan data pengguna secara batch
         $this->db->table('users')->insertBatch($users);
+
+        // Menjalankan seeder lainnya
+        $this->call('PasienSeeder');
+        $this->call('RuleKlasifikasiSeeder');
     }
 }
