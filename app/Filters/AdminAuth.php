@@ -35,6 +35,7 @@ class AdminAuth implements FilterInterface
                 'pasienUpdate',
                 'pasienDelete',
                 'laporan',
+                'laporanExport',
             ],
             'petugas sik' => [
                 'dashboard',
@@ -55,6 +56,7 @@ class AdminAuth implements FilterInterface
                 'ruleKlasifikasi',
                 'ruleKlasifikasiShow',
                 'laporan',
+                'laporanExport',
                 'users',
                 'usersShow',
                 'usersCreate',

@@ -30,6 +30,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'ad
     $routes->post('rule-klasifikasi/(:num)/delete', 'AdminController::ruleKlasifikasiDelete/$1', ['filter' => 'csrf']);
     $routes->get('rule-klasifikasi/(:num)', 'AdminController::ruleKlasifikasiShow/$1');
     $routes->get('laporan', 'AdminController::laporan');
+    $routes->get('laporan/export', 'AdminController::laporanExport');
 
     $routes->get('users/create', 'AdminController::usersCreate');
     $routes->post('users/store', 'AdminController::usersStore', ['filter' => 'csrf']);
