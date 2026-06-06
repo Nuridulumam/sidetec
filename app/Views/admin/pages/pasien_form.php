@@ -97,15 +97,7 @@ function yn_old(string $key, ?array $record): string
                     <?php endforeach; ?>
                 </div>
 
-                <div id="pk-desc-wrap" class="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                    <label for="penurunan_kesadaran_deskripsi" class="block text-sm font-medium text-slate-700">
-                        Deskripsi penurunan kesadaran
-                        <span class="font-normal text-slate-500">(muncul jika pilih “Ya”)</span>
-                    </label>
-                    <textarea name="penurunan_kesadaran_deskripsi" id="penurunan_kesadaran_deskripsi" rows="3"
-                              class="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
-                              placeholder="Contoh: mengantuk berat, sulit dibangunkan, bingung..."><?= esc(old('penurunan_kesadaran_deskripsi', $isEdit ? (string) ($record['penurunan_kesadaran_deskripsi'] ?? '') : '')) ?></textarea>
-                </div>
+
             </div>
 
             <div class="flex flex-wrap gap-3 pt-2">
@@ -122,4 +114,4 @@ function yn_old(string $key, ?array $record): string
 </div>
 
 <?= view('admin/partials/pasien_demam_script') ?>
-<?= view('admin/partials/pasien_pk_desc_script') ?>
+

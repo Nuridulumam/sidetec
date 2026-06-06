@@ -1,0 +1,57 @@
+PANDUAN SETUP DAN RUNNING APLIKASI SIDETECT
+=================================================
+
+Dokumen ini berisi panduan langkah-demi-langkah (step-by-step) untuk update composer dependency, update database (migration & seeder), serta running aplikasi SIDETECT.
+
+LANGKAH 1: UPDATE COMPOSER DEPENDENCY
+-------------------------------------------
+Karena aplikasi sekarang menggunakan library `phpoffice/phpspreadsheet` untuk memfasilitasi export file Excel (.xlsx), Anda harus memastikan semua dependency terbaru di-download dan di-install di vendor directory.
+
+Langkah:
+1. Buka terminal (command prompt / shell) di root directory project Anda.
+2. Jalankan command berikut:
+   
+   composer install
+   
+   (Catatan: Jika Anda sedang melakukan active development dan ingin memastikan library terbaru ter-install, Anda juga dapat menjalankan `composer update`).
+
+
+LANGKAH 2: UPDATE DAN SEEDING DATABASE
+-------------------------------------------
+Untuk menerapkan kolom baru 'diagnosa' di patient table serta mengkalkulasi ulang diagnosis otomatis pada seluruh default patient data bawaan seeder, Anda harus reset migration dan run seeder kembali.
+
+Langkah:
+1. Pastikan database server (MySQL / MariaDB) Anda dalam keadaan active.
+2. Jalankan command refresh migration di terminal project Anda:
+   
+   php spark migrate:refresh
+   
+   (Tekan tombol 'y' lalu Enter jika muncul pertanyaan konfirmasi clear database).
+   
+3. Jalankan command seeding data awal:
+   
+   php spark db:seed SidetectSeeder
+   
+   Command ini akan otomatis mengisi classification rule table terlebih dahulu, dilanjutkan dengan mengkalkulasi diagnosis otomatis untuk 11 default patient data bawaan aplikasi, serta mendaftarkan administrative user account.
+
+
+LANGKAH 3: RUNNING APPLICATION
+-------------------------------
+Untuk mengaktifkan local server PHP CodeIgniter dan mengakses web backoffice:
+
+Langkah:
+1. Jalankan command serve bawaan CodeIgniter di terminal Anda:
+   
+   php spark serve
+   
+   2. Setelah server active, buka web browser Anda dan akses alamat berikut:
+   
+   http://localhost:8080/
+   
+3. Untuk masuk ke admin panel page, akses:
+   
+   http://localhost:8080/admin
+   
+   Gunakan default credential untuk masuk:
+   - Email: admin@sidetect.local
+   - Password: admin123

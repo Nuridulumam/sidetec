@@ -1,0 +1,33 @@
+LAPORAN PROGRESS UPDATE APLIKASI SIDETECT
+Tanggal: 06 Juni 2026
+
+Berikut adalah ringkasan fitur dan halaman yang telah diperbarui pada hari ini:
+
+1. FITUR DETEKSI DIAGNOSA OTOMATIS (TYPHOID FEVER / NON TYPHOID FEVER)
+   - Database Schema: Menambahkan kolom 'diagnosa' (VARCHAR) pada tabel 'pasien'.
+   - Diagnosis Engine: Membuat fungsi penentuan diagnosa secara otomatis berbasis aturan klasifikasi pada 'rule_klasifikasi'.
+   - Model Callbacks: Menggunakan event hook 'beforeInsert' & 'beforeUpdate' pada 'PasienModel.php' agar diagnosa langsung dihitung di latar belakang saat data pasien disimpan.
+   - Prioritas Rentang Usia: Pencocokan usia dioptimalkan dengan prioritas: usia persis > kelompok usia (anak <= 17 tahun / dewasa >= 18 tahun) > abaikan usia (wildcard).
+   - Seeder Data Pasien: Mengubah mekanisme seeder 'PasienSeeder' agar berjalan satu per satu menggunakan model insert (bukan batch insert) untuk memicu kalkulasi diagnosa otomatis saat inisialisasi awal.
+
+2. HALAMAN DAFTAR PASIEN
+   - Menambahkan kolom baru 'Diagnosa' di sebelah kanan kolom 'Bradikardia relatif'.
+   - Menampilkan status deteksi menggunakan badge warna modern (Merah untuk Typhoid Fever, Hijau untuk Non Typhoid Fever, Abu-abu untuk Tidak Terklasifikasi).
+
+3. HALAMAN DETAIL PASIEN
+   - Merapikan tata letak halaman menjadi 1 kartu (card) terpusat di tengah dengan batasan lebar maks (max-w-3xl mx-auto).
+   - Menambahkan banner hasil diagnosa otomatis di bagian atas panel detail dengan warna gradien yang kontras dan informatif.
+
+4. HALAMAN DETAIL RULE KLASIFIKASI
+   - Merapikan kartu detail aturan menjadi terpusat di tengah (max-w-3xl mx-auto).
+   - Mengatur bagian bawah (Interpretasi Tingkat Kerawanan & Tabel Referensi Suhu/Nadi) agar memiliki container yang lebih lebar (max-w-5xl mx-auto) agar visual tabel data tetap longgar dan mudah dibaca.
+
+5. HALAMAN LAPORAN & EKSPOR EXCEL (.XLSX)
+   - Merombak halaman laporan untuk langsung menampilkan daftar data pasien terdaftar lengkap dengan kolom: No, Nama Lengkap, Usia, Bradikardia, Hasil Klasifikasi (Diagnosa), dan Tanggal Masuk.
+   - Menambahkan tombol hijau 'Export ke Excel' di kanan atas halaman laporan.
+   - Mengintegrasikan pustaka PhpSpreadsheet untuk mengekspor berkas Excel asli (.xlsx) dengan penamaan dinamis berbasis waktu unduh: "Laporan Deteksi Dini Typhoid - [Bulan] [Tahun].xlsx".
+   - Menerapkan format visual Excel premium: judul centered (font 24, bold), header tabel (font 16, bold, background gray), isi data (font 14), kolom auto-width, dan garis gridline sel yang tetap aktif.
+
+6. SIDEBAR & NAVIGASI ADMIN LAYOUT
+   - Mengubah sidebar navigasi admin menjadi sticky di sisi kiri (lg:sticky lg:top-0 lg:h-screen) sehingga tombol 'Logout' dan menu navigasi selalu tetap berada di posisi layar tanpa ikut tergulung (scroll).
+   - Mengatur hak akses (RBAC) di 'AdminAuth.php' untuk rute ekspor laporan agar dapat digunakan oleh peran petugas poli, admin, dan superadmin.

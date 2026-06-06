@@ -121,15 +121,7 @@ function demam_detail(string $label, int $usia, $demamCfg): string
                             <dt class="text-slate-500"><?= esc($label) ?></dt>
                             <dd class="text-slate-900"><?= yn_badge($row[$k] ?? 0) ?></dd>
                         </div>
-                        <?php if ($k === 'penurunan_kesadaran' && ! empty($row['penurunan_kesadaran'])) : ?>
-                            <?php $desc = (string) ($row['penurunan_kesadaran_deskripsi'] ?? ''); ?>
-                            <?php if (trim($desc) !== '') : ?>
-                                <div class="rounded-2xl bg-slate-50 p-4 text-sm text-slate-700">
-                                    <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Deskripsi</p>
-                                    <p class="mt-2 whitespace-pre-wrap"><?= esc($desc) ?></p>
-                                </div>
-                            <?php endif; ?>
-                        <?php endif; ?>
+
                     <?php endforeach; ?>
                 </dl>
             </div>

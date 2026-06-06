@@ -163,21 +163,11 @@ class AdminController extends BaseController
             'penurunan_kesadaran' => $yesNoRule,
             'bradikardia_relatif' => $yesNoRule,
             'lemas'               => $yesNoRule,
-
-            'penurunan_kesadaran_deskripsi' => 'required_if[penurunan_kesadaran,1]|permit_empty|max_length[2000]',
         ];
     }
 
     private function pasienPayloadFromRequest(): array
     {
-        $penurunan = $this->request->getPost('penurunan_kesadaran') === '1' ? 1 : 0;
-        $desc      = (string) ($this->request->getPost('penurunan_kesadaran_deskripsi') ?? '');
-        $desc      = trim($desc);
-
-        if ($penurunan === 0) {
-            $desc = '';
-        }
-
         return [
             'nama'    => (string) $this->request->getPost('nama'),
             'usia'    => (int) $this->request->getPost('usia'),
@@ -190,8 +180,7 @@ class AdminController extends BaseController
             'muntah'              => $this->request->getPost('muntah') === '1' ? 1 : 0,
             'nyeri_perut'         => $this->request->getPost('nyeri_perut') === '1' ? 1 : 0,
             'diare'               => $this->request->getPost('diare') === '1' ? 1 : 0,
-            'penurunan_kesadaran' => $penurunan,
-            'penurunan_kesadaran_deskripsi' => $desc === '' ? null : $desc,
+            'penurunan_kesadaran' => $this->request->getPost('penurunan_kesadaran') === '1' ? 1 : 0,
             'bradikardia_relatif' => $this->request->getPost('bradikardia_relatif') === '1' ? 1 : 0,
             'lemas'               => $this->request->getPost('lemas') === '1' ? 1 : 0,
         ];
@@ -382,8 +371,8 @@ class AdminController extends BaseController
         $year = date('Y');
         $monthName = $months[$monthNum] ?? date('F');
 
-        // 1. Report Title (Centered across columns A to U, Font size 24, Bold)
-        $sheet->mergeCells('A1:U1');
+        // 1. Report Title (Centered across columns A to T, Font size 24, Bold)
+        $sheet->mergeCells('A1:T1');
         $sheet->setCellValue('A1', "Laporan Deteksi Dini Typhoid - {$monthName} {$year}");
         $sheet->getStyle('A1')->applyFromArray([
             'font' => [
@@ -415,7 +404,6 @@ class AdminController extends BaseController
             'Nyeri Perut',
             'Diare',
             'Penurunan Kesadaran',
-            'Deskripsi Penurunan Kesadaran',
             'Bradikardia Relatif',
             'Lemas',
             'Tanggal Lahir',
@@ -432,7 +420,7 @@ class AdminController extends BaseController
             $sheet->setCellValue($headerCol . '3', $headerText);
             $headerCol++;
         }
-        $lastHeaderCol = 'U'; // Column U corresponds to index 21 (since A to U is 21 columns)
+        $lastHeaderCol = 'T'; // Column T corresponds to index 20 (since A to T is 20 columns)
 
         // Header style array
         $headerStyle = [
@@ -485,7 +473,6 @@ class AdminController extends BaseController
                 $yn($r['nyeri_perut'] ?? null),
                 $yn($r['diare'] ?? null),
                 $yn($r['penurunan_kesadaran'] ?? null),
-                $r['penurunan_kesadaran_deskripsi'] ?? '—',
                 $yn($r['bradikardia_relatif'] ?? null),
                 $yn($r['lemas'] ?? null),
                 $tglLahir,

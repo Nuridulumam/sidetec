@@ -37,7 +37,6 @@ class CreateSidetectTables extends Migration
             'nyeri_perut'                   => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
             'diare'                         => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
             'penurunan_kesadaran'           => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
-            'penurunan_kesadaran_deskripsi' => ['type' => 'TEXT', 'null' => true],
             'bradikardia_relatif'           => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
             'diagnosa'                      => ['type' => 'VARCHAR', 'constraint' => 191, 'null' => true],
             'lemas'                         => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],

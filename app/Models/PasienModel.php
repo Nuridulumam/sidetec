@@ -28,7 +28,6 @@ class PasienModel extends Model
         'nyeri_perut',
         'diare',
         'penurunan_kesadaran',
-        'penurunan_kesadaran_deskripsi',
         'bradikardia_relatif',
         'diagnosa',
         'lemas',

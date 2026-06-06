@@ -1,0 +1,95 @@
+<?php
+
+namespace App\Commands;
+
+use CodeIgniter\CLI\BaseCommand;
+use CodeIgniter\CLI\CLI;
+use App\Models\PasienModel;
+
+class CheckDiagnoses extends BaseCommand
+{
+    protected $group       = 'Custom';
+    protected $name        = 'custom:check-diagnoses';
+    protected $description = 'Checks patient diagnosis calculation results.';
+
+    public function run(array $params): void
+    {
+        $db = \Config\Database::connect();
+        $totalRules = $db->table('rule_klasifikasi')->countAllResults();
+        CLI::write("Total rules in database: " . $totalRules, "cyan");
+
+        $fieldsWithoutAge = [
+            'demam_pagi', 'demam_sore', 'sakit_kepala', 'nyeri_otot',
+            'mual', 'muntah', 'nyeri_perut', 'diare', 'penurunan_kesadaran',
+            'bradikardia_relatif', 'lemas'
+        ];
+
+        CLI::write("Testing prioritized age-group matches for each patient:", "yellow");
+        $model = new PasienModel();
+        $pasiens = $model->findAll();
+
+        foreach ($pasiens as $p) {
+            $builder = $db->table('rule_klasifikasi');
+            
+            // symptoms must match exactly or be null
+            foreach ($fieldsWithoutAge as $field) {
+                $val = $p[$field] ?? null;
+                if ($val === null || $val === '') {
+                    $builder->where("$field IS NULL");
+                } else {
+                    $builder->groupStart()
+                        ->where("$field IS NULL")
+                        ->orWhere($field, $val)
+                        ->groupEnd();
+                }
+            }
+
+            // Age match logic
+            $pUsia = (int) $p['usia'];
+            $isChild = $pUsia <= 17;
+
+            // Filter to only allow: exact age match, same age group, or NULL age in rule
+            $builder->groupStart()
+                ->where('usia IS NULL')
+                ->orWhere('usia', $pUsia);
+            
+            if ($isChild) {
+                $builder->orWhere('usia <=', 17);
+            } else {
+                $builder->orWhere('usia >=', 18);
+            }
+            $builder->groupEnd();
+
+            // Score expression
+            $ageScoreExpr = "CASE 
+                WHEN usia = $pUsia THEN 3
+                WHEN (" . ($isChild ? "usia <= 17" : "usia >= 18") . ") THEN 2
+                ELSE 1 
+            END";
+
+            $symptomScoreExpr = "";
+            foreach ($fieldsWithoutAge as $index => $field) {
+                if ($index > 0) {
+                    $symptomScoreExpr .= " + ";
+                }
+                $symptomScoreExpr .= "(CASE WHEN $field IS NOT NULL THEN 1 ELSE 0 END)";
+            }
+
+            $builder->select("*, ($ageScoreExpr) AS age_score, ($symptomScoreExpr) AS symptom_score");
+            $builder->orderBy("symptom_score", "DESC");
+            $builder->orderBy("age_score", "DESC");
+            $builder->orderBy("id", "ASC");
+
+            $match = $builder->get()->getRowArray();
+            $result = $match ? $match['hasil'] . " (Rule ID: " . $match['id'] . ", Age Score: " . $match['age_score'] . ")" : "Tidak terklasifikasi";
+            CLI::write("Patient ID: " . $p['id'] . " | Name: " . $p['nama'] . " | Age: " . $pUsia . " | Diagnosis: " . $result);
+        }
+
+        $model = new PasienModel();
+        $pasiens = $model->findAll();
+        CLI::write("\nListing patient diagnoses:", "yellow");
+        foreach ($pasiens as $p) {
+            CLI::write("ID: " . $p['id'] . " | Nama: " . $p['nama'] . " | Usia: " . $p['usia'] . " | Diagnosa: " . ($p['diagnosa'] ?? 'NULL'));
+        }
+    }
+}
