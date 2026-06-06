@@ -142,10 +142,12 @@ $inputClass = 'mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 '
                     <label for="hasil" class="block text-sm font-medium text-slate-700">
                         Hasil <span class="text-red-600">*</span>
                     </label>
-                    <input type="text" name="hasil" id="hasil" required maxlength="191"
-                           value="<?= esc(rule_opt_old('hasil', $record)) ?>"
-                           class="<?= esc($inputClass, 'attr') ?>"
-                           placeholder="Contoh: Tifoid, Bukan tifoid">
+                    <?php $curHasil = rule_opt_old('hasil', $record); ?>
+                    <select name="hasil" id="hasil" required class="<?= esc($inputClass, 'attr') ?>">
+                        <option value="">— Pilih hasil —</option>
+                        <option value="Typhoid Fever" <?= $curHasil === 'Typhoid Fever' ? 'selected' : '' ?>>Typhoid Fever</option>
+                        <option value="Non Typhoid Fever" <?= $curHasil === 'Non Typhoid Fever' ? 'selected' : '' ?>>Non Typhoid Fever</option>
+                    </select>
                 </div>
             </div>
 

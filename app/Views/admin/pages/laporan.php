@@ -23,7 +23,7 @@
                         <th class="px-6 py-3">No</th>
                         <th class="px-6 py-3">Nama Lengkap</th>
                         <th class="px-6 py-3">Usia</th>
-                        <th class="px-6 py-3">Bradikardia</th>
+                        <th class="px-6 py-3">Bradikardia Relatif</th>
                         <th class="px-6 py-3">Hasil Klasifikasi</th>
                         <th class="px-6 py-3">Tanggal Masuk</th>
                     </tr>
