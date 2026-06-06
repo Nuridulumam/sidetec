@@ -1,9 +1,10 @@
 <?php /** @var array<int, array<string, mixed>> $rows */ ?>
+<?php /** @var CodeIgniter\Pager\Pager $pager */ ?>
 <div class="space-y-4">
     <div class="flex flex-wrap items-center justify-between gap-4">
         <div>
             <h2 class="text-lg font-semibold text-slate-900">Daftar pasien</h2>
-            <p class="text-sm text-slate-500"><?= count($rows ?? []) ?> entri</p>
+            <p class="text-sm text-slate-500"><?= isset($pager) ? esc((string) $pager->getTotal()) : count($rows ?? []) ?> entri</p>
         </div>
         <?php if (in_array(session()->get('admin_role'), ['petugas poli', 'superadmin'], true)) : ?>
             <a href="<?= esc(site_url('admin/pasien/create'), 'attr') ?>"
@@ -24,7 +25,7 @@
                         <th class="px-6 py-3">Usia</th>
                         <th class="px-6 py-3">Demam pagi</th>
                         <th class="px-6 py-3">Demam sore</th>
-                        <th class="px-6 py-3">Dibuat</th>
+                        <th class="px-6 py-3">Bradikardia relatif</th>
                         <th class="px-6 py-3 text-right">Aksi</th>
                     </tr>
                 </thead>
@@ -39,10 +40,22 @@
                             <tr class="hover:bg-slate-50/80">
                                 <td class="whitespace-nowrap px-6 py-4 font-medium"><?= esc((string) $pid) ?></td>
                                 <td class="px-6 py-4"><?= esc((string) ($r['nama'] ?? '')) ?></td>
-                                <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['usia'] ?? '—')) ?></td>
+                                <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['usia'] ?? '—')) ?> tahun</td>
                                 <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['demam_pagi'] ?? '—')) ?></td>
                                 <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['demam_sore'] ?? '—')) ?></td>
-                                <td class="whitespace-nowrap px-6 py-4 text-slate-600"><?= esc((string) ($r['created_at'] ?? '—')) ?></td>
+                                <td class="px-6 py-4">
+                                    <?php
+                                    $brVal = $r['bradikardia_relatif'] ?? null;
+                                    if ($brVal === null || $brVal === '') {
+                                        echo '<span class="text-slate-400">—</span>';
+                                    } else {
+                                        $on = (int) $brVal === 1;
+                                        $cls = $on ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-700';
+                                        $txt = $on ? 'Ya' : 'Tidak';
+                                        echo '<span class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ' . $cls . '">' . $txt . '</span>';
+                                    }
+                                    ?>
+                                </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-right">
                                     <div class="flex flex-wrap items-center justify-end gap-2">
                                         <a href="<?= esc(site_url('admin/pasien/' . $pid), 'attr') ?>"
@@ -55,7 +68,7 @@
                                                 <?= csrf_field() ?>
                                                 <button type="submit" class="rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-700 hover:bg-red-100">
                                                     Delete
-                                                </button>
+                                                 </button>
                                             </form>
                                         <?php endif; ?>
                                     </div>
@@ -66,5 +79,8 @@
                 </tbody>
             </table>
         </div>
+        <?php if (isset($pager)) : ?>
+            <?= $pager->links('default', 'admin_tailwind') ?>
+        <?php endif; ?>
     </div>
 </div>

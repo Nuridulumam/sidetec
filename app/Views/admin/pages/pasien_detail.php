@@ -42,7 +42,7 @@ function demam_detail(string $label, int $usia, $demamCfg): string
                     <div class="flex items-start justify-between gap-4">
                         <dt class="text-slate-500">Usia</dt>
                         <dd class="text-slate-900">
-                            <?= esc((string) ($row['usia'] ?? '—')) ?>
+                            <?= esc((string) ($row['usia'] ?? '—')) ?> tahun
                             <?php if ($usia > 0) : ?>
                                 <span class="mt-1 block text-xs text-slate-500"><?= esc($kelompok) ?></span>
                             <?php endif; ?>

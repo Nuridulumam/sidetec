@@ -41,17 +41,18 @@ class AdminController extends BaseController
 
     public function pasien()
     {
-        $rows = db_connect()->table('pasien')
-            ->select('id, nama, usia, demam_pagi, demam_sore, created_at')
+        $model = model(PasienModel::class);
+        $rows = $model->select('id, nama, usia, demam_pagi, demam_sore, bradikardia_relatif, created_at')
             ->orderBy('id', 'DESC')
-            ->limit(100)
-            ->get()
-            ->getResultArray();
+            ->paginate(10, 'default');
 
         return view('admin/layout', [
             'title'    => 'Pasien',
             'active'   => 'pasien',
-            'mainView' => view('admin/pages/pasien', ['rows' => $rows]),
+            'mainView' => view('admin/pages/pasien', [
+                'rows'  => $rows,
+                'pager' => $model->pager,
+            ]),
         ]);
     }
 
@@ -198,14 +199,17 @@ class AdminController extends BaseController
 
     public function ruleKlasifikasi()
     {
-        $rows = model(RuleKlasifikasiModel::class)
-            ->orderBy('id', 'ASC')
-            ->findAll();
+        $model = model(RuleKlasifikasiModel::class);
+        $rows = $model->orderBy('id', 'ASC')
+            ->paginate(10, 'default');
 
         return view('admin/layout', [
             'title'    => 'Rule Klasifikasi',
             'active'   => 'rules',
-            'mainView' => view('admin/pages/rule_klasifikasi', ['rows' => $rows]),
+            'mainView' => view('admin/pages/rule_klasifikasi', [
+                'rows'  => $rows,
+                'pager' => $model->pager,
+            ]),
         ]);
     }
 
@@ -293,6 +297,7 @@ class AdminController extends BaseController
     private function ruleKlasifikasiRules(): array
     {
         return [
+            'usia'                => 'permit_empty|is_natural_no_zero|less_than_equal_to[150]',
             'demam_pagi'          => 'permit_empty|max_length[191]',
             'demam_sore'          => 'permit_empty|max_length[191]',
             'sakit_kepala'        => 'permit_empty|in_list[0,1]',
@@ -310,11 +315,13 @@ class AdminController extends BaseController
 
     private function ruleKlasifikasiPayloadFromRequest(): array
     {
+        $usia      = $this->request->getPost('usia');
         $demamPagi = trim((string) ($this->request->getPost('demam_pagi') ?? ''));
         $demamSore = trim((string) ($this->request->getPost('demam_sore') ?? ''));
         $hasil     = trim((string) ($this->request->getPost('hasil') ?? ''));
 
         return [
+            'usia'                => ($usia === null || $usia === '') ? null : (int) $usia,
             'demam_pagi'          => $demamPagi === '' ? null : $demamPagi,
             'demam_sore'          => $demamSore === '' ? null : $demamSore,
             'sakit_kepala'        => $this->ruleOptionalEnum('sakit_kepala'),
@@ -342,18 +349,20 @@ class AdminController extends BaseController
 
     public function laporan()
     {
-        $builder = db_connect()->table('laporan l');
-        $builder->select('l.*, p.nama as pasien_nama, u.email as user_email');
-        $builder->join('pasien p', 'p.id = l.pasien_id', 'left');
-        $builder->join('users u', 'u.id = l.user_id', 'left');
-        $builder->orderBy('l.id', 'DESC');
-        $builder->limit(100);
-        $rows = $builder->get()->getResultArray();
+        $model = model(\App\Models\LaporanModel::class);
+        $rows = $model->select('laporan.*, pasien.nama as pasien_nama, users.email as user_email')
+            ->join('pasien', 'pasien.id = laporan.pasien_id', 'left')
+            ->join('users', 'users.id = laporan.user_id', 'left')
+            ->orderBy('laporan.id', 'DESC')
+            ->paginate(10, 'default');
 
         return view('admin/layout', [
             'title'    => 'Laporan',
             'active'   => 'laporan',
-            'mainView' => view('admin/pages/laporan', ['rows' => $rows]),
+            'mainView' => view('admin/pages/laporan', [
+                'rows'  => $rows,
+                'pager' => $model->pager,
+            ]),
         ]);
     }
 
