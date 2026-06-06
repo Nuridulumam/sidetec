@@ -42,6 +42,32 @@ class AdminController extends BaseController
     public function pasien()
     {
         $model = model(PasienModel::class);
+
+        $nama = $this->request->getGet('nama');
+        if ($nama !== null && trim((string)$nama) !== '') {
+            $model->like('nama', trim((string)$nama));
+        }
+
+        $diagnosa = $this->request->getGet('diagnosa');
+        if ($diagnosa !== null && trim((string)$diagnosa) !== '') {
+            $model->where('diagnosa', trim((string)$diagnosa));
+        }
+
+        $demamPagi = $this->request->getGet('demam_pagi');
+        if ($demamPagi !== null && trim((string)$demamPagi) !== '') {
+            $model->where('demam_pagi', trim((string)$demamPagi));
+        }
+
+        $demamSore = $this->request->getGet('demam_sore');
+        if ($demamSore !== null && trim((string)$demamSore) !== '') {
+            $model->where('demam_sore', trim((string)$demamSore));
+        }
+
+        $bradikardia = $this->request->getGet('bradikardia_relatif');
+        if ($bradikardia !== null && trim((string)$bradikardia) !== '') {
+            $model->where('bradikardia_relatif', (int)$bradikardia);
+        }
+
         $rows = $model->select('id, nama, usia, demam_pagi, demam_sore, bradikardia_relatif, diagnosa, created_at')
             ->orderBy('id', 'DESC')
             ->paginate(10, 'default');
@@ -52,6 +78,13 @@ class AdminController extends BaseController
             'mainView' => view('admin/pages/pasien', [
                 'rows'  => $rows,
                 'pager' => $model->pager,
+                'filters' => [
+                    'nama' => $nama,
+                    'diagnosa' => $diagnosa,
+                    'demam_pagi' => $demamPagi,
+                    'demam_sore' => $demamSore,
+                    'bradikardia_relatif' => $bradikardia,
+                ]
             ]),
         ]);
     }
@@ -339,6 +372,22 @@ class AdminController extends BaseController
     public function laporan()
     {
         $model = model(PasienModel::class);
+
+        $nama = $this->request->getGet('nama');
+        if ($nama !== null && trim((string)$nama) !== '') {
+            $model->like('nama', trim((string)$nama));
+        }
+
+        $bradikardia = $this->request->getGet('bradikardia_relatif');
+        if ($bradikardia !== null && trim((string)$bradikardia) !== '') {
+            $model->where('bradikardia_relatif', (int)$bradikardia);
+        }
+
+        $diagnosa = $this->request->getGet('diagnosa');
+        if ($diagnosa !== null && trim((string)$diagnosa) !== '') {
+            $model->where('diagnosa', trim((string)$diagnosa));
+        }
+
         $rows = $model->select('id, nama, usia, bradikardia_relatif, diagnosa, created_at')
             ->orderBy('id', 'DESC')
             ->paginate(10, 'default');
@@ -349,6 +398,11 @@ class AdminController extends BaseController
             'mainView' => view('admin/pages/laporan', [
                 'rows'  => $rows,
                 'pager' => $model->pager,
+                'filters' => [
+                    'nama' => $nama,
+                    'bradikardia_relatif' => $bradikardia,
+                    'diagnosa' => $diagnosa,
+                ]
             ]),
         ]);
     }
@@ -356,6 +410,22 @@ class AdminController extends BaseController
     public function laporanExport()
     {
         $model = model(PasienModel::class);
+
+        $nama = $this->request->getGet('nama');
+        if ($nama !== null && trim((string)$nama) !== '') {
+            $model->like('nama', trim((string)$nama));
+        }
+
+        $bradikardia = $this->request->getGet('bradikardia_relatif');
+        if ($bradikardia !== null && trim((string)$bradikardia) !== '') {
+            $model->where('bradikardia_relatif', (int)$bradikardia);
+        }
+
+        $diagnosa = $this->request->getGet('diagnosa');
+        if ($diagnosa !== null && trim((string)$diagnosa) !== '') {
+            $model->where('diagnosa', trim((string)$diagnosa));
+        }
+
         $rows = $model->orderBy('id', 'DESC')->findAll();
 
         $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
