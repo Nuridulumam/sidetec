@@ -21,7 +21,7 @@ function demam_detail(string $label, int $usia, $demamCfg): string
             <p class="text-sm text-slate-500">ID: <?= esc((string) ($row['id'] ?? '')) ?></p>
         </div>
         <div class="flex flex-wrap gap-2">
-            <?php if (in_array(session()->get('admin_role'), ['petugas poli', 'superadmin'], true)) : ?>
+            <?php if (in_array(session()->get('admin_role'), ['perawat'], true)) : ?>
                 <a href="<?= esc(site_url('admin/pasien/' . (int) ($row['id'] ?? 0) . '/edit'), 'attr') ?>"
                    class="rounded-xl border border-mint/40 bg-mint/10 px-4 py-2 text-sm font-semibold text-mint-dark hover:bg-mint/20">Edit</a>
             <?php endif; ?>

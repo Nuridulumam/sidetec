@@ -9,7 +9,7 @@ if ($activeVal === null) {
 }
 $isActiveChecked = $activeVal === '1' || $activeVal === 1 || $activeVal === true;
 
-$roleVal = old('role', $isEdit ? ($record['role'] ?? 'operator') : 'operator');
+$roleVal = old('role', $isEdit ? ($record['role'] ?? 'admin') : 'admin');
 ?>
 <div class="mx-auto max-w-xl space-y-6">
     <?php
@@ -31,8 +31,8 @@ $roleVal = old('role', $isEdit ? ($record['role'] ?? 'operator') : 'operator');
             <?= csrf_field() ?>
 
             <div>
-                <label for="email" class="block text-sm font-medium text-slate-700">Email</label>
-                <input type="email" name="email" id="email" required value="<?= esc(old('email', $isEdit ? ($record['email'] ?? '') : '')) ?>"
+                <label for="username" class="block text-sm font-medium text-slate-700">Username</label>
+                <input type="text" name="username" id="username" required value="<?= esc(old('username', $isEdit ? ($record['username'] ?? '') : '')) ?>"
                        class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
             </div>
 
@@ -57,10 +57,8 @@ $roleVal = old('role', $isEdit ? ($record['role'] ?? 'operator') : 'operator');
                 <?php
                 $roleOptions = [
                     'admin'          => 'Admin',
-                    'operator'       => 'Operator',
-                    'superadmin'     => 'Superadmin',
-                    'petugas poli'   => 'Petugas poli',
-                    'petugas sik'    => 'Petugas sik',
+                    'perawat'        => 'Perawat',
+                    'petugas sik'    => 'Petugas SIK',
                 ];
                 ?>
                 <select name="role" id="role" required

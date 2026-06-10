@@ -12,7 +12,7 @@ use Psr\Log\LoggerInterface;
 class UserController extends BaseController
 {
     /** Nilai role yang diizinkan (harus selaras dengan dropdown di users_form). */
-    protected string $userRoleRule = 'required|regex_match[#^(admin|operator|superadmin|petugas poli|petugas sik)$#u]';
+    protected string $userRoleRule = 'required|regex_match[#^(admin|perawat|petugas sik)$#u]';
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
@@ -24,7 +24,7 @@ class UserController extends BaseController
     public function users()
     {
         $rows = db_connect()->table('users')
-            ->select('id, email, full_name, role, is_active, created_at, updated_at')
+            ->select('id, username, full_name, role, is_active, created_at, updated_at')
             ->orderBy('id', 'ASC')
             ->get()
             ->getResultArray();
@@ -48,7 +48,7 @@ class UserController extends BaseController
     public function usersStore()
     {
         $rules = [
-            'email'     => 'required|valid_email|max_length[191]|is_unique[users.email]',
+            'username'  => 'required|alpha_dash|min_length[3]|max_length[100]|is_unique[users.username]',
             'password'  => 'required|min_length[8]',
             'full_name' => 'required|min_length[3]|max_length[150]',
             'role'      => $this->userRoleRule,
@@ -59,7 +59,7 @@ class UserController extends BaseController
         }
 
         model(UserModel::class)->insert([
-            'email'           => $this->request->getPost('email'),
+            'username'        => $this->request->getPost('username'),
             'password_hash'   => password_hash((string) $this->request->getPost('password'), PASSWORD_DEFAULT),
             'full_name'       => $this->request->getPost('full_name'),
             'role'            => $this->request->getPost('role'),
@@ -72,7 +72,7 @@ class UserController extends BaseController
     public function usersShow(string $id)
     {
         $user = db_connect()->table('users')
-            ->select('id, email, full_name, role, is_active, created_at, updated_at')
+            ->select('id, username, full_name, role, is_active, created_at, updated_at')
             ->where('id', (int) $id)
             ->get()
             ->getRowArray();
@@ -91,7 +91,7 @@ class UserController extends BaseController
     public function usersEdit(string $id)
     {
         $user = db_connect()->table('users')
-            ->select('id, email, full_name, role, is_active')
+            ->select('id, username, full_name, role, is_active')
             ->where('id', (int) $id)
             ->get()
             ->getRowArray();
@@ -117,7 +117,7 @@ class UserController extends BaseController
         }
 
         $rules = [
-            'email'     => "required|valid_email|max_length[191]|is_unique[users.email,id,{$userId}]",
+            'username'  => "required|alpha_dash|min_length[3]|max_length[100]|is_unique[users.username,id,{$userId}]",
             'password'  => 'permit_empty|min_length[8]',
             'full_name' => 'required|min_length[3]|max_length[150]',
             'role'      => $this->userRoleRule,
@@ -128,7 +128,7 @@ class UserController extends BaseController
         }
 
         $data = [
-            'email'     => $this->request->getPost('email'),
+            'username'  => $this->request->getPost('username'),
             'full_name' => $this->request->getPost('full_name'),
             'role'      => $this->request->getPost('role'),
             'is_active' => $this->request->getPost('is_active') === '1' ? 1 : 0,

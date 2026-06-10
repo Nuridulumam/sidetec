@@ -11,7 +11,7 @@ class CreateSidetectTables extends Migration
         // 1. Tabel users
         $this->forge->addField([
             'id'               => ['type' => 'INT', 'unsigned' => true, 'auto_increment' => true],
-            'email'            => ['type' => 'VARCHAR', 'constraint' => 191],
+            'username'         => ['type' => 'VARCHAR', 'constraint' => 191],
             'password_hash'    => ['type' => 'VARCHAR', 'constraint' => 255],
             'full_name'        => ['type' => 'VARCHAR', 'constraint' => 150],
             'role'             => ['type' => 'VARCHAR', 'constraint' => 50, 'default' => 'admin'],
@@ -20,7 +20,7 @@ class CreateSidetectTables extends Migration
             'updated_at'       => ['type' => 'DATETIME', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addUniqueKey('email');
+        $this->forge->addUniqueKey('username');
         $this->forge->createTable('users');
 
         // 2. Tabel pasien (gabungan skema awal dan field screening terbaru)

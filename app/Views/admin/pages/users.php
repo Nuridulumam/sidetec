@@ -25,7 +25,7 @@
                 <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     <tr>
                         <th class="px-6 py-3">ID</th>
-                        <th class="px-6 py-3">Email</th>
+                        <th class="px-6 py-3">Username</th>
                         <th class="px-6 py-3">Nama</th>
                         <th class="px-6 py-3">Role</th>
                         <th class="px-6 py-3">Aktif</th>
@@ -42,7 +42,7 @@
                             <?php $uid = (int) ($r['id'] ?? 0); ?>
                             <tr class="hover:bg-slate-50/80">
                                 <td class="whitespace-nowrap px-6 py-4 font-medium"><?= esc((string) $uid) ?></td>
-                                <td class="px-6 py-4"><?= esc((string) ($r['email'] ?? '')) ?></td>
+                                <td class="px-6 py-4"><?= esc((string) ($r['username'] ?? '')) ?></td>
                                 <td class="px-6 py-4"><?= esc((string) ($r['full_name'] ?? '')) ?></td>
                                 <td class="px-6 py-4"><?= esc((string) ($r['role'] ?? '')) ?></td>
                                 <td class="px-6 py-4">

@@ -7,15 +7,15 @@ $cards = [
     ['label' => 'Pasien', 'value' => $c['pasien'], 'tone' => 'mint'],
 ];
 
-if (in_array($role, ['petugas sik', 'admin', 'superadmin'], true)) {
+if (in_array($role, ['petugas sik', 'admin'], true)) {
     $cards[] = ['label' => 'Rule klasifikasi', 'value' => $c['rules'], 'tone' => 'slate'];
 }
 
-if (in_array($role, ['petugas poli', 'admin', 'superadmin'], true)) {
+if (in_array($role, ['petugas sik', 'admin'], true)) {
     $cards[] = ['label' => 'Laporan', 'value' => $c['laporan'], 'tone' => 'slate'];
 }
 
-if (in_array($role, ['admin', 'superadmin'], true)) {
+if (in_array($role, ['admin'], true)) {
     $cards[] = ['label' => 'Pengguna', 'value' => $c['users'], 'tone' => 'slate'];
 }
 ?>

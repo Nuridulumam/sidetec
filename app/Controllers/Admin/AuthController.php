@@ -30,7 +30,7 @@ class AuthController extends BaseController
     public function attemptLogin()
     {
         $rules = [
-            'email'    => 'required|valid_email',
+            'username' => 'required|alpha_dash|min_length[3]|max_length[100]',
             'password' => 'required|min_length[8]',
         ];
 
@@ -38,19 +38,19 @@ class AuthController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $email    = $this->request->getPost('email');
+        $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 
-        $user = $this->users->findActiveByEmail($email ?? '');
+        $user = $this->users->findActiveByUsername((string) $username);
         if ($user === null || ! password_verify((string) $password, $user['password_hash'])) {
-            return redirect()->back()->withInput()->with('error', 'Email atau kata sandi salah.');
+            return redirect()->back()->withInput()->with('error', 'Username atau kata sandi salah.');
         }
 
         session()->set([
-            'admin_id'    => $user['id'],
-            'admin_name'  => $user['full_name'],
-            'admin_email' => $user['email'],
-            'admin_role'  => $user['role'],
+            'admin_id'       => $user['id'],
+            'admin_name'     => $user['full_name'],
+            'admin_username' => $user['username'],
+            'admin_role'     => $user['role'],
         ]);
 
         return redirect()->to(site_url('admin'));
@@ -58,7 +58,7 @@ class AuthController extends BaseController
 
     public function logout()
     {
-        session()->remove(['admin_id', 'admin_name', 'admin_email', 'admin_role']);
+        session()->remove(['admin_id', 'admin_name', 'admin_username', 'admin_role']);
 
         return redirect()->to(site_url('admin/login'))->with('message', 'Anda telah keluar.');
     }

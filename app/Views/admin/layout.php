@@ -94,11 +94,11 @@
                 ['key' => 'pasien', 'label' => 'Pasien', 'href' => site_url('admin/pasien'), 'icon' => 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'],
             ];
 
-            if (in_array($role, ['petugas sik', 'admin', 'superadmin'], true)) {
+            if (in_array($role, ['petugas sik', 'admin'], true)) {
                 $navMain[] = ['key' => 'rules', 'label' => 'Rule Klasifikasi', 'href' => site_url('admin/rule-klasifikasi'), 'icon' => 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2'];
             }
 
-            if (in_array($role, ['petugas sik', 'admin', 'superadmin'], true)) {
+            if (in_array($role, ['petugas sik', 'admin'], true)) {
                 $navMain[] = ['key' => 'laporan', 'label' => 'Laporan', 'href' => site_url('admin/laporan'), 'icon' => 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'];
             }
 
@@ -115,7 +115,7 @@
         </nav>
 
         <div class="shrink-0 border-t border-slate-800 px-3 py-4">
-            <?php if (in_array($role, ['admin', 'superadmin'], true)) : ?>
+            <?php if (in_array($role, ['admin'], true)) : ?>
                 <?php $usersActive = ($active === 'users'); ?>
                 <a href="<?= esc(site_url('admin/users'), 'attr') ?>"
                    class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition <?= $usersActive ? 'bg-mint text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' ?>">
@@ -137,7 +137,7 @@
             <h1 class="text-lg font-semibold text-slate-900"><?= esc($title ?? '') ?></h1>
             <div class="text-right text-sm">
                 <p class="font-medium text-slate-800"><?= esc(session('admin_name') ?? '') ?></p>
-                <p class="text-xs text-slate-500"><?= esc(session('admin_email') ?? '') ?></p>
+                <p class="text-xs text-slate-500"><?= esc(session('admin_username') ?? '') ?></p>
             </div>
         </header>
 

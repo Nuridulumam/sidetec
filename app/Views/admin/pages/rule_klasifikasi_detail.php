@@ -23,7 +23,7 @@ $rid = (int) ($row['id'] ?? 0);
             <p class="text-sm text-slate-500">ID: <?= esc((string) $rid) ?></p>
         </div>
         <div class="flex flex-wrap gap-2">
-            <?php if (in_array(session()->get('admin_role'), ['petugas sik', 'superadmin'], true)) : ?>
+            <?php if (in_array(session()->get('admin_role'), ['petugas sik'], true)) : ?>
                 <a href="<?= esc(site_url('admin/rule-klasifikasi/' . $rid . '/edit'), 'attr') ?>"
                    class="rounded-xl border border-mint/40 bg-mint/10 px-4 py-2 text-sm font-semibold text-mint-dark hover:bg-mint/20">
                     Edit

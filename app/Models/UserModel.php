@@ -13,7 +13,7 @@ class UserModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'email',
+        'username',
         'password_hash',
         'full_name',
         'role',
@@ -31,9 +31,9 @@ class UserModel extends Model
     protected $createdField       = 'created_at';
     protected $updatedField       = 'updated_at';
 
-    public function findActiveByEmail(string $email): ?array
+    public function findActiveByUsername(string $username): ?array
     {
-        $row = $this->where('email', $email)->where('is_active', 1)->first();
+        $row = $this->where('username', $username)->where('is_active', 1)->first();
 
         return $row ?: null;
     }

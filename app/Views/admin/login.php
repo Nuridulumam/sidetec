@@ -97,8 +97,8 @@
     <form action="<?= esc(site_url('admin/login'), 'attr') ?>" method="post" class="mt-8 space-y-5">
         <?= csrf_field() ?>
         <div>
-            <label for="email" class="block text-sm font-medium text-slate-700">Email</label>
-            <input type="email" name="email" id="email" value="<?= esc(old('email')) ?>"
+            <label for="username" class="block text-sm font-medium text-slate-700">Username</label>
+            <input type="text" name="username" id="username" value="<?= esc(old('username')) ?>"
                    class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
                    autocomplete="username" required>
         </div>
@@ -113,10 +113,10 @@
         </button>
     </form>
 
-    <p class="mt-8 text-center text-xs text-slate-400">
-        Default dev: <code class="rounded bg-slate-100 px-1">admin@sidetect.local</code> /
-        <code class="rounded bg-slate-100 px-1">admin123</code>
-    </p>
+     <p class="mt-8 text-center text-xs text-slate-400">
+         Default dev: <code class="rounded bg-slate-100 px-1">syukri</code> /
+         <code class="rounded bg-slate-100 px-1">admin123</code>
+     </p>
 </div>
 
 </body>

@@ -18,14 +18,9 @@ class AdminAuth implements FilterInterface
         $router = service('router');
         $method = $router->methodName();
 
-        // superadmin has full access to everything
-        if ($role === 'superadmin') {
-            return null;
-        }
-
         // Define permissions maps: allowed methods per role
         $permissions = [
-            'petugas poli' => [
+            'perawat' => [
                 'dashboard',
                 'pasien',
                 'pasienShow',

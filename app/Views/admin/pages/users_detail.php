@@ -16,8 +16,8 @@
 
         <dl class="mt-8 space-y-4 border-t border-slate-100 pt-8">
             <div>
-                <dt class="text-xs font-semibold uppercase tracking-wide text-slate-400">Email</dt>
-                <dd class="mt-1 text-sm text-slate-900"><?= esc((string) ($user['email'] ?? '')) ?></dd>
+                <dt class="text-xs font-semibold uppercase tracking-wide text-slate-400">Username</dt>
+                <dd class="mt-1 text-sm text-slate-900"><?= esc((string) ($user['username'] ?? '')) ?></dd>
             </div>
             <div>
                 <dt class="text-xs font-semibold uppercase tracking-wide text-slate-400">Nama lengkap</dt>
