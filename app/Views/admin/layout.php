@@ -73,16 +73,16 @@
 <div class="flex min-h-screen">
     <!-- Sidebar -->
     <aside class="fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-slate-800 bg-slate-900 text-slate-100 lg:sticky lg:top-0 lg:h-screen">
-        <div class="flex h-16 shrink-0 items-center gap-3 border-b border-slate-800 px-5">
+        <div class="flex h-20 shrink-0 items-center gap-3 border-b border-slate-800 px-5">
             <img
-                src="<?= esc(base_url('assets/images/logo_sidetect.png'), 'attr') ?>"
+                src="<?= esc(base_url('assets/images/logo rs.jpeg'), 'attr') ?>"
                 alt="SIDETECT"
                 class="h-10 w-10 rounded-xl bg-white p-1 object-contain"
                 loading="lazy"
             />
             <div>
                 <p class="text-sm font-semibold text-white">SIDETECT</p>
-                <p class="text-xs text-slate-400">Web Backoffice</p>
+                <p class="text-xs text-slate-400">RS Wijaya Kusuma </br> Backoffice</p>
             </div>
         </div>
 
@@ -137,7 +137,7 @@
             <h1 class="text-lg font-semibold text-slate-900"><?= esc($title ?? '') ?></h1>
             <div class="text-right text-sm">
                 <p class="font-medium text-slate-800"><?= esc(session('admin_name') ?? '') ?></p>
-                <p class="text-xs text-slate-500"><?= esc(session('admin_username') ?? '') ?></p>
+                <p class="text-xs text-slate-500"><?= esc(session('admin_role') ?? '') ?></p>
             </div>
         </header>
 

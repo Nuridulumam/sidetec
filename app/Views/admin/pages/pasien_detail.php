@@ -33,18 +33,18 @@ function demam_detail(string $label, int $usia, $demamCfg): string
         <!-- Diagnosis Banner -->
         <?php
         $diag = $row['diagnosa'] ?? 'Tidak terklasifikasi';
-        if ($diag === 'Typhoid Fever') {
+        if ($diag === 'Suspect Typhoid Fever') {
             $bannerCls = 'bg-rose-50 border-b border-rose-100 text-rose-900';
             $badgeCls = 'bg-rose-600 text-white';
             $icon = '<svg class="h-6 w-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>';
-            $statusText = 'Positif Typhoid Fever';
-            $descriptionText = 'Gejala pasien cocok dengan klasifikasi positif Typhoid Fever.';
-        } elseif ($diag === 'Non Typhoid Fever') {
+            $statusText = 'Suspect Typhoid Fever';
+            $descriptionText = 'Gejala pasien cocok dengan klasifikasi Suspect Typhoid Fever.';
+        } elseif ($diag === 'Non Suspect Typhoid Fever') {
             $bannerCls = 'bg-emerald-50 border-b border-emerald-100 text-emerald-900';
             $badgeCls = 'bg-emerald-600 text-white';
             $icon = '<svg class="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
-            $statusText = 'Negatif Typhoid Fever';
-            $descriptionText = 'Gejala pasien cocok dengan klasifikasi negatif Typhoid Fever.';
+            $statusText = 'Non Suspect Typhoid Fever';
+            $descriptionText = 'Gejala pasien cocok dengan klasifikasi Non Suspect Typhoid Fever.';
         } else {
             $bannerCls = 'bg-slate-50 border-b border-slate-100 text-slate-900';
             $badgeCls = 'bg-slate-600 text-white';

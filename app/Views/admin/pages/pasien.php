@@ -63,8 +63,8 @@ $demamCfg = config('DemamKlasifikasi');
                             <select name="diagnosa" id="filter-diagnosa"
                                     class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
                                 <option value="">— Semua Hasil —</option>
-                                <option value="Typhoid Fever" <?= ($filters['diagnosa'] ?? '') === 'Typhoid Fever' ? 'selected' : '' ?>>Typhoid Fever</option>
-                                <option value="Non Typhoid Fever" <?= ($filters['diagnosa'] ?? '') === 'Non Typhoid Fever' ? 'selected' : '' ?>>Non Typhoid Fever</option>
+                                <option value="Suspect Typhoid Fever" <?= ($filters['diagnosa'] ?? '') === 'Suspect Typhoid Fever' ? 'selected' : '' ?>>Suspect Typhoid Fever</option>
+                                <option value="Non Suspect Typhoid Fever" <?= ($filters['diagnosa'] ?? '') === 'Non Suspect Typhoid Fever' ? 'selected' : '' ?>>Non Suspect Typhoid Fever</option>
                                 <option value="Tidak terklasifikasi" <?= ($filters['diagnosa'] ?? '') === 'Tidak terklasifikasi' ? 'selected' : '' ?>>Tidak terklasifikasi</option>
                             </select>
                         </div>
@@ -166,10 +166,10 @@ $demamCfg = config('DemamKlasifikasi');
                                 <td class="px-6 py-4 font-semibold">
                                     <?php
                                     $diag = $r['diagnosa'] ?? 'Tidak terklasifikasi';
-                                    if ($diag === 'Typhoid Fever') {
-                                        echo '<span class="inline-flex rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800">Typhoid Fever</span>';
-                                    } elseif ($diag === 'Non Typhoid Fever') {
-                                        echo '<span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Non Typhoid Fever</span>';
+                                    if ($diag === 'Suspect Typhoid Fever') {
+                                        echo '<span class="inline-flex rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800">Suspect Typhoid Fever</span>';
+                                    } elseif ($diag === 'Non Suspect Typhoid Fever') {
+                                        echo '<span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Non Suspect Typhoid Fever</span>';
                                     } else {
                                         echo '<span class="inline-flex rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">Tidak terklasifikasi</span>';
                                     }

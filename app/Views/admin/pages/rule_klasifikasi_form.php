@@ -145,8 +145,8 @@ $inputClass = 'mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 '
                     <?php $curHasil = rule_opt_old('hasil', $record); ?>
                     <select name="hasil" id="hasil" required class="<?= esc($inputClass, 'attr') ?>">
                         <option value="">— Pilih hasil —</option>
-                        <option value="Typhoid Fever" <?= $curHasil === 'Typhoid Fever' ? 'selected' : '' ?>>Typhoid Fever</option>
-                        <option value="Non Typhoid Fever" <?= $curHasil === 'Non Typhoid Fever' ? 'selected' : '' ?>>Non Typhoid Fever</option>
+                        <option value="Suspect Typhoid Fever" <?= $curHasil === 'Suspect Typhoid Fever' ? 'selected' : '' ?>>Suspect Typhoid Fever</option>
+                        <option value="Non Suspect Typhoid Fever" <?= $curHasil === 'Non Suspect Typhoid Fever' ? 'selected' : '' ?>>Non Suspect Typhoid Fever</option>
                     </select>
                 </div>
             </div>

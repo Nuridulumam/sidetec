@@ -130,7 +130,7 @@ class RuleKlasifikasiController extends BaseController
             'penurunan_kesadaran' => 'permit_empty|in_list[0,1]',
             'bradikardia_relatif' => 'permit_empty|in_list[0,1]',
             'lemas'               => 'permit_empty|in_list[0,1]',
-            'hasil'               => 'required|in_list[Typhoid Fever,Non Typhoid Fever]',
+            'hasil'               => 'required|in_list[Suspect Typhoid Fever,Non Suspect Typhoid Fever]',
         ];
     }
 

@@ -37,7 +37,7 @@ final class PasienModelTest extends CIUnitTestCase
         ];
 
         $diagnosis = $model->determineDiagnosis($childData);
-        $this->assertEquals('Typhoid Fever', $diagnosis);
+        $this->assertEquals('Suspect Typhoid Fever', $diagnosis);
     }
 
     public function testDetermineDiagnosisAdult(): void
@@ -61,6 +61,6 @@ final class PasienModelTest extends CIUnitTestCase
         ];
 
         $diagnosis = $model->determineDiagnosis($adultData);
-        $this->assertEquals('Non Typhoid Fever', $diagnosis);
+        $this->assertEquals('Non Suspect Typhoid Fever', $diagnosis);
     }
 }
