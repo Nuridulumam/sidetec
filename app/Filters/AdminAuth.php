@@ -18,6 +18,11 @@ class AdminAuth implements FilterInterface
         $router = service('router');
         $method = $router->methodName();
 
+        // admin has full access to everything (acts as superadmin)
+        if ($role === 'admin') {
+            return null;
+        }
+
         // Define permissions maps: allowed methods per role
         $permissions = [
             'perawat' => [
@@ -43,23 +48,7 @@ class AdminAuth implements FilterInterface
                 'ruleKlasifikasiDelete',
                 'laporan',
                 'laporanExport',
-            ],
-            'admin' => [
-                'dashboard',
-                'pasien',
-                'pasienShow',
-                'ruleKlasifikasi',
-                'ruleKlasifikasiShow',
-                'laporan',
-                'laporanExport',
-                'users',
-                'usersShow',
-                'usersCreate',
-                'usersStore',
-                'usersEdit',
-                'usersUpdate',
-                'usersDelete',
-            ],
+            ]
         ];
 
         $allowed = $permissions[$role] ?? [];
