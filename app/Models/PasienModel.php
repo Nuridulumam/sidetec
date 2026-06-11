@@ -103,8 +103,8 @@ class PasienModel extends Model
         // Preprocess patient data for classification
         $processedPatient = [
             'usia_grup'           => (isset($patientData['usia']) && (int)$patientData['usia'] <= 17) ? 'anak' : 'dewasa',
-            'demam_pagi'          => str_replace('Demam ', '', $patientData['demam_pagi'] ?? ''),
-            'demam_sore'          => str_replace('Demam ', '', $patientData['demam_sore'] ?? ''),
+            'demam_pagi'          => $patientData['demam_pagi'] ?? '',
+            'demam_sore'          => $patientData['demam_sore'] ?? '',
             'sakit_kepala'        => (int)($patientData['sakit_kepala'] ?? 0),
             'nyeri_otot'          => (int)($patientData['nyeri_otot'] ?? 0),
             'mual'                => (int)($patientData['mual'] ?? 0),

@@ -37,7 +37,7 @@ $demamCfg = config('DemamKlasifikasi');
                 <?php endif; ?>
             </button>
 
-            <?php if (in_array(session()->get('admin_role'), ['perawat'], true)) : ?>
+            <?php if (in_array(session()->get('admin_role'), ['perawat', 'admin'], true)) : ?>
                 <a href="<?= esc(site_url('admin/pasien/create'), 'attr') ?>"
                    class="inline-flex items-center gap-2 rounded-xl bg-mint px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-mint/25 transition hover:bg-mint-dark">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
@@ -179,7 +179,7 @@ $demamCfg = config('DemamKlasifikasi');
                                     <div class="flex flex-wrap items-center justify-end gap-2">
                                         <a href="<?= esc(site_url('admin/pasien/' . $pid), 'attr') ?>"
                                             class="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Detail</a>
-                                        <?php if (in_array(session()->get('admin_role'), ['perawat'], true)) : ?>
+                                        <?php if (in_array(session()->get('admin_role'), ['perawat', 'admin'], true)) : ?>
                                             <a href="<?= esc(site_url('admin/pasien/' . $pid . '/edit'), 'attr') ?>"
                                                class="rounded-lg border border-mint/40 bg-mint/10 px-3 py-1.5 text-xs font-medium text-mint-dark hover:bg-mint/20">Edit</a>
                                             <form action="<?= esc(site_url('admin/pasien/' . $pid . '/delete'), 'attr') ?>" method="post" class="inline"
