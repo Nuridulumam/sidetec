@@ -156,12 +156,12 @@
                     </div>
                 </div>
 
-                <div class="relative lg:col-span-7 lg:min-h-[340px]">
-                    <div class="relative mx-auto flex flex-col justify-center items-center lg:absolute lg:bottom-0 lg:right-0 lg:mx-0 lg:w-[min(100%,520px)] lg:justify-end">
+                <div class="relative lg:col-span-7 justify-center lg:min-h-[340px]">
+                    <div class="relative mx-auto flex flex-row gap-4 justify-center items-center">
                         <img
                             src="<?= esc(base_url('assets/images/logo rs.jpeg'), 'attr') ?>"
                             alt="Logo RS Wijaya"
-                            class="relative z-[15] max-w-[160px] max-h-[160px] rounded-full object-cover object-center shadow-2xl ring-4 ring-white/20 mb-[1em]"
+                            class="relative z-[15] max-w-[300px] max-h-[300px] rounded-full object-cover object-center shadow-2xl ring-4 ring-white/20 mb-[1em]"
                             width="520"
                             height="400"
                             loading="eager"
@@ -170,7 +170,7 @@
                         <img
                             src="<?= esc(base_url('assets/images/logo_sidetect.png'), 'attr') ?>"
                             alt="SIDETECT"
-                            class="relative z-[15] w-auto max-w-full rounded-3xl object-cover object-center shadow-2xl ring-4 ring-white/20 sm:max-h-[200px] lg:max-h-[340px]"
+                            class="relative z-[15] w-[300px] rounded-3xl object-cover object-center shadow-2xl ring-4 ring-white/20 sm:max-h-[200px] lg:max-h-[340px]"
                             width="520"
                             height="400"
                             loading="eager"
