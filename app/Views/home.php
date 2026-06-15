@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIDETECT — Sistem Deteksi Dini Penyakit Tifoid</title>
+    <title>SIDETECT — Sistem Deteksi Dini Typhoid Fever</title>
     <meta name="description" content="SIDETECT membantu identifikasi awal kemungkinan penyakit tifoid melalui sistem deteksi dini berbasis informasi.">
     <link rel="icon" type="image/png" href="<?= esc(base_url('assets/images/logo_sidetect.png'), 'attr') ?>">
     <link rel="apple-touch-icon" href="<?= esc(base_url('assets/images/logo_sidetect.png'), 'attr') ?>">
@@ -145,7 +145,7 @@
                     <div class="max-w-lg">
                         <p class="text-xs font-semibold uppercase tracking-widest text-white/80">Sistem Informasi Kesehatan</p>
                         <h2 class="mt-2 text-2xl font-medium text-white/75">
-                            <span class="font-bold text-white">S</span>istem <span class="font-bold text-white">De</span>teksi <span class="font-bold text-white">Di</span>ni Penyakit <span class="font-bold text-white">Ti</span>foid
+                            <span class="font-bold text-white">S</span>istem <span class="font-bold text-white">De</span>teksi <span class="font-bold text-white">Di</span>ni <span class="font-bold text-white">Typhoid Fever</span>
                         </p>
                         <p class="mt-6 text-sm text-justify leading-relaxed text-white/90 sm:text-base">
                         SIDETECT merupakan sistem <b>deteksi dini</b> penyakit <b>Typhoid Fever</b> yang bertujuan untuk membantu proses identifikasi awal kemungkinan terjadinya penyakit typhoid pada pasien berdasarkan gejala yang dialami. Sistem ini dirancang untuk memberikan hasil deteksi secara cepat, akurat, dan mudah digunakan oleh masyarakat umum dan tenaga kesehatan. Dengan adanya SIDETECT, diharapkan proses deteksi dini dapat dilakukan lebih cepat sehingga dapat membantu tenaga medis dalam pengambilan keputusan awal serta meminimalisir keterlambatan penanganan. Selain itu, SIDETECT juga dapat menjadi alat bantu dalam meningkatkan kualitas pelayanan kesehatan, khususnya dalam penanganan penyakit infeksi seperti typhoid fever.
@@ -203,17 +203,14 @@
             <div>
                 <p class="text-sm font-semibold uppercase tracking-wider text-mint">Memahami penyakit</p>
                 <h2 class="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                    Definisi penyakit <span class="text-mint">tifoid</span>
+                    Definisi <span class="text-mint">Typhoid Fever</span>
                 </h2>
                 <div class="mt-6 space-y-4 text-base text-justify leading-relaxed text-gray-600">
                     <p>
-                        <strong class="text-gray-900">Tifoid (tifus abdominalis)</strong> adalah infeksi sistemik akut yang umumnya disebabkan bakteri
-                        <em>Salmonella Typhi</em>. Bakteri ini banyak ditularkan melalui makanan atau minuman yang terkontaminasi tinja manusia,
-                        sering terkait dengan sanitasi air dan kebersihan makanan yang kurang memadai.
+                        <strong class="text-gray-900">Demam tifoid (typhoid fever)</strong> merupakan penyakit infeksi yang disebabkan oleh bakteri <em>Salmonella typhi</em>. Penyakit ini ditandai dengan demam yang meningkat secara bertahap pada sore hingga malam hari disertai dengan beberapa gejala yang diantaranya seperti sakit kepala, mual, hilang nafsu makan, bradikardia relatif, serta gangguan pencernaan seperti diare atau konstipasi.
                     </p>
                     <p>
-                        Penyakit ini dapat menyerupai banyak keluhan umum di awal gejalanya, sehingga penting untuk tidak mengabaikan tanda-tanda yang persisten
-                        terutama setelah paparan risiko atau berada di wilayah endemis.
+                        Penularan penyakit ini terjadi melalui makanan dan minuman yang telah terkontaminasi oleh feses atau urin penderita maupun pembawa (<em>carrier</em>) bakteri <em>Salmonella typhi</em>. Faktor yang berperan dalam penyebaran demam tifoid antara lain higiene perorangan yang rendah, kebiasaan tidak mencuci tangan, serta kebersihan makanan dan minuman yang kurang terjaga.
                     </p>
                     <p class="rounded-3xl bg-white p-5 text-sm text-gray-600 shadow-soft ring-1 ring-gray-100">
                         Penegakan diagnosis definitif dilakukan oleh dokter melalui anamnesis, pemeriksaan fisik, serta pemeriksaan penunjang
@@ -240,15 +237,42 @@
         <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <?php
             $gejala = [
-                ['judul' => 'Demam persisten', 'desc' => 'Demam yang cenderung naik secara bertahap dan dapat berlangsung beberapa hari hingga minggu.'],
-                ['judul' => 'Sakit kepala & lemas', 'desc' => 'Keluhan umum infeksi seperti sakit kepala, pegal-pegal, dan rasa tidak bertenaga.'],
-                ['judul' => 'Nyeri perut', 'desc' => 'Ketidaknyamanan atau nyeri di area perut, terkadang disertai kembung atau gangguan BAB.'],
-                ['judul' => 'Mual atau muntah', 'desc' => 'Gangguan pencernaan ringan hingga sedang pada fase awal.'],
-                ['judul' => 'Berkeringat malam', 'desc' => 'Keringat berlebihan pada malam hari tanpa aktivitas berat.'],
-                ['judul' => 'Nyeri otot', 'desc' => 'Rasa sakit pada tubuh atau sendi yang menyertai demam.'],
-                ['judul' => 'Diare atau sembelit', 'desc' => 'Pola BAB dapat berubah; beberapa pasien mengalami diare, lainnya lebih sembelit.'],
-                ['judul' => 'Ruam kulit (rose spots)', 'desc' => 'Pada beberapa kasus muncul bintik merah muda di kulit; tidak selalu terlihat.'],
-                ['judul' => 'Penurunan nafsu makan', 'desc' => 'Rasa tidak ingin makan atau cepat kenyang saat demam.'],
+                [
+                    'judul' => 'Demam',
+                    'desc' => 'Peningkatan suhu tubuh yang terjadi secara bertahap dari hari ke hari dan dapat berlangsung dalam jangka waktu lama. Umumnya demam akan meningkat pada waktu sore hingga malam hari.'
+                ],
+                [
+                    'judul' => 'Sakit Kepala',
+                    'desc' => 'Nyeri kepala yang cukup berat dan sering menyertai penderita demam tifoid. Umumnya terjadi pada kepala bagian dahi dan sekitar pelipis.'
+                ],
+                [
+                    'judul' => 'Nyeri otot',
+                    'desc' => 'Rasa nyeri atau pegal pada otot yang dirasakan pada satu atau beberapa bagian tubuh.'
+                ],
+                [
+                    'judul' => 'Mual dan Muntah',
+                    'desc' => 'Mual atau muntah merupakan gangguan pencernaan yang ditandai dengan rasa tidak nyaman pada lambung, keinginan untuk muntah, atau keluarnya isi lambung melalui mulut.'
+                ],
+                [
+                    'judul' => 'Penurunan Nafsu Makan (Anoreksia)',
+                    'desc' => 'Keinginan makan berkurang atau cepat merasa merasa kenyang selama sakit.'
+                ],
+                [
+                    'judul' => 'Diare',
+                    'desc' => 'Terjadi gangguan pada saluran pencernaan sehingga menyebabkan buang air besar lebih sering dengan konsistensi tinja yang lebih cair.'
+                ],
+                [
+                    'judul' => 'Kelemahan atau Lemas',
+                    'desc' => 'Rasa tidak bertenaga dan mudah lelah yang dapat mengakibatkan penurunan dalam beraktivitas sehari-hari.'
+                ],
+                [
+                    'judul' => 'Penurunan Kesadaran',
+                    'desc' => 'Terjadi gangguan fungsi otak dan sistem saraf sehingga menyebabkan penderita tampak mengantuk, bingung, sulit berkonsentrasi, atau mengalami penurunan kesadaran pada kondisi berat.'
+                ],
+                [
+                    'judul' => 'Bradikardia relatif',
+                    'desc' => 'Terjadi gangguan pada sistem kardiovaskuler sehingga menjadi penyebab denyut jantung lebih lambat dari yang seharusnya jika dibandingkan dengan peningkatan suhu tubuh akibat demam.'
+                ],
             ];
             foreach ($gejala as $g) :
             ?>
@@ -292,10 +316,9 @@
                     $risiko = [
                         ['judul' => 'Sanitasi air dan makanan buruk', 'desc' => 'Mengonsumsi air tidak matang, es tidak steril, atau makanan dari tempat dengan hygiene meragukan.'],
                         ['judul' => 'Riwayat kontak dengan penderita', 'desc' => 'Tinggal serumah atau kontak dekat dengan orang yang didiagnosis atau dicurigai tifoid.'],
-                        ['judul' => 'Perjalanan ke daerah endemis', 'desc' => 'Kunjungan ke wilayah dengan insiden tifoid lebih tinggi tanpa vaksinasi atau perilaku hati-hati.'],
-                        ['judul' => 'Vaksinasi belum lengkap', 'desc' => 'Belum pernah atau tidak lengkap mendapat imunisasi tifoid sesuai anjuran untuk kelompok risiko.'],
-                        ['judul' => 'Sistem imun menurun', 'desc' => 'Kondisi tertentu atau pengobatan yang melemahkan respons imun dapat memperberat infeksi.'],
-                        ['judul' => 'Pekerjaan terkait layanan makanan', 'desc' => 'Penanganan makanan tanpa protokol kebersihan ketat meningkatkan risiko penyebaran dan paparan.'],
+                        ['judul' => 'Higiene perorangan yang kurang baik', 'desc' => 'Tidak mencuci tangan menggunakan sabun sebelum makan dan setelah dari toilet sehingga memudahkan penularan bakteri.'],
+                        ['judul' => 'Konsumsi makanan atau minuman tidak higienis', 'desc' => 'Seringnya membeli atau mengonsumsi makanan dan minuman dari tempat yang kebersihannya tidak terjaga.'],
+                        ['judul' => 'Lingkungan dengan sanitasi buruk', 'desc' => 'Kondisi lingkungan seperti pembuangan limbah, jamban, atau sumber air yang tidak memenuhi syarat kesehatan.'],
                     ];
                     foreach ($risiko as $i => $r) :
                         $n = $i + 1;
@@ -317,14 +340,16 @@
         <h2 class="text-xl font-extrabold text-gray-900 sm:text-2xl">Catatan penting</h2>
         <p class="mt-4 text-sm leading-relaxed text-gray-600 sm:text-base">
             SIDETECT menyediakan kerangka informasi untuk mendukung kesadaran dan deteksi dini secara edukatif.
-            Jika Anda mengalami gejala yang mengganggu, demam berkelanjutan, atau memiliki faktor risiko yang relevan,
-            segera hubungi fasilitas kesehatan atau dokter untuk pemeriksaan lanjutan.
+            Jika Anda mengalami gejala di atas, segera hubungi fasilitas kesehatan atau dokter untuk pemeriksaan lanjutan.
+        </p>
+        <p class="mt-4 text-xs italic text-gray-500">
+            Sumber: KMK No 364/MENKES/SK/V/2006 tentang Pedoman Pengendalian Demam Tifoid
         </p>
     </section>
 
     <footer class="mx-auto mt-12 max-w-7xl border-t border-gray-200 pt-10 text-center text-sm text-gray-500">
         <p class="font-semibold text-gray-700">&copy; Copyright SIDETECT <?= esc(date('Y')) ?></p>
-        <p class="mt-1">Sistem Deteksi Dini Penyakit Tifoid</p>
+        <p class="mt-1">Sistem Deteksi Dini Typhoid Fever</p>
         <div class="mt-4">
             <a href="<?= esc(site_url('admin/login'), 'attr') ?>" class="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-xs font-semibold text-gray-700 shadow-sm transition hover:bg-gray-50 hover:text-gray-900">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
