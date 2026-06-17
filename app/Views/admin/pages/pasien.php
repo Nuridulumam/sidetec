@@ -126,6 +126,7 @@ $demamCfg = config('DemamKlasifikasi');
             <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
                 <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     <tr>
+                        <th class="px-6 py-3">No</th>
                         <th class="px-6 py-3">ID</th>
                         <th class="px-6 py-3">Nama lengkap</th>
                         <th class="px-6 py-3">Usia</th>
@@ -139,13 +140,21 @@ $demamCfg = config('DemamKlasifikasi');
                 <tbody class="divide-y divide-slate-100">
                     <?php if (($rows ?? []) === []) : ?>
                         <tr>
-                            <td colspan="8" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
+                            <td colspan="9" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
                         </tr>
                     <?php else : ?>
-                        <?php foreach ($rows as $r) : ?>
+                        <?php
+                        // Calculate sequential number based on current page
+                        $currentPage = isset($pager) ? $pager->getCurrentPage('default') : 1;
+                        $perPage = 10;
+                        $no = ($currentPage - 1) * $perPage + 1;
+
+                        foreach ($rows as $r) :
+                        ?>
                             <?php $pid = $r['id'] ?? ''; ?>
                             <tr class="hover:bg-slate-50/80">
-                               <td class="whitespace-nowrap px-6 py-4 font-medium"><?= esc((string) ($r['pasien_id'] ?? '')) ?></td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-slate-500"><?= esc((string) $no++) ?></td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-slate-900"><?= esc((string) ($r['pasien_id'] ?? '')) ?></td>
                                 <td class="px-6 py-4 font-medium text-slate-900"><?= esc((string) ($r['nama'] ?? '')) ?></td>
                                 <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['usia'] ?? '—')) ?> tahun</td>
                                 <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['demam_pagi'] ?? '—')) ?></td>

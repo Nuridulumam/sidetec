@@ -20,7 +20,7 @@
             <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
                 <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     <tr>
-                        <th class="px-6 py-3">ID</th>
+                        <th class="px-6 py-3">No</th>
                         <th class="px-6 py-3">Usia</th>
                         <th class="px-6 py-3">Demam</th>
                         <th class="px-6 py-3">Kehilangan Kesadaran</th>

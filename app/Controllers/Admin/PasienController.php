@@ -47,8 +47,13 @@ class PasienController extends BaseController
             $model->where('bradikardia_relatif', (int)$bradikardia);
         }
 
-        $rows = $model->select('id, nama, usia, demam_pagi, demam_sore, bradikardia_relatif, diagnosa, created_at')
-            ->orderBy('id', 'DESC')
+        $pasienId = $this->request->getGet('pasien_id');
+        if ($pasienId !== null && trim((string)$pasienId) !== '') {
+            $model->where('pasien_id', trim((string)$pasienId));
+        }
+
+        $rows = $model->select('pasien_id, nama, usia, demam_pagi, demam_sore, bradikardia_relatif, diagnosa, created_at')
+            ->orderBy('created_at', 'DESC')
             ->paginate(10, 'default');
 
         return view('admin/layout', [
@@ -58,6 +63,7 @@ class PasienController extends BaseController
                 'rows'  => $rows,
                 'pager' => $model->pager,
                 'filters' => [
+                    'pasien_id' => $pasienId,
                     'nama' => $nama,
                     'diagnosa' => $diagnosa,
                     'demam_pagi' => $demamPagi,
