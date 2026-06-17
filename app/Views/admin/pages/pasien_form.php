@@ -4,340 +4,208 @@ $isEdit     = $record !== null;
 $formAction = $isEdit
     ? site_url('admin/pasien/' . esc($record['id'] ?? '') . '/update')
     : site_url('admin/pasien/store');
-
-function yn_old(string $key, ?array $record): string
-{
-    $val = old($key);
-    if ($val === null) {
-        if ($record === null || ! array_key_exists($key, $record)) {
-            return '';
-        }
-        $raw = $record[$key];
-        return $raw === null ? '' : (string) $raw;
-    }
-    return (string) $val;
-}
 ?>
-<div class="mx-auto max-w-[96rem] px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-6 items-start">
-        
-        <!-- Left Side: Bradikardia Relatif Info -->
-        <div class="xl:col-span-4 md:col-span-1 order-2 xl:order-1 space-y-6">
-            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                <!-- Referensi Bradikardia Relatif -->
-                <div class="space-y-6">
-                    <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">Referensi Bradikardia Relatif</h3>
-                    
-                    <div class="space-y-6">
-                        <!-- Referensi Anak-Anak -->
-                        <div>
-                            <h4 class="text-xs font-semibold text-slate-600 mb-2 uppercase tracking-wider">Kelompok Usia Anak-Anak (0–16 tahun)</h4>
-                            <p class="text-xs text-slate-500 mb-3">Penyesuaian denyut nadi normal dasar dan peningkatan suhu tubuh.</p>
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-slate-200 border border-slate-150 rounded-xl text-[11px] text-left">
-                                    <thead class="bg-slate-50 text-slate-500 font-semibold">
-                                        <tr>
-                                            <th class="px-2 py-1.5 border-b">Usia</th>
-                                            <th class="px-2 py-1.5 border-b bg-emerald-50/60 text-emerald-800">Nadi Normal</th>
-                                            <th class="px-2 py-1.5 border-b bg-yellow-50/60 text-yellow-805">38,3°C</th>
-                                            <th class="px-2 py-1.5 border-b bg-orange-50/60 text-orange-805">38,5°C</th>
-                                            <th class="px-2 py-1.5 border-b bg-red-50/60 text-red-805">39°C</th>
-                                            <th class="px-2 py-1.5 border-b bg-red-100/60 text-red-905">40°C</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-100 text-slate-700">
-                                        <tr>
-                                            <td class="px-2 py-1.5 font-medium">Bayi (0-1)</td>
-                                            <td class="px-2 py-1.5 bg-emerald-50/20 text-emerald-850">100-160</td>
-                                            <td class="px-2 py-1.5 bg-yellow-50/20 text-yellow-850">113-173</td>
-                                            <td class="px-2 py-1.5 bg-orange-50/20 text-orange-850">115-175</td>
-                                            <td class="px-2 py-1.5 bg-red-50/20 text-red-850">120-180</td>
-                                            <td class="px-2 py-1.5 bg-red-100/20 text-red-900">130-190</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="px-2 py-1.5 font-medium">Toddler (1-3)</td>
-                                            <td class="px-2 py-1.5 bg-emerald-50/20 text-emerald-850">90-150</td>
-                                            <td class="px-2 py-1.5 bg-yellow-50/20 text-yellow-850">103-163</td>
-                                            <td class="px-2 py-1.5 bg-orange-50/20 text-orange-850">105-165</td>
-                                            <td class="px-2 py-1.5 bg-red-50/20 text-red-850">110-170</td>
-                                            <td class="px-2 py-1.5 bg-red-100/20 text-red-900">120-180</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="px-2 py-1.5 font-medium">Prasekolah (4-5)</td>
-                                            <td class="px-2 py-1.5 bg-emerald-50/20 text-emerald-850">80-140</td>
-                                            <td class="px-2 py-1.5 bg-yellow-50/20 text-yellow-850">93-153</td>
-                                            <td class="px-2 py-1.5 bg-orange-50/20 text-orange-850">95-155</td>
-                                            <td class="px-2 py-1.5 bg-red-50/20 text-red-850">100-160</td>
-                                            <td class="px-2 py-1.5 bg-red-100/20 text-red-900">110-170</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="px-2 py-1.5 font-medium">Sekolah (6-12)</td>
-                                            <td class="px-2 py-1.5 bg-emerald-50/20 text-emerald-850">70-120</td>
-                                            <td class="px-2 py-1.5 bg-yellow-50/20 text-yellow-850">83-133</td>
-                                            <td class="px-2 py-1.5 bg-orange-50/20 text-orange-850">85-135</td>
-                                            <td class="px-2 py-1.5 bg-red-50/20 text-red-850">90-140</td>
-                                            <td class="px-2 py-1.5 bg-red-100/20 text-red-900">100-150</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="px-2 py-1.5 font-medium">Remaja (13-16)</td>
-                                            <td class="px-2 py-1.5 bg-emerald-50/20 text-emerald-850">60-100</td>
-                                            <td class="px-2 py-1.5 bg-yellow-50/20 text-yellow-850">73-113</td>
-                                            <td class="px-2 py-1.5 bg-orange-50/20 text-orange-850">75-115</td>
-                                            <td class="px-2 py-1.5 bg-red-50/20 text-red-850">80-120</td>
-                                            <td class="px-2 py-1.5 bg-red-100/20 text-red-900">90-130</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <p class="text-[10px] text-slate-400 mt-1.5">* bpm (beat per minute). Jika nadi aktual lebih rendah dari batas bawah → Bradikardia Relatif (+)</p>
-                        </div>
-                        
-                        <!-- Referensi Dewasa -->
-                        <div>
-                            <h4 class="text-xs font-semibold text-slate-600 mb-2 uppercase tracking-wider">Kelompok Usia Dewasa (&gt; 16 tahun / Kriteria Cunha)</h4>
-                            <p class="text-xs text-slate-500 mb-3">Korelasi denyut nadi (HR) dan suhu tubuh untuk mendeteksi disosiasi.</p>
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-slate-200 border border-slate-150 rounded-xl text-[11px] text-left">
-                                    <thead class="bg-slate-50 text-slate-500 font-semibold">
-                                        <tr>
-                                            <th class="px-3 py-1.5 border-b">Suhu Tubuh</th>
-                                            <th class="px-3 py-1.5 border-b">Denyut Nadi (HR)</th>
-                                            <th class="px-3 py-1.5 border-b">Interpretasi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-100 text-slate-700">
-                                        <tr class="bg-emerald-50/20 text-emerald-850">
-                                            <td class="px-3 py-1.5 font-medium">&lt; 38,3°C</td>
-                                            <td class="px-3 py-1.5">Tidak dinilai</td>
-                                            <td class="px-3 py-1.5">Tidak dinilai</td>
-                                        </tr>
-                                        <tr class="bg-yellow-50/30 text-yellow-850">
-                                            <td class="px-3 py-1.5 font-medium">38,3°C</td>
-                                            <td class="px-3 py-1.5">&le; 110 bpm</td>
-                                            <td class="px-3 py-1.5 font-medium">Curiga</td>
-                                        </tr>
-                                        <tr class="bg-red-50/20 text-red-850">
-                                            <td class="px-3 py-1.5 font-medium">38,9°C</td>
-                                            <td class="px-3 py-1.5">&le; 120 bpm</td>
-                                            <td class="px-3 py-1.5 font-semibold">Bradikardia (+)</td>
-                                        </tr>
-                                        <tr class="bg-red-50/20 text-red-850">
-                                            <td class="px-3 py-1.5 font-medium">39,4°C</td>
-                                            <td class="px-3 py-1.5">&le; 120 bpm</td>
-                                            <td class="px-3 py-1.5 font-semibold">Bradikardia (+)</td>
-                                        </tr>
-                                        <tr class="bg-red-100/20 text-red-900">
-                                            <td class="px-3 py-1.5 font-medium">40,0°C</td>
-                                            <td class="px-3 py-1.5">&le; 130 bpm</td>
-                                            <td class="px-3 py-1.5 font-semibold">Bradikardia (+)</td>
-                                        </tr>
-                                        <tr class="bg-red-100/20 text-red-900">
-                                            <td class="px-3 py-1.5 font-medium">40,6°C</td>
-                                            <td class="px-3 py-1.5">&le; 140 bpm</td>
-                                            <td class="px-3 py-1.5 font-semibold">Bradikardia (+)</td>
-                                        </tr>
-                                        <tr class="bg-rose-100/30 text-rose-950">
-                                            <td class="px-3 py-1.5 font-medium">41,1°C</td>
-                                            <td class="px-3 py-1.5">&le; 150 bpm</td>
-                                            <td class="px-3 py-1.5 font-bold">Bradikardia (+)</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+    <div class="space-y-6">
+        <?php
+        $flashErrors = session()->getFlashdata('errors') ?? [];
+        $nikError = $flashErrors['nik'] ?? null;
+        $otherErrors = $flashErrors;
+        unset($otherErrors['nik']);
 
-        <!-- Middle: Pasien Form -->
-        <div class="xl:col-span-5 md:col-span-2 order-1 xl:order-2 space-y-6">
-            <?php
-            $flashErrors = session()->getFlashdata('errors');
-            if (is_array($flashErrors) && $flashErrors !== []) :
-            ?>
-                <ul class="list-inside list-disc rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-                    <?php foreach ($flashErrors as $msg) : ?>
-                        <li><?= esc(is_array($msg) ? implode(', ', $msg) : (string) $msg) ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
+        if (is_array($otherErrors) && $otherErrors !== []) :
+        ?>
+            <ul class="list-inside list-disc rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+                <?php foreach ($otherErrors as $msg) : ?>
+                    <li><?= esc(is_array($msg) ? implode(', ', $msg) : (string) $msg) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
 
-            <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-                <h2 class="text-lg font-semibold text-slate-900">
-                    <?= $isEdit ? 'Edit pasien' : 'Tambah pasien' ?>
-                </h2>
-                <p class="mt-1 text-sm text-slate-500">
-                    <?= $isEdit ? 'Perbarui data pasien di bawah ini.' : 'Isi formulir untuk menambah pasien baru.' ?>
-                </p>
+        <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+            <h2 class="text-lg font-semibold text-slate-900">
+                <?= $isEdit ? 'Edit Pasien (Master Data)' : 'Tambah Pasien Baru' ?>
+            </h2>
+            <p class="mt-1 text-sm text-slate-500">
+                <?= $isEdit ? 'Perbarui informasi master data pasien di bawah ini.' : 'Isi formulir untuk mendaftarkan pasien baru ke master data.' ?>
+            </p>
 
-                <form action="<?= esc($formAction, 'attr') ?>" method="post" class="mt-8 space-y-8">
-                    <?= csrf_field() ?>
+            <form action="<?= esc($formAction, 'attr') ?>" method="post" class="mt-8 space-y-6">
+                <?= csrf_field() ?>
 
-                    <div class="grid gap-5 sm:grid-cols-2">
-                        <div class="sm:col-span-2">
-                            <label for="nama" class="block text-sm font-medium text-slate-700">Nama lengkap</label>
-                            <input type="text" name="nama" id="nama" required minlength="3" maxlength="191"
-                                   value="<?= esc(old('nama', $isEdit ? ($record['nama'] ?? '') : '')) ?>"
-                                   class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
-                        </div>
-
-                        <div>
-                            <label for="usia" class="block text-sm font-medium text-slate-700">Usia</label>
-                            <input type="number" name="usia" id="usia" required min="1" max="150"
-                                   value="<?= esc(old('usia', $isEdit ? (string) ($record['usia'] ?? '') : '')) ?>"
-                                   class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
-                        </div>
-
-                        <?= view('admin/partials/pasien_demam_fields', ['record' => $record]) ?>
-                    </div>
-
-                    <?php
-                    $symptoms = [
-                        'sakit_kepala'        => 'Sakit kepala',
-                        'nyeri_otot'          => 'Nyeri otot',
-                        'mual'                => 'Mual',
-                        'muntah'              => 'Muntah',
-                        'nyeri_perut'         => 'Nyeri perut',
-                        'diare'               => 'Diare',
-                        'penurunan_kesadaran' => 'Penurunan kesadaran',
-                        'bradikardia_relatif' => 'Bradikardia relatif',
-                        'lemas'               => 'Lemas',
-                    ];
-                    $radioClass = 'h-4 w-4 rounded-full border-slate-300 text-mint focus:ring-mint';
-                    ?>
-
+                <div class="grid gap-5 sm:grid-cols-2">
+                    <!-- Nomor Rekam Medis (RM) -->
                     <div>
-                        <h3 class="text-sm font-semibold text-slate-900">Gejala & tanda</h3>
-                        <p class="mt-1 text-sm text-slate-500">Pilih Ya/Tidak untuk setiap poin.</p>
-
-                        <div class="mt-5 grid gap-4 sm:grid-cols-2">
-                            <?php foreach ($symptoms as $key => $label) : ?>
-                                <?php $val = yn_old($key, $record); ?>
-                                <fieldset class="rounded-2xl border border-slate-200 p-4">
-                                    <legend class="px-1 text-sm font-medium text-slate-800"><?= esc($label) ?></legend>
-                                    <div class="mt-2 flex items-center gap-6">
-                                        <label class="inline-flex items-center gap-2 text-sm text-slate-700">
-                                            <input type="radio" name="<?= esc($key, 'attr') ?>" value="1"
-                                                   class="<?= esc($radioClass, 'attr') ?>"
-                                                   <?= $val === '1' ? 'checked' : '' ?> required>
-                                            Ya
-                                        </label>
-                                        <label class="inline-flex items-center gap-2 text-sm text-slate-700">
-                                            <input type="radio" name="<?= esc($key, 'attr') ?>" value="0"
-                                                   class="<?= esc($radioClass, 'attr') ?>"
-                                                   <?= $val === '0' ? 'checked' : '' ?> required>
-                                            Tidak
-                                        </label>
-                                    </div>
-                                </fieldset>
-                            <?php endforeach; ?>
-                        </div>
+                        <label for="nomor_rm" class="block text-sm font-medium text-slate-700">Nomor RM <span class="text-red-500">*</span></label>
+                        <input type="number" name="nomor_rm" id="nomor_rm" required min="1"
+                               value="<?= esc(old('nomor_rm', $isEdit ? ($record['nomor_rm'] ?? '') : '')) ?>"
+                               class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
+                               placeholder="Contoh: 100293">
                     </div>
 
-                    <div class="flex flex-wrap gap-3 pt-2">
-                        <button type="submit" class="rounded-xl bg-mint px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-mint/25 hover:bg-mint-dark">
-                            <?= $isEdit ? 'Simpan perubahan' : 'Simpan' ?>
-                        </button>
-                        <a href="<?= esc(site_url('admin/pasien'), 'attr') ?>"
-                           class="rounded-xl border border-slate-200 px-6 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">
-                            Batal
-                        </a>
+                    <!-- NIK (16 Digit) -->
+                    <div>
+                        <label for="nik" class="block text-sm font-medium text-slate-700">NIK (16 Digit) <span class="text-red-500">*</span></label>
+                        <input type="text" name="nik" id="nik" 
+                               value="<?= esc(old('nik', $isEdit ? ($record['nik'] ?? '') : '')) ?>"
+                               class="mt-1.5 w-full rounded-xl border <?= $nikError ? 'border-red-300 focus:border-red-500 focus:ring-red-200' : 'border-slate-200 focus:border-mint focus:ring-mint/30' ?> px-4 py-3 text-slate-900 shadow-sm focus:outline-none focus:ring-2"
+                               placeholder="16 digit angka NIK"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <p id="nik-error" class="mt-1.5 text-xs text-red-600 font-medium"><?= $nikError ? esc(is_array($nikError) ? implode(', ', $nikError) : (string) $nikError) : '' ?></p>
                     </div>
-                </form>
-            </div>
-        </div>
 
-        <!-- Right Side: Kategori Demam Info -->
-        <div class="xl:col-span-3 md:col-span-1 order-3 xl:order-3 space-y-6">
-            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                <!-- Referensi Kategori Demam -->
-                <div class="space-y-6">
-                    <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">Referensi Kategori Demam</h3>
-                    
-                    <div class="space-y-6">
-                        <!-- Referensi Demam Anak-Anak -->
-                        <div>
-                            <h4 class="text-xs font-semibold text-slate-600 mb-2 uppercase tracking-wider">Kelompok Usia Anak-Anak (0–17 tahun)</h4>
-                            <p class="text-xs text-slate-500 mb-3">Klasifikasi tingkat keparahan demam untuk kelompok usia anak-anak.</p>
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-slate-200 border border-slate-150 rounded-xl text-xs text-left">
-                                    <thead class="bg-slate-50 text-slate-500 font-semibold">
-                                        <tr>
-                                            <th class="px-4 py-2 border-b">Kategori</th>
-                                            <th class="px-4 py-2 border-b">Suhu (°C)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-100 text-slate-700">
-                                        <tr class="bg-emerald-50/20 text-emerald-850">
-                                            <td class="px-4 py-2 font-medium">Tidak Demam</td>
-                                            <td class="px-4 py-2">36,5 °C - 37,5 °C</td>
-                                        </tr>
-                                        <tr class="bg-yellow-50/30 text-yellow-850">
-                                            <td class="px-4 py-2 font-medium">Demam Ringan</td>
-                                            <td class="px-4 py-2">37,6 °C - 38 °C</td>
-                                        </tr>
-                                        <tr class="bg-orange-50/20 text-orange-850">
-                                            <td class="px-4 py-2 font-medium">Demam Sedang</td>
-                                            <td class="px-4 py-2">38,1 °C - 39 °C</td>
-                                        </tr>
-                                        <tr class="bg-red-50/20 text-red-850">
-                                            <td class="px-4 py-2 font-medium">Demam Tinggi</td>
-                                            <td class="px-4 py-2">39,1 °C - 40 °C</td>
-                                        </tr>
-                                        <tr class="bg-rose-100/30 text-rose-950">
-                                            <td class="px-4 py-2 font-medium">Hiperpireksia</td>
-                                            <td class="px-4 py-2 font-bold">&gt; 40 °C</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <!-- Nama Lengkap -->
+                    <div class="sm:col-span-2">
+                        <label for="nama" class="block text-sm font-medium text-slate-700">Nama Lengkap <span class="text-red-500">*</span></label>
+                        <input type="text" name="nama" id="nama" required minlength="3" maxlength="191"
+                               value="<?= esc(old('nama', $isEdit ? ($record['nama'] ?? '') : '')) ?>"
+                               class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
+                               placeholder="Nama lengkap pasien">
+                    </div>
 
-                        <!-- Referensi Demam Dewasa -->
-                        <div>
-                            <h4 class="text-xs font-semibold text-slate-600 mb-2 uppercase tracking-wider">Kelompok Usia Dewasa (&ge; 18 tahun)</h4>
-                            <p class="text-xs text-slate-500 mb-3">Klasifikasi tingkat keparahan demam untuk kelompok usia dewasa.</p>
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-slate-200 border border-slate-150 rounded-xl text-xs text-left">
-                                    <thead class="bg-slate-50 text-slate-500 font-semibold">
-                                        <tr>
-                                            <th class="px-4 py-2 border-b">Kategori</th>
-                                            <th class="px-4 py-2 border-b">Suhu (°C)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-100 text-slate-700">
-                                        <tr class="bg-emerald-50/20 text-emerald-850">
-                                            <td class="px-4 py-2 font-medium">Tidak Demam</td>
-                                            <td class="px-4 py-2">36 °C - 37,2 °C</td>
-                                        </tr>
-                                        <tr class="bg-yellow-50/30 text-yellow-850">
-                                            <td class="px-4 py-2 font-medium">Demam Ringan</td>
-                                            <td class="px-4 py-2">37,3 °C - 38 °C</td>
-                                        </tr>
-                                        <tr class="bg-orange-50/20 text-orange-850">
-                                            <td class="px-4 py-2 font-medium">Demam Sedang</td>
-                                            <td class="px-4 py-2">38,1 °C - 39 °C</td>
-                                        </tr>
-                                        <tr class="bg-red-50/20 text-red-850">
-                                            <td class="px-4 py-2 font-medium">Demam Tinggi</td>
-                                            <td class="px-4 py-2">39,1 °C - 40 °C</td>
-                                        </tr>
-                                        <tr class="bg-rose-100/30 text-rose-950">
-                                            <td class="px-4 py-2 font-medium">Hiperpireksia</td>
-                                            <td class="px-4 py-2 font-bold">&gt; 40 °C</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <!-- Tanggal Lahir -->
+                    <div>
+                        <label for="tanggal_lahir" class="block text-sm font-medium text-slate-700">Tanggal Lahir <span class="text-red-500">*</span></label>
+                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" required
+                               value="<?= esc(old('tanggal_lahir', $isEdit ? ($record['tanggal_lahir'] ?? '') : '')) ?>"
+                               class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
+                    </div>
+
+                    <!-- Usia -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Usia (Tahun) <span class="text-red-500">*</span></label>
+                        <input type="number" id="usia_display" disabled
+                               value="<?= esc(old('usia', $isEdit ? (string) ($record['usia'] ?? '') : '')) ?>"
+                               class="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-100 px-4 py-3 text-slate-500 shadow-sm cursor-not-allowed"
+                               placeholder="Otomatis dari tanggal lahir">
+                        <input type="hidden" name="usia" id="usia"
+                               value="<?= esc(old('usia', $isEdit ? (string) ($record['usia'] ?? '') : '')) ?>">
+                    </div>
+
+                    <!-- Jenis Kelamin -->
+                    <div>
+                        <label for="jenis_kelamin" class="block text-sm font-medium text-slate-700">Jenis Kelamin <span class="text-red-500">*</span></label>
+                        <select name="jenis_kelamin" id="jenis_kelamin" required
+                                class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
+                            <option value="">— Pilih Jenis Kelamin —</option>
+                            <option value="L" <?= old('jenis_kelamin', $isEdit ? ($record['jenis_kelamin'] ?? '') : '') === 'L' ? 'selected' : '' ?>>Laki-laki</option>
+                            <option value="P" <?= old('jenis_kelamin', $isEdit ? ($record['jenis_kelamin'] ?? '') : '') === 'P' ? 'selected' : '' ?>>Perempuan</option>
+                        </select>
+                    </div>
+
+                    <!-- Telepon -->
+                    <div>
+                        <label for="telepon" class="block text-sm font-medium text-slate-700">Nomor Telepon</label>
+                        <input type="text" name="telepon" id="telepon" maxlength="32"
+                               value="<?= esc(old('telepon', $isEdit ? ($record['telepon'] ?? '') : '')) ?>"
+                               class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
+                               placeholder="Contoh: 08123456789">
+                    </div>
+
+                    <!-- Alamat -->
+                    <div class="sm:col-span-2">
+                        <label for="alamat" class="block text-sm font-medium text-slate-700">Alamat Lengkap</label>
+                        <textarea name="alamat" id="alamat" rows="3"
+                                  class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
+                                  placeholder="Alamat tempat tinggal pasien"><?= esc(old('alamat', $isEdit ? ($record['alamat'] ?? '') : '')) ?></textarea>
                     </div>
                 </div>
-            </div>
-        </div>
 
+                <div class="flex gap-3 pt-4 border-t border-slate-100">
+                    <button type="submit" class="rounded-xl bg-mint px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-mint/25 hover:bg-mint-dark">
+                        <?= $isEdit ? 'Simpan Perubahan' : 'Simpan Pasien' ?>
+                    </button>
+                    <a href="<?= esc(site_url('admin/pasien'), 'attr') ?>"
+                       class="rounded-xl border border-slate-200 px-6 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">
+                        Batal
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<?= view('admin/partials/pasien_demam_script') ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var dobInput = document.getElementById('tanggal_lahir');
+    var usiaDisplay = document.getElementById('usia_display');
+    var usiaHidden = document.getElementById('usia');
 
+    if (!dobInput || !usiaDisplay || !usiaHidden) return;
+
+    function calculateAge() {
+        var dobVal = dobInput.value;
+        if (!dobVal) {
+            usiaDisplay.value = '';
+            usiaHidden.value = '';
+            return;
+        }
+
+        var dob = new Date(dobVal);
+        var today = new Date();
+        
+        if (isNaN(dob.getTime())) {
+            usiaDisplay.value = '';
+            usiaHidden.value = '';
+            return;
+        }
+
+        var age = today.getFullYear() - dob.getFullYear();
+        var m = today.getMonth() - dob.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+            age--;
+        }
+
+        if (age < 0) age = 0;
+
+        usiaDisplay.value = age;
+        usiaHidden.value = age;
+    }
+
+    dobInput.addEventListener('change', calculateAge);
+    dobInput.addEventListener('input', calculateAge);
+    
+    if (dobInput.value) {
+        calculateAge();
+    }
+
+    // NIK validation on blur
+    var nikInput = document.getElementById('nik');
+    var nikErrorEl = document.getElementById('nik-error');
+
+    if (nikInput && nikErrorEl) {
+        nikInput.addEventListener('blur', function() {
+            var val = nikInput.value.trim();
+            var error = '';
+
+            if (val === '') {
+                error = 'NIK wajib diisi.';
+            } else if (!/^\d+$/.test(val)) {
+                error = 'NIK hanya boleh berupa angka.';
+            } else if (val.length !== 16) {
+                error = 'NIK harus 16 digit.';
+            }
+
+            if (error) {
+                nikErrorEl.textContent = error;
+                nikInput.classList.remove('border-slate-200', 'focus:border-mint', 'focus:ring-mint/30');
+                nikInput.classList.add('border-red-300', 'focus:border-red-500', 'focus:ring-red-200');
+            } else {
+                nikErrorEl.textContent = '';
+                nikInput.classList.remove('border-red-300', 'focus:border-red-500', 'focus:ring-red-200');
+                nikInput.classList.add('border-slate-200', 'focus:border-mint', 'focus:ring-mint/30');
+            }
+        });
+
+        // Clear error styling on input if it becomes valid
+        nikInput.addEventListener('input', function() {
+            var val = nikInput.value.trim();
+            if (val.length === 16 && /^\d+$/.test(val)) {
+                nikErrorEl.textContent = '';
+                nikInput.classList.remove('border-red-300', 'focus:border-red-500', 'focus:ring-red-200');
+                nikInput.classList.add('border-slate-200', 'focus:border-mint', 'focus:ring-mint/30');
+            }
+        });
+    }
+});
+</script>

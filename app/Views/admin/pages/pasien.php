@@ -5,13 +5,12 @@ foreach ($filters ?? [] as $k => $v) {
         $activeFiltersCount++;
     }
 }
-$demamCfg = config('DemamKlasifikasi');
 ?>
 <div class="space-y-4">
     <div class="flex flex-wrap items-center justify-between gap-4">
         <div>
-            <h2 class="text-lg font-semibold text-slate-900">Daftar pasien</h2>
-            <p class="text-sm text-slate-500"><?= isset($pager) ? esc((string) $pager->getTotal()) : count($rows ?? []) ?> entri</p>
+            <h2 class="text-lg font-semibold text-slate-900">Daftar Pasien (Master Data)</h2>
+            <p class="text-sm text-slate-500"><?= isset($pager) ? esc((string) $pager->getTotal()) : count($rows ?? []) ?> entri terdaftar</p>
         </div>
         <form method="get" action="<?= current_url() ?>" class="flex flex-wrap items-center gap-2">
             <!-- Search Nama (Outside, Left of Filter Button) -->
@@ -28,7 +27,7 @@ $demamCfg = config('DemamKlasifikasi');
             <!-- Filter Button -->
             <button type="button" id="btn-filter"
                     class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50">
-                <svg class="h-5 w-5 text-slate-505" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-5 w-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
                 </svg>
                 Filter
@@ -41,7 +40,12 @@ $demamCfg = config('DemamKlasifikasi');
                 <a href="<?= esc(site_url('admin/pasien/create'), 'attr') ?>"
                    class="inline-flex items-center gap-2 rounded-xl bg-mint px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-mint/25 transition hover:bg-mint-dark">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                    Tambah pasien
+                    Tambah Pasien
+                </a>
+                <a href="<?= esc(site_url('admin/gejala/create'), 'attr') ?>"
+                   class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-750">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                    Tambah Kasus / Gejala
                 </a>
             <?php endif; ?>
 
@@ -57,53 +61,18 @@ $demamCfg = config('DemamKlasifikasi');
                     <p class="text-sm text-slate-500 mt-1">Saring data pasien berdasarkan beberapa kriteria.</p>
 
                     <div class="mt-6 space-y-4 text-left">
-                        <!-- Hasil Diagnosa -->
+                        <!-- NIK -->
                         <div>
-                            <label for="filter-diagnosa" class="block text-xs font-semibold text-slate-500 uppercase tracking-wide">Hasil Diagnosa</label>
-                            <select name="diagnosa" id="filter-diagnosa"
-                                    class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
-                                <option value="">— Semua Hasil —</option>
-                                <option value="Suspect Typhoid Fever" <?= ($filters['diagnosa'] ?? '') === 'Suspect Typhoid Fever' ? 'selected' : '' ?>>Suspect Typhoid Fever</option>
-                                <option value="Non Suspect Typhoid Fever" <?= ($filters['diagnosa'] ?? '') === 'Non Suspect Typhoid Fever' ? 'selected' : '' ?>>Non Suspect Typhoid Fever</option>
-                                <option value="Tidak terklasifikasi" <?= ($filters['diagnosa'] ?? '') === 'Tidak terklasifikasi' ? 'selected' : '' ?>>Tidak terklasifikasi</option>
-                            </select>
+                            <label for="filter-nik" class="block text-xs font-semibold text-slate-500 uppercase tracking-wide">NIK (16 Digit)</label>
+                            <input type="text" name="nik" id="filter-nik" value="<?= esc($filters['nik'] ?? '') ?>" placeholder="Cari NIK..."
+                                   class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
                         </div>
 
-                        <!-- Demam Pagi -->
+                        <!-- Nomor RM -->
                         <div>
-                            <label for="filter-demam-pagi" class="block text-xs font-semibold text-slate-500 uppercase tracking-wide">Demam Pagi</label>
-                            <select name="demam_pagi" id="filter-demam-pagi"
-                                    class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
-                                <option value="">— Semua Kategori —</option>
-                                <?php foreach ($demamCfg->keys as $key) : ?>
-                                    <?php $opt = $demamCfg->label[$key]; ?>
-                                    <option value="<?= esc($opt, 'attr') ?>" <?= ($filters['demam_pagi'] ?? '') === $opt ? 'selected' : '' ?>><?= esc($opt) ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-
-                        <!-- Demam Sore -->
-                        <div>
-                            <label for="filter-demam-sore" class="block text-xs font-semibold text-slate-500 uppercase tracking-wide">Demam Sore</label>
-                            <select name="demam_sore" id="filter-demam-sore"
-                                    class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
-                                <option value="">— Semua Kategori —</option>
-                                <?php foreach ($demamCfg->keys as $key) : ?>
-                                    <?php $opt = $demamCfg->label[$key]; ?>
-                                    <option value="<?= esc($opt, 'attr') ?>" <?= ($filters['demam_sore'] ?? '') === $opt ? 'selected' : '' ?>><?= esc($opt) ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-
-                        <!-- Bradikardia Relatif -->
-                        <div>
-                            <label for="filter-bradikardia" class="block text-xs font-semibold text-slate-500 uppercase tracking-wide">Bradikardia Relatif</label>
-                            <select name="bradikardia_relatif" id="filter-bradikardia"
-                                    class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
-                                <option value="">— Semua —</option>
-                                <option value="1" <?= ($filters['bradikardia_relatif'] ?? '') === '1' ? 'selected' : '' ?>>Ya</option>
-                                <option value="0" <?= ($filters['bradikardia_relatif'] ?? '') === '0' ? 'selected' : '' ?>>Tidak</option>
-                            </select>
+                            <label for="filter-nomor-rm" class="block text-xs font-semibold text-slate-500 uppercase tracking-wide">Nomor Rekam Medis (RM)</label>
+                            <input type="number" name="nomor_rm" id="filter-nomor-rm" value="<?= esc($filters['nomor_rm'] ?? '') ?>" placeholder="Cari No RM..."
+                                   class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
                         </div>
                     </div>
 
@@ -127,13 +96,13 @@ $demamCfg = config('DemamKlasifikasi');
                 <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     <tr>
                         <th class="px-6 py-3">No</th>
-                        <th class="px-6 py-3">ID</th>
-                        <th class="px-6 py-3">Nama lengkap</th>
+                        <th class="px-6 py-3">ID Pasien</th>
+                        <th class="px-6 py-3">No RM</th>
+                        <th class="px-6 py-3">NIK</th>
+                        <th class="px-6 py-3">Nama Lengkap</th>
+                        <th class="px-6 py-3">Tanggal Lahir</th>
                         <th class="px-6 py-3">Usia</th>
-                        <th class="px-6 py-3">Demam pagi</th>
-                        <th class="px-6 py-3">Demam sore</th>
-                        <th class="px-6 py-3">Bradikardia relatif</th>
-                        <th class="px-6 py-3">Diagnosa</th>
+                        <th class="px-6 py-3">Jenis Kelamin</th>
                         <th class="px-6 py-3 text-right">Aksi</th>
                     </tr>
                 </thead>
@@ -155,44 +124,27 @@ $demamCfg = config('DemamKlasifikasi');
                             <tr class="hover:bg-slate-50/80">
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-slate-500"><?= esc((string) $no++) ?></td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-slate-900"><?= esc((string) ($r['pasien_id'] ?? '')) ?></td>
+                                <td class="whitespace-nowrap px-6 py-4 text-slate-700"><?= esc((string) ($r['nomor_rm'] ?? '—')) ?></td>
+                                <td class="whitespace-nowrap px-6 py-4 text-slate-700"><?= esc((string) ($r['nik'] ?? '—')) ?></td>
                                 <td class="px-6 py-4 font-medium text-slate-900"><?= esc((string) ($r['nama'] ?? '')) ?></td>
+                                <td class="px-6 py-4 text-slate-700"><?= isset($r['tanggal_lahir']) ? date('d-m-Y', strtotime($r['tanggal_lahir'])) : '—' ?></td>
                                 <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['usia'] ?? '—')) ?> tahun</td>
-                                <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['demam_pagi'] ?? '—')) ?></td>
-                                <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['demam_sore'] ?? '—')) ?></td>
                                 <td class="px-6 py-4">
-                                    <?php
-                                    $brVal = $r['bradikardia_relatif'] ?? null;
-                                    if ($brVal === null || $brVal === '') {
-                                        echo '<span class="text-slate-400">—</span>';
-                                    } else {
-                                        $on = (int) $brVal === 1;
-                                        $cls = $on ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-700';
-                                        $txt = $on ? 'Ya' : 'Tidak';
-                                        echo '<span class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ' . $cls . '">' . $txt . '</span>';
-                                    }
-                                    ?>
-                                </td>
-                                <td class="px-6 py-4 font-semibold">
-                                    <?php
-                                    $diag = $r['diagnosa'] ?? 'Tidak terklasifikasi';
-                                    if ($diag === 'Suspect Typhoid Fever') {
-                                        echo '<span class="inline-flex rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800">Suspect Typhoid Fever</span>';
-                                    } elseif ($diag === 'Non Suspect Typhoid Fever') {
-                                        echo '<span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Non Suspect Typhoid Fever</span>';
-                                    } else {
-                                        echo '<span class="inline-flex rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">Tidak terklasifikasi</span>';
-                                    }
-                                    ?>
+                                    <span class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold <?= ($r['jenis_kelamin'] ?? '') === 'L' ? 'bg-sky-100 text-sky-800' : 'bg-pink-100 text-pink-850' ?>">
+                                        <?= ($r['jenis_kelamin'] ?? '') === 'L' ? 'Laki-laki' : 'Perempuan' ?>
+                                    </span>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-right">
                                     <div class="flex flex-wrap items-center justify-end gap-2">
                                         <a href="<?= esc(site_url('admin/pasien/' . $pid), 'attr') ?>"
                                             class="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Detail</a>
                                         <?php if (in_array(session()->get('admin_role'), ['perawat', 'admin'], true)) : ?>
+                                            <a href="<?= esc(site_url('admin/gejala/create?pasien_id=' . $pid), 'attr') ?>"
+                                               class="rounded-lg border border-emerald-500/40 bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 hover:bg-emerald-100">Tambah Kasus</a>
                                             <a href="<?= esc(site_url('admin/pasien/' . $pid . '/edit'), 'attr') ?>"
                                                class="rounded-lg border border-mint/40 bg-mint/10 px-3 py-1.5 text-xs font-medium text-mint-dark hover:bg-mint/20">Edit</a>
                                             <form action="<?= esc(site_url('admin/pasien/' . $pid . '/delete'), 'attr') ?>" method="post" class="inline"
-                                                   onsubmit="return confirm('Hapus pasien ini?');">
+                                                   onsubmit="return confirm('Hapus pasien ini beserta semua riwayat gejalanya?');">
                                                 <?= csrf_field() ?>
                                                 <button type="submit" class="rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-700 hover:bg-red-100">
                                                     Delete

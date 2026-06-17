@@ -23,25 +23,15 @@ class CreateSidetectTables extends Migration
         $this->forge->addUniqueKey('username');
         $this->forge->createTable('users');
 
-        // 2. Tabel pasien (gabungan skema awal dan field screening terbaru)
+        // 2. Tabel pasien (master data)
         $this->forge->addField([
             'id'                            => ['type' => 'VARCHAR', 'constraint' => 36, 'default' => new \CodeIgniter\Database\RawSql('(UUID())'),],
             'pasien_id'                     => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => true,],
+            'nomor_rm'                      => ['type' => 'INT', 'null' => false,],
             'nama'                          => ['type' => 'VARCHAR', 'constraint' => 191],
-            'usia'                          => ['type' => 'INT', 'constraint' => 3, 'unsigned' => true, 'null' => true],
-            'demam_pagi'                    => ['type' => 'VARCHAR', 'constraint' => 191, 'null' => true],
-            'demam_sore'                    => ['type' => 'VARCHAR', 'constraint' => 191, 'null' => true],
-            'sakit_kepala'                  => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
-            'nyeri_otot'                    => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
-            'mual'                          => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
-            'muntah'                        => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
-            'nyeri_perut'                   => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
-            'diare'                         => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
-            'penurunan_kesadaran'           => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
-            'bradikardia_relatif'           => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
-            'diagnosa'                      => ['type' => 'VARCHAR', 'constraint' => 191, 'null' => true],
-            'lemas'                         => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
             'tanggal_lahir'                 => ['type' => 'DATE', 'null' => true],
+            'nik'                           => ['type' => 'VARCHAR', 'constraint' => 16, 'null' => false],
+            'usia'                          => ['type' => 'INT', 'constraint' => 3, 'unsigned' => true, 'null' => true],
             'jenis_kelamin'                 => ['type' => 'ENUM', 'constraint' => ['L', 'P'], 'null' => true],
             'telepon'                       => ['type' => 'VARCHAR', 'constraint' => 32, 'null' => true],
             'alamat'                        => ['type' => 'TEXT', 'null' => true],
@@ -52,7 +42,30 @@ class CreateSidetectTables extends Migration
         $this->forge->addUniqueKey('pasien_id');
         $this->forge->createTable('pasien');
 
-        // 3. Tabel rule_klasifikasi
+        // 3. Tabel gejala (transaksi data gejala per kasus)
+        $this->forge->addField([
+            'id'                            => ['type' => 'VARCHAR', 'constraint' => 36, 'default' => new \CodeIgniter\Database\RawSql('(UUID())'),],
+            'pasien_id'                     => ['type' => 'VARCHAR', 'constraint' => 36],
+            'demam_pagi'                    => ['type' => 'VARCHAR', 'constraint' => 191, 'null' => true],
+            'demam_sore'                    => ['type' => 'VARCHAR', 'constraint' => 191, 'null' => true],
+            'sakit_kepala'                  => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
+            'nyeri_otot'                    => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
+            'mual'                          => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
+            'muntah'                        => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
+            'nyeri_perut'                   => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
+            'diare'                         => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
+            'penurunan_kesadaran'           => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
+            'bradikardia_relatif'           => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
+            'lemas'                         => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
+            'diagnosa'                      => ['type' => 'VARCHAR', 'constraint' => 191, 'null' => true],
+            'created_at'                    => ['type' => 'DATETIME', 'null' => true],
+            'updated_at'                    => ['type' => 'DATETIME', 'null' => true],
+        ]);
+        $this->forge->addKey('id', true);
+        $this->forge->addForeignKey('pasien_id', 'pasien', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('gejala');
+
+        // 4. Tabel rule_klasifikasi
         $this->forge->addField([
             'id'                  => [
                 'type'       => 'VARCHAR',
@@ -131,7 +144,7 @@ class CreateSidetectTables extends Migration
         $this->forge->addKey('id', true);
         $this->forge->createTable('rule_klasifikasi');
 
-        // 4. Tabel laporan
+        // 5. Tabel laporan
         $this->forge->addField([
             'id'         => [
                 'type'       => 'VARCHAR',
@@ -139,6 +152,11 @@ class CreateSidetectTables extends Migration
                 'default'    => new \CodeIgniter\Database\RawSql('(UUID())'),
             ],
             'pasien_id'  => [
+                'type'       => 'VARCHAR',
+                'constraint' => 36,
+                'null'       => true,
+            ],
+            'gejala_id'  => [
                 'type'       => 'VARCHAR',
                 'constraint' => 36,
                 'null'       => true,
@@ -158,6 +176,7 @@ class CreateSidetectTables extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('pasien_id', 'pasien', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('gejala_id', 'gejala', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('created_by', 'users', 'id', 'SET NULL', 'CASCADE');
         $this->forge->createTable('laporan');
     }
@@ -166,6 +185,7 @@ class CreateSidetectTables extends Migration
     {
         $this->forge->dropTable('laporan', true);
         $this->forge->dropTable('rule_klasifikasi', true);
+        $this->forge->dropTable('gejala', true);
         $this->forge->dropTable('pasien', true);
         $this->forge->dropTable('users', true);
     }

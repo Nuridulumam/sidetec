@@ -12,6 +12,8 @@ class PasienSeeder extends Seeder
 
         $data = [
             [
+                'nomor_rm'                      => 100001,
+                'nik'                           => '1234567890123456',
                 'nama'                          => 'Budi Santoso',
                 'usia'                          => 25,
                 'demam_pagi'                    => 'Demam Ringan',
@@ -29,10 +31,10 @@ class PasienSeeder extends Seeder
                 'jenis_kelamin'                 => 'L',
                 'telepon'                       => '081234567890',
                 'alamat'                        => 'Jl. Merdeka No. 10, Jakarta',
-                'created_at'                    => $now,
-                'updated_at'                    => $now,
             ],
             [
+                'nomor_rm'                      => 100002,
+                'nik'                           => '2345678901234567',
                 'nama'                          => 'Siti Aminah',
                 'usia'                          => 12,
                 'demam_pagi'                    => 'Demam Ringan',
@@ -50,10 +52,10 @@ class PasienSeeder extends Seeder
                 'jenis_kelamin'                 => 'P',
                 'telepon'                       => '082345678901',
                 'alamat'                        => 'Jl. Mawar No. 4, Surabaya',
-                'created_at'                    => $now,
-                'updated_at'                    => $now,
             ],
             [
+                'nomor_rm'                      => 100003,
+                'nik'                           => '3456789012345678',
                 'nama'                          => 'Andi Wijaya',
                 'usia'                          => 34,
                 'demam_pagi'                    => 'Tidak Demam',
@@ -71,10 +73,10 @@ class PasienSeeder extends Seeder
                 'jenis_kelamin'                 => 'L',
                 'telepon'                       => '083456789012',
                 'alamat'                        => 'Jl. Melati No. 15, Bandung',
-                'created_at'                    => $now,
-                'updated_at'                    => $now,
             ],
             [
+                'nomor_rm'                      => 100004,
+                'nik'                           => '4567890123456789',
                 'nama'                          => 'Dewi Lestari',
                 'usia'                          => 18,
                 'demam_pagi'                    => 'Demam Sedang',
@@ -92,10 +94,10 @@ class PasienSeeder extends Seeder
                 'jenis_kelamin'                 => 'P',
                 'telepon'                       => '084567890123',
                 'alamat'                        => 'Jl. Kenanga No. 8, Yogyakarta',
-                'created_at'                    => $now,
-                'updated_at'                    => $now,
             ],
             [
+                'nomor_rm'                      => 100005,
+                'nik'                           => '5678901234567890',
                 'nama'                          => 'Eko Prasetyo',
                 'usia'                          => 45,
                 'demam_pagi'                    => 'Demam Ringan',
@@ -113,10 +115,10 @@ class PasienSeeder extends Seeder
                 'jenis_kelamin'                 => 'L',
                 'telepon'                       => '085678901234',
                 'alamat'                        => 'Jl. Dahlia No. 22, Semarang',
-                'created_at'                    => $now,
-                'updated_at'                    => $now,
             ],
             [
+                'nomor_rm'                      => 100006,
+                'nik'                           => '6789012345678901',
                 'nama'                          => 'Farida Utami',
                 'usia'                          => 9,
                 'demam_pagi'                    => 'Demam Sedang',
@@ -134,10 +136,10 @@ class PasienSeeder extends Seeder
                 'jenis_kelamin'                 => 'P',
                 'telepon'                       => '086789012345',
                 'alamat'                        => 'Jl. Kamboja No. 3, Malang',
-                'created_at'                    => $now,
-                'updated_at'                    => $now,
             ],
             [
+                'nomor_rm'                      => 100007,
+                'nik'                           => '7890123456789012',
                 'nama'                          => 'Guntur Wibowo',
                 'usia'                          => 50,
                 'demam_pagi'                    => 'Tidak Demam',
@@ -155,10 +157,10 @@ class PasienSeeder extends Seeder
                 'jenis_kelamin'                 => 'L',
                 'telepon'                       => '087890123456',
                 'alamat'                        => 'Jl. Anggrek No. 12, Solo',
-                'created_at'                    => $now,
-                'updated_at'                    => $now,
             ],
             [
+                'nomor_rm'                      => 100008,
+                'nik'                           => '8901234567890123',
                 'nama'                          => 'Hani Handayani',
                 'usia'                          => 28,
                 'demam_pagi'                    => 'Demam Sedang',
@@ -176,10 +178,10 @@ class PasienSeeder extends Seeder
                 'jenis_kelamin'                 => 'P',
                 'telepon'                       => '088901234567',
                 'alamat'                        => 'Jl. Flamboyan No. 7, Denpasar',
-                'created_at'                    => $now,
-                'updated_at'                    => $now,
             ],
             [
+                'nomor_rm'                      => 100009,
+                'nik'                           => '9012345678901234',
                 'nama'                          => 'Irfan Hakim',
                 'usia'                          => 16,
                 'demam_pagi'                    => 'Demam Tinggi',
@@ -197,10 +199,10 @@ class PasienSeeder extends Seeder
                 'jenis_kelamin'                 => 'L',
                 'telepon'                       => '089012345678',
                 'alamat'                        => 'Jl. Sakura No. 19, Medan',
-                'created_at'                    => $now,
-                'updated_at'                    => $now,
             ],
             [
+                'nomor_rm'                      => 100010,
+                'nik'                           => '0123456789012345',
                 'nama'                          => 'Julia Perez',
                 'usia'                          => 22,
                 'demam_pagi'                    => 'Demam Ringan',
@@ -218,10 +220,10 @@ class PasienSeeder extends Seeder
                 'jenis_kelamin'                 => 'P',
                 'telepon'                       => '090123456789',
                 'alamat'                        => 'Jl. Tulip No. 11, Palembang',
-                'created_at'                    => $now,
-                'updated_at'                    => $now,
             ],
             [
+                'nomor_rm'                      => 100011,
+                'nik'                           => '0987654321098765',
                 'nama'                          => 'Kurniawan Dwi',
                 'usia'                          => 60,
                 'demam_pagi'                    => 'Demam Sedang',
@@ -239,14 +241,52 @@ class PasienSeeder extends Seeder
                 'jenis_kelamin'                 => 'L',
                 'telepon'                       => '091234567890',
                 'alamat'                        => 'Jl. Teratai No. 14, Makassar',
-                'created_at'                    => $now,
-                'updated_at'                    => $now,
             ],
         ];
 
-        $model = new \App\Models\PasienModel();
+        $pasienModel = new \App\Models\PasienModel();
+        $gejalaModel = new \App\Models\GejalaModel();
+
         foreach ($data as $row) {
-            $model->insert($row);
+            // 1. Insert patient master data
+            $pasienData = [
+                'nomor_rm'      => $row['nomor_rm'],
+                'nik'           => $row['nik'],
+                'nama'          => $row['nama'],
+                'usia'          => $row['usia'],
+                'tanggal_lahir' => $row['tanggal_lahir'],
+                'jenis_kelamin' => $row['jenis_kelamin'],
+                'telepon'       => $row['telepon'],
+                'alamat'        => $row['alamat'],
+                'created_at'    => $now,
+                'updated_at'    => $now,
+            ];
+            
+            // This generates id and pasien_id through beforeInsert hooks
+            $pasienId = $pasienModel->insert($pasienData);
+            
+            if ($pasienId) {
+                // 2. Insert symptoms data linked to patient
+                $gejalaData = [
+                    'pasien_id'           => $pasienId,
+                    'demam_pagi'          => $row['demam_pagi'],
+                    'demam_sore'          => $row['demam_sore'],
+                    'sakit_kepala'        => $row['sakit_kepala'],
+                    'nyeri_otot'          => $row['nyeri_otot'],
+                    'mual'                => $row['mual'],
+                    'muntah'              => $row['muntah'],
+                    'nyeri_perut'         => $row['nyeri_perut'],
+                    'diare'               => $row['diare'],
+                    'penurunan_kesadaran' => $row['penurunan_kesadaran'],
+                    'bradikardia_relatif' => $row['bradikardia_relatif'],
+                    'lemas'               => $row['lemas'],
+                    'created_at'          => $now,
+                    'updated_at'          => $now,
+                ];
+                
+                // This triggers calculation and report sync automatically
+                $gejalaModel->insert($gejalaData);
+            }
         }
     }
 }

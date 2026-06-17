@@ -20,8 +20,9 @@ class LaporanController extends BaseController
     public function laporan()
     {
         $model = model(LaporanModel::class);
-        $model->select('laporan.id, pasien.pasien_id, pasien.nama, pasien.usia, pasien.bradikardia_relatif, laporan.diagnosa, laporan.created_at')
-              ->join('pasien', 'laporan.pasien_id = pasien.id');
+        $model->select('laporan.id, pasien.pasien_id, pasien.nama, pasien.usia, gejala.bradikardia_relatif, laporan.diagnosa, laporan.created_at')
+              ->join('pasien', 'laporan.pasien_id = pasien.id')
+              ->join('gejala', 'laporan.gejala_id = gejala.id', 'left');
 
         $nama = $this->request->getGet('nama');
         if ($nama !== null && trim((string)$nama) !== '') {
@@ -30,7 +31,7 @@ class LaporanController extends BaseController
 
         $bradikardia = $this->request->getGet('bradikardia_relatif');
         if ($bradikardia !== null && trim((string)$bradikardia) !== '') {
-            $model->where('pasien.bradikardia_relatif', (int)$bradikardia);
+            $model->where('gejala.bradikardia_relatif', (int)$bradikardia);
         }
 
         $diagnosa = $this->request->getGet('diagnosa');
@@ -59,8 +60,9 @@ class LaporanController extends BaseController
     public function laporanExport()
     {
         $model = model(LaporanModel::class);
-        $model->select('laporan.created_at, laporan.diagnosa, pasien.nama, pasien.usia, pasien.demam_pagi, pasien.demam_sore, pasien.sakit_kepala, pasien.nyeri_otot, pasien.mual, pasien.muntah, pasien.nyeri_perut, pasien.diare, pasien.penurunan_kesadaran, pasien.bradikardia_relatif, pasien.lemas, pasien.tanggal_lahir, pasien.jenis_kelamin, pasien.telepon, pasien.alamat')
-              ->join('pasien', 'laporan.pasien_id = pasien.id');
+        $model->select('laporan.created_at, laporan.diagnosa, pasien.nama, pasien.usia, gejala.demam_pagi, gejala.demam_sore, gejala.sakit_kepala, gejala.nyeri_otot, gejala.mual, gejala.muntah, gejala.nyeri_perut, gejala.diare, gejala.penurunan_kesadaran, gejala.bradikardia_relatif, gejala.lemas, pasien.tanggal_lahir, pasien.jenis_kelamin, pasien.telepon, pasien.alamat')
+              ->join('pasien', 'laporan.pasien_id = pasien.id')
+              ->join('gejala', 'laporan.gejala_id = gejala.id', 'left');
 
         $nama = $this->request->getGet('nama');
         if ($nama !== null && trim((string)$nama) !== '') {
@@ -69,7 +71,7 @@ class LaporanController extends BaseController
 
         $bradikardia = $this->request->getGet('bradikardia_relatif');
         if ($bradikardia !== null && trim((string)$bradikardia) !== '') {
-            $model->where('pasien.bradikardia_relatif', (int)$bradikardia);
+            $model->where('gejala.bradikardia_relatif', (int)$bradikardia);
         }
 
         $diagnosa = $this->request->getGet('diagnosa');

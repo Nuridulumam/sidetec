@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\PasienModel;
+use App\Models\GejalaModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -27,32 +28,17 @@ class PasienController extends BaseController
             $model->like('nama', trim((string)$nama));
         }
 
-        $diagnosa = $this->request->getGet('diagnosa');
-        if ($diagnosa !== null && trim((string)$diagnosa) !== '') {
-            $model->where('diagnosa', trim((string)$diagnosa));
+        $nik = $this->request->getGet('nik');
+        if ($nik !== null && trim((string)$nik) !== '') {
+            $model->where('nik', trim((string)$nik));
         }
 
-        $demamPagi = $this->request->getGet('demam_pagi');
-        if ($demamPagi !== null && trim((string)$demamPagi) !== '') {
-            $model->where('demam_pagi', trim((string)$demamPagi));
+        $nomorRm = $this->request->getGet('nomor_rm');
+        if ($nomorRm !== null && trim((string)$nomorRm) !== '') {
+            $model->where('nomor_rm', (int)$nomorRm);
         }
 
-        $demamSore = $this->request->getGet('demam_sore');
-        if ($demamSore !== null && trim((string)$demamSore) !== '') {
-            $model->where('demam_sore', trim((string)$demamSore));
-        }
-
-        $bradikardia = $this->request->getGet('bradikardia_relatif');
-        if ($bradikardia !== null && trim((string)$bradikardia) !== '') {
-            $model->where('bradikardia_relatif', (int)$bradikardia);
-        }
-
-        $pasienId = $this->request->getGet('pasien_id');
-        if ($pasienId !== null && trim((string)$pasienId) !== '') {
-            $model->where('pasien_id', trim((string)$pasienId));
-        }
-
-        $rows = $model->select('pasien_id, nama, usia, demam_pagi, demam_sore, bradikardia_relatif, diagnosa, created_at')
+        $rows = $model->select('id, pasien_id, nomor_rm, nama, tanggal_lahir, nik, usia, jenis_kelamin, created_at')
             ->orderBy('created_at', 'DESC')
             ->paginate(10, 'default');
 
@@ -63,12 +49,9 @@ class PasienController extends BaseController
                 'rows'  => $rows,
                 'pager' => $model->pager,
                 'filters' => [
-                    'pasien_id' => $pasienId,
-                    'nama' => $nama,
-                    'diagnosa' => $diagnosa,
-                    'demam_pagi' => $demamPagi,
-                    'demam_sore' => $demamSore,
-                    'bradikardia_relatif' => $bradikardia,
+                    'nama'     => $nama,
+                    'nik'      => $nik,
+                    'nomor_rm' => $nomorRm,
                 ]
             ]),
         ]);
@@ -87,14 +70,20 @@ class PasienController extends BaseController
     {
         $rules = $this->pasienRules();
 
-        if (! $this->validate($rules)) {
+        if (! $this->validate($rules, [
+            'nik' => [
+                'exact_length' => 'NIK harus 16 digit.',
+                'numeric' => 'NIK hanya boleh berupa angka.',
+                'required' => 'NIK wajib diisi.'
+            ]
+        ])) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $data = $this->pasienPayloadFromRequest();
         model(PasienModel::class)->insert($data);
 
-        return redirect()->to(site_url('admin/pasien'))->with('message', 'Pasien berhasil ditambahkan.');
+        return redirect()->to(site_url('admin/pasien'))->with('message', 'Pasien master berhasil ditambahkan.');
     }
 
     public function pasienShow(string $id)
@@ -104,10 +93,19 @@ class PasienController extends BaseController
             throw PageNotFoundException::forPageNotFound();
         }
 
+        // Fetch symptom history
+        $history = model(GejalaModel::class)
+            ->where('pasien_id', $id)
+            ->orderBy('created_at', 'DESC')
+            ->findAll();
+
         return view('admin/layout', [
             'title'    => 'Detail Pasien',
             'active'   => 'pasien',
-            'mainView' => view('admin/pages/pasien_detail', ['row' => $row]),
+            'mainView' => view('admin/pages/pasien_detail', [
+                'row'     => $row,
+                'history' => $history,
+            ]),
         ]);
     }
 
@@ -133,14 +131,20 @@ class PasienController extends BaseController
         }
 
         $rules = $this->pasienRules();
-        if (! $this->validate($rules)) {
+        if (! $this->validate($rules, [
+            'nik' => [
+                'exact_length' => 'NIK harus 16 digit.',
+                'numeric' => 'NIK hanya boleh berupa angka.',
+                'required' => 'NIK wajib diisi.'
+            ]
+        ])) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $data = $this->pasienPayloadFromRequest();
         model(PasienModel::class)->update($id, $data);
 
-        return redirect()->to(site_url('admin/pasien'))->with('message', 'Pasien berhasil diperbarui.');
+        return redirect()->to(site_url('admin/pasien'))->with('message', 'Pasien master berhasil diperbarui.');
     }
 
     public function pasienDelete(string $id)
@@ -155,37 +159,49 @@ class PasienController extends BaseController
         return redirect()->to(site_url('admin/pasien'))->with('message', 'Pasien berhasil dihapus.');
     }
 
-    private function pasienRules(): array
+    // --- Kasus / Gejala Management ---
+
+    public function gejalaCreate()
     {
-        $yesNoRule = 'required|in_list[0,1]';
-        $demamRule = config('DemamKlasifikasi')->validationRule();
+        $pasienId = $this->request->getGet('pasien_id');
+        $patients = model(PasienModel::class)->orderBy('nama', 'ASC')->findAll();
 
-        return [
-            'nama'       => 'required|min_length[3]|max_length[191]',
-            'usia'       => 'required|is_natural_no_zero|less_than_equal_to[150]',
-            'demam_pagi' => $demamRule,
-            'demam_sore' => $demamRule,
-
-            'sakit_kepala'        => $yesNoRule,
-            'nyeri_otot'          => $yesNoRule,
-            'mual'                => $yesNoRule,
-            'muntah'              => $yesNoRule,
-            'nyeri_perut'         => $yesNoRule,
-            'diare'               => $yesNoRule,
-            'penurunan_kesadaran' => $yesNoRule,
-            'bradikardia_relatif' => $yesNoRule,
-            'lemas'               => $yesNoRule,
-        ];
+        return view('admin/layout', [
+            'title'    => 'Tambah Kasus / Gejala',
+            'active'   => 'pasien',
+            'mainView' => view('admin/pages/gejala_form', [
+                'patients'       => $patients,
+                'selectedPasien' => $pasienId,
+                'record'         => null
+            ]),
+        ]);
     }
 
-    private function pasienPayloadFromRequest(): array
+    public function gejalaStore()
     {
-        return [
-            'nama'    => (string) $this->request->getPost('nama'),
-            'usia'    => (int) $this->request->getPost('usia'),
-            'demam_pagi' => (string) $this->request->getPost('demam_pagi'),
-            'demam_sore' => (string) $this->request->getPost('demam_sore'),
+        $rules = [
+            'pasien_id'           => 'required',
+            'demam_pagi'          => config('DemamKlasifikasi')->validationRule(),
+            'demam_sore'          => config('DemamKlasifikasi')->validationRule(),
+            'sakit_kepala'        => 'required|in_list[0,1]',
+            'nyeri_otot'          => 'required|in_list[0,1]',
+            'mual'                => 'required|in_list[0,1]',
+            'muntah'              => 'required|in_list[0,1]',
+            'nyeri_perut'         => 'required|in_list[0,1]',
+            'diare'               => 'required|in_list[0,1]',
+            'penurunan_kesadaran' => 'required|in_list[0,1]',
+            'bradikardia_relatif' => 'required|in_list[0,1]',
+            'lemas'               => 'required|in_list[0,1]',
+        ];
 
+        if (! $this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $data = [
+            'pasien_id'           => (string) $this->request->getPost('pasien_id'),
+            'demam_pagi'          => (string) $this->request->getPost('demam_pagi'),
+            'demam_sore'          => (string) $this->request->getPost('demam_sore'),
             'sakit_kepala'        => $this->request->getPost('sakit_kepala') === '1' ? 1 : 0,
             'nyeri_otot'          => $this->request->getPost('nyeri_otot') === '1' ? 1 : 0,
             'mual'                => $this->request->getPost('mual') === '1' ? 1 : 0,
@@ -195,6 +211,53 @@ class PasienController extends BaseController
             'penurunan_kesadaran' => $this->request->getPost('penurunan_kesadaran') === '1' ? 1 : 0,
             'bradikardia_relatif' => $this->request->getPost('bradikardia_relatif') === '1' ? 1 : 0,
             'lemas'               => $this->request->getPost('lemas') === '1' ? 1 : 0,
+        ];
+
+        model(GejalaModel::class)->insert($data);
+
+        return redirect()->to(site_url('admin/pasien/' . $data['pasien_id']))->with('message', 'Gejala/Kasus berhasil ditambahkan.');
+    }
+
+    public function gejalaDelete(string $id)
+    {
+        $gejalaModel = model(GejalaModel::class);
+        $existing = $gejalaModel->find($id);
+        if ($existing === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        $gejalaModel->delete($id);
+
+        return redirect()->back()->with('message', 'Data kasus/gejala berhasil dihapus.');
+    }
+
+    // --- Private Helper Methods ---
+
+    private function pasienRules(): array
+    {
+        return [
+            'nomor_rm'      => 'required|is_natural_no_zero',
+            'nama'          => 'required|min_length[3]|max_length[191]',
+            'tanggal_lahir' => 'required|valid_date[Y-m-d]',
+            'nik'           => 'required|numeric|exact_length[16]',
+            'usia'          => 'required|is_natural_no_zero|less_than_equal_to[150]',
+            'jenis_kelamin' => 'required|in_list[L,P]',
+            'telepon'       => 'permit_empty|max_length[32]',
+            'alamat'        => 'permit_empty',
+        ];
+    }
+
+    private function pasienPayloadFromRequest(): array
+    {
+        return [
+            'nomor_rm'      => (int) $this->request->getPost('nomor_rm'),
+            'nama'          => (string) $this->request->getPost('nama'),
+            'tanggal_lahir' => (string) $this->request->getPost('tanggal_lahir'),
+            'nik'           => (string) $this->request->getPost('nik'),
+            'usia'          => (int) $this->request->getPost('usia'),
+            'jenis_kelamin' => (string) $this->request->getPost('jenis_kelamin'),
+            'telepon'       => (string) $this->request->getPost('telepon'),
+            'alamat'        => (string) $this->request->getPost('alamat'),
         ];
     }
 }

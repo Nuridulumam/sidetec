@@ -18,6 +18,7 @@ class LaporanModel extends Model
     protected $allowedFields = [
         'id',
         'pasien_id',
+        'gejala_id',
         'diagnosa',
         'created_by',
     ];
