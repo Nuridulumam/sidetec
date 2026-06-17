@@ -87,7 +87,7 @@ $inputClass = 'mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 '
 
             <div>
                 <h3 class="text-sm font-semibold text-slate-900">Gejala & tanda</h3>
-                <p class="mt-1 text-sm text-slate-500">Pilih kondisi gejala yang harus dipenuhi (Ya / Tidak / Tidak diatur).</p>
+                <p class="mt-1 text-sm text-slate-500">Pilih kondisi gejala yang harus dipenuhi (Ya / Tidak).</p>
 
                 <?php
                 $symptoms = [
@@ -110,12 +110,6 @@ $inputClass = 'mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 '
                         <fieldset class="rounded-2xl border border-slate-200 p-4">
                             <legend class="px-1 text-sm font-medium text-slate-800"><?= esc($label) ?></legend>
                             <div class="mt-2 flex flex-wrap items-center gap-4">
-                                <label class="inline-flex items-center gap-2 text-sm text-slate-700">
-                                    <input type="radio" name="<?= esc($key, 'attr') ?>" value=""
-                                           class="<?= esc($radioClass, 'attr') ?>"
-                                           <?= $val === '' ? 'checked' : '' ?> required>
-                                    Tidak diatur
-                                </label>
                                 <label class="inline-flex items-center gap-2 text-sm text-slate-700">
                                     <input type="radio" name="<?= esc($key, 'attr') ?>" value="1"
                                            class="<?= esc($radioClass, 'attr') ?>"

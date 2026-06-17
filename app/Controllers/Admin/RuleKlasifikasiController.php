@@ -117,15 +117,15 @@ class RuleKlasifikasiController extends BaseController
             'usia'                => 'permit_empty|is_natural_no_zero|less_than_equal_to[150]',
             'demam_pagi'          => 'permit_empty|max_length[191]',
             'demam_sore'          => 'permit_empty|max_length[191]',
-            'sakit_kepala'        => 'permit_empty|in_list[0,1]',
-            'nyeri_otot'          => 'permit_empty|in_list[0,1]',
-            'mual'                => 'permit_empty|in_list[0,1]',
-            'muntah'              => 'permit_empty|in_list[0,1]',
-            'nyeri_perut'         => 'permit_empty|in_list[0,1]',
-            'diare'               => 'permit_empty|in_list[0,1]',
-            'penurunan_kesadaran' => 'permit_empty|in_list[0,1]',
-            'bradikardia_relatif' => 'permit_empty|in_list[0,1]',
-            'lemas'               => 'permit_empty|in_list[0,1]',
+            'sakit_kepala'        => 'required|in_list[0,1]',
+            'nyeri_otot'          => 'required|in_list[0,1]',
+            'mual'                => 'required|in_list[0,1]',
+            'muntah'              => 'required|in_list[0,1]',
+            'nyeri_perut'         => 'required|in_list[0,1]',
+            'diare'               => 'required|in_list[0,1]',
+            'penurunan_kesadaran' => 'required|in_list[0,1]',
+            'bradikardia_relatif' => 'required|in_list[0,1]',
+            'lemas'               => 'required|in_list[0,1]',
             'hasil'               => 'required|in_list[Suspect Typhoid Fever,Non Suspect Typhoid Fever]',
         ];
     }
@@ -141,26 +141,21 @@ class RuleKlasifikasiController extends BaseController
             'usia'                => ($usia === null || $usia === '') ? null : (int) $usia,
             'demam_pagi'          => $demamPagi === '' ? null : $demamPagi,
             'demam_sore'          => $demamSore === '' ? null : $demamSore,
-            'sakit_kepala'        => $this->ruleOptionalEnum('sakit_kepala'),
-            'nyeri_otot'          => $this->ruleOptionalEnum('nyeri_otot'),
-            'mual'                => $this->ruleOptionalEnum('mual'),
-            'muntah'              => $this->ruleOptionalEnum('muntah'),
-            'nyeri_perut'         => $this->ruleOptionalEnum('nyeri_perut'),
-            'diare'               => $this->ruleOptionalEnum('diare'),
-            'penurunan_kesadaran' => $this->ruleOptionalEnum('penurunan_kesadaran'),
-            'bradikardia_relatif' => $this->ruleOptionalEnum('bradikardia_relatif'),
-            'lemas'               => $this->ruleOptionalEnum('lemas'),
+            'sakit_kepala'        => $this->ruleRequiredEnum('sakit_kepala'),
+            'nyeri_otot'          => $this->ruleRequiredEnum('nyeri_otot'),
+            'mual'                => $this->ruleRequiredEnum('mual'),
+            'muntah'              => $this->ruleRequiredEnum('muntah'),
+            'nyeri_perut'         => $this->ruleRequiredEnum('nyeri_perut'),
+            'diare'               => $this->ruleRequiredEnum('diare'),
+            'penurunan_kesadaran' => $this->ruleRequiredEnum('penurunan_kesadaran'),
+            'bradikardia_relatif' => $this->ruleRequiredEnum('bradikardia_relatif'),
+            'lemas'               => $this->ruleRequiredEnum('lemas'),
             'hasil'               => $hasil,
         ];
     }
 
-    private function ruleOptionalEnum(string $field): ?int
+    private function ruleRequiredEnum(string $field): int
     {
-        $raw = $this->request->getPost($field);
-        if ($raw === null || $raw === '') {
-            return null;
-        }
-
-        return $raw === '1' ? 1 : 0;
+        return $this->request->getPost($field) === '1' ? 1 : 0;
     }
 }

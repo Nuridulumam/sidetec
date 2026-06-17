@@ -9,9 +9,13 @@ function yn_old(string $key, ?array $record): string
 {
     $val = old($key);
     if ($val === null) {
-        $val = $record !== null ? (string) ($record[$key] ?? '0') : '0';
+        if ($record === null || ! array_key_exists($key, $record)) {
+            return '';
+        }
+        $raw = $record[$key];
+        return $raw === null ? '' : (string) $raw;
     }
-    return ((string) $val === '1') ? '1' : '0';
+    return (string) $val;
 }
 ?>
 <div class="mx-auto max-w-[96rem] px-4 sm:px-6 lg:px-8">
