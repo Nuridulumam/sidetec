@@ -138,7 +138,7 @@ if (!empty($exportUrlParams)) {
                         ?>
                             <tr class="hover:bg-slate-50/80">
                                 <td class="whitespace-nowrap px-6 py-4 font-medium"><?= esc((string) $no++) ?></td>
-                                <td class="px-6 py-4 font-medium text-slate-900"><?= esc((string) ($r['nama'] ?? '')) ?></td>
+                                <td class="px-6 py-4 font-medium text-slate-900"><?= esc((string) ($r['nama'] ?? '')) ?> <span class="text-xs text-slate-500 font-normal">(<?= esc((string) ($r['pasien_id'] ?? '')) ?>)</span></td>
                                 <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['usia'] ?? '—')) ?> tahun</td>
                                 <td class="px-6 py-4">
                                     <?php

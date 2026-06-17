@@ -93,8 +93,7 @@ class PasienController extends BaseController
 
     public function pasienShow(string $id)
     {
-        $pid = (int) $id;
-        $row = model(PasienModel::class)->find($pid);
+        $row = model(PasienModel::class)->find($id);
         if ($row === null) {
             throw PageNotFoundException::forPageNotFound();
         }
@@ -108,8 +107,7 @@ class PasienController extends BaseController
 
     public function pasienEdit(string $id)
     {
-        $pid  = (int) $id;
-        $row = model(PasienModel::class)->find($pid);
+        $row = model(PasienModel::class)->find($id);
         if ($row === null) {
             throw PageNotFoundException::forPageNotFound();
         }
@@ -123,9 +121,7 @@ class PasienController extends BaseController
 
     public function pasienUpdate(string $id)
     {
-        $pid = (int) $id;
-
-        $existing = model(PasienModel::class)->find($pid);
+        $existing = model(PasienModel::class)->find($id);
         if ($existing === null) {
             throw PageNotFoundException::forPageNotFound();
         }
@@ -136,21 +132,19 @@ class PasienController extends BaseController
         }
 
         $data = $this->pasienPayloadFromRequest();
-        model(PasienModel::class)->update($pid, $data);
+        model(PasienModel::class)->update($id, $data);
 
         return redirect()->to(site_url('admin/pasien'))->with('message', 'Pasien berhasil diperbarui.');
     }
 
     public function pasienDelete(string $id)
     {
-        $pid = (int) $id;
-
-        $existing = model(PasienModel::class)->find($pid);
+        $existing = model(PasienModel::class)->find($id);
         if ($existing === null) {
             throw PageNotFoundException::forPageNotFound();
         }
 
-        model(PasienModel::class)->delete($pid);
+        model(PasienModel::class)->delete($id);
 
         return redirect()->to(site_url('admin/pasien'))->with('message', 'Pasien berhasil dihapus.');
     }

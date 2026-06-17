@@ -13,7 +13,7 @@ function rule_yn_badge($val): string
         . $cls . '">' . esc($txt) . '</span>';
 }
 
-$rid = (int) ($row['id'] ?? 0);
+$rid = $row['id'] ?? '';
 ?>
 <div class="space-y-6">
     <div class="mx-auto max-w-3xl space-y-6">

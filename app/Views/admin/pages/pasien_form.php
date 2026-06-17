@@ -2,7 +2,7 @@
 /** @var array<string, mixed>|null $record */
 $isEdit     = $record !== null;
 $formAction = $isEdit
-    ? site_url('admin/pasien/' . (int) $record['id'] . '/update')
+    ? site_url('admin/pasien/' . esc($record['id'] ?? '') . '/update')
     : site_url('admin/pasien/store');
 
 function yn_old(string $key, ?array $record): string

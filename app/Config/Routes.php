@@ -18,17 +18,17 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'ad
     $routes->get('pasien', 'PasienController::pasien');
     $routes->get('pasien/create', 'PasienController::pasienCreate');
     $routes->post('pasien/store', 'PasienController::pasienStore', ['filter' => 'csrf']);
-    $routes->get('pasien/(:num)/edit', 'PasienController::pasienEdit/$1');
-    $routes->post('pasien/(:num)/update', 'PasienController::pasienUpdate/$1', ['filter' => 'csrf']);
-    $routes->post('pasien/(:num)/delete', 'PasienController::pasienDelete/$1', ['filter' => 'csrf']);
-    $routes->get('pasien/(:num)', 'PasienController::pasienShow/$1');
+    $routes->get('pasien/(:any)/edit', 'PasienController::pasienEdit/$1');
+    $routes->post('pasien/(:any)/update', 'PasienController::pasienUpdate/$1', ['filter' => 'csrf']);
+    $routes->post('pasien/(:any)/delete', 'PasienController::pasienDelete/$1', ['filter' => 'csrf']);
+    $routes->get('pasien/(:any)', 'PasienController::pasienShow/$1');
     $routes->get('rule-klasifikasi', 'RuleKlasifikasiController::ruleKlasifikasi');
     $routes->get('rule-klasifikasi/create', 'RuleKlasifikasiController::ruleKlasifikasiCreate');
     $routes->post('rule-klasifikasi/store', 'RuleKlasifikasiController::ruleKlasifikasiStore', ['filter' => 'csrf']);
-    $routes->get('rule-klasifikasi/(:num)/edit', 'RuleKlasifikasiController::ruleKlasifikasiEdit/$1');
-    $routes->post('rule-klasifikasi/(:num)/update', 'RuleKlasifikasiController::ruleKlasifikasiUpdate/$1', ['filter' => 'csrf']);
-    $routes->post('rule-klasifikasi/(:num)/delete', 'RuleKlasifikasiController::ruleKlasifikasiDelete/$1', ['filter' => 'csrf']);
-    $routes->get('rule-klasifikasi/(:num)', 'RuleKlasifikasiController::ruleKlasifikasiShow/$1');
+    $routes->get('rule-klasifikasi/(:any)/edit', 'RuleKlasifikasiController::ruleKlasifikasiEdit/$1');
+    $routes->post('rule-klasifikasi/(:any)/update', 'RuleKlasifikasiController::ruleKlasifikasiUpdate/$1', ['filter' => 'csrf']);
+    $routes->post('rule-klasifikasi/(:any)/delete', 'RuleKlasifikasiController::ruleKlasifikasiDelete/$1', ['filter' => 'csrf']);
+    $routes->get('rule-klasifikasi/(:any)', 'RuleKlasifikasiController::ruleKlasifikasiShow/$1');
     $routes->get('laporan', 'LaporanController::laporan');
     $routes->get('laporan/export', 'LaporanController::laporanExport');
 

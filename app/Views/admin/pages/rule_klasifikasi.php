@@ -37,10 +37,15 @@
                             </td>
                         </tr>
                     <?php else : ?>
-                        <?php foreach ($rows as $r) : ?>
-                            <?php $rid = (int) ($r['id'] ?? 0); ?>
+                        <?php
+                        $currentPage = isset($pager) ? $pager->getCurrentPage('default') : 1;
+                        $perPage = 10;
+                        $no = ($currentPage - 1) * $perPage + 1;
+                        foreach ($rows as $r) :
+                        ?>
+                            <?php $rid = $r['id'] ?? ''; ?>
                             <tr class="hover:bg-slate-50/80">
-                                <td class="whitespace-nowrap px-6 py-4 font-medium"><?= esc((string) $rid) ?></td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium"><?= esc((string) $no++) ?></td>
                                 <td class="px-6 py-4 text-slate-700">
                                     <?= esc((string) ($r['usia'] ?? '—')) ?> tahun
                                 </td>

@@ -57,7 +57,7 @@ class RuleKlasifikasiController extends BaseController
 
     public function ruleKlasifikasiShow(string $id)
     {
-        $row = model(RuleKlasifikasiModel::class)->find((int) $id);
+        $row = model(RuleKlasifikasiModel::class)->find($id);
         if ($row === null) {
             throw PageNotFoundException::forPageNotFound();
         }
@@ -71,7 +71,7 @@ class RuleKlasifikasiController extends BaseController
 
     public function ruleKlasifikasiEdit(string $id)
     {
-        $row = model(RuleKlasifikasiModel::class)->find((int) $id);
+        $row = model(RuleKlasifikasiModel::class)->find($id);
         if ($row === null) {
             throw PageNotFoundException::forPageNotFound();
         }
@@ -85,9 +85,7 @@ class RuleKlasifikasiController extends BaseController
 
     public function ruleKlasifikasiUpdate(string $id)
     {
-        $rid = (int) $id;
-
-        if (model(RuleKlasifikasiModel::class)->find($rid) === null) {
+        if (model(RuleKlasifikasiModel::class)->find($id) === null) {
             throw PageNotFoundException::forPageNotFound();
         }
 
@@ -95,7 +93,7 @@ class RuleKlasifikasiController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        model(RuleKlasifikasiModel::class)->update($rid, $this->ruleKlasifikasiPayloadFromRequest());
+        model(RuleKlasifikasiModel::class)->update($id, $this->ruleKlasifikasiPayloadFromRequest());
 
         return redirect()->to(site_url('admin/rule-klasifikasi'))
             ->with('message', 'Rule klasifikasi berhasil diperbarui.');
@@ -103,13 +101,11 @@ class RuleKlasifikasiController extends BaseController
 
     public function ruleKlasifikasiDelete(string $id)
     {
-        $rid = (int) $id;
-
-        if (model(RuleKlasifikasiModel::class)->find($rid) === null) {
+        if (model(RuleKlasifikasiModel::class)->find($id) === null) {
             throw PageNotFoundException::forPageNotFound();
         }
 
-        model(RuleKlasifikasiModel::class)->delete($rid);
+        model(RuleKlasifikasiModel::class)->delete($id);
 
         return redirect()->to(site_url('admin/rule-klasifikasi'))
             ->with('message', 'Rule klasifikasi berhasil dihapus.');

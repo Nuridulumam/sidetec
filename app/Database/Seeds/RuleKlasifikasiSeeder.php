@@ -10315,6 +10315,18 @@ class RuleKlasifikasiSeeder extends Seeder
             ],
         ];
 
+        // Generate UUIDs for all rows to support database drivers without native UUID (e.g. SQLite tests)
+        foreach ($data as &$row) {
+            $row['id'] = sprintf(
+                '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+                random_int(0, 0xffff), random_int(0, 0xffff),
+                random_int(0, 0xffff),
+                random_int(0, 0x0fff) | 0x4000,
+                random_int(0, 0x3fff) | 0x8000,
+                random_int(0, 0xffff), random_int(0, 0xffff), random_int(0, 0xffff)
+            );
+        }
+
         // Clear the table first to avoid duplication or legacy entries
         $this->db->table('rule_klasifikasi')->truncate();
 

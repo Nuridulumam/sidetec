@@ -8,7 +8,7 @@ class PasienModel extends Model
 {
     protected $table            = 'pasien';
     protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $useAutoIncrement = false;
 
     protected $returnType = 'array';
 
@@ -17,6 +17,8 @@ class PasienModel extends Model
     protected $updatedField  = 'updated_at';
 
     protected $allowedFields = [
+        'id',
+        'pasien_id',
         'nama',
         'usia',
         'demam_pagi',
@@ -40,7 +42,6 @@ class PasienModel extends Model
     ];
 
     protected array $casts = [
-        'id'                        => 'integer',
         'usia'                      => 'integer',
         'sakit_kepala'              => 'integer',
         'nyeri_otot'                => 'integer',
@@ -53,8 +54,94 @@ class PasienModel extends Model
         'lemas'                     => 'integer',
     ];
 
-    protected $beforeInsert = ['calculateDiagnosis'];
+    protected $beforeInsert = ['generateUuid', 'generatePasienId', 'calculateDiagnosis'];
     protected $beforeUpdate = ['calculateDiagnosis'];
+    protected $afterInsert  = ['syncLaporanInsert'];
+    protected $afterUpdate  = ['syncLaporanUpdate'];
+
+    protected function generateUuid(array $data)
+    {
+        if (!isset($data['data'])) {
+            return $data;
+        }
+
+        if (empty($data['data']['id'])) {
+            $db = \Config\Database::connect();
+            if ($db->DBDriver === 'SQLite3') {
+                $data['data']['id'] = sprintf(
+                    '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+                    random_int(0, 0xffff), random_int(0, 0xffff),
+                    random_int(0, 0xffff),
+                    random_int(0, 0x0fff) | 0x4000,
+                    random_int(0, 0x3fff) | 0x8000,
+                    random_int(0, 0xffff), random_int(0, 0xffff), random_int(0, 0xffff)
+                );
+            } else {
+                $row = $db->query("SELECT UUID() as uuid")->getRowArray();
+                $data['data']['id'] = $row['uuid'];
+            }
+        }
+
+        return $data;
+    }
+
+    protected function generatePasienId(array $data)
+    {
+        if (!isset($data['data'])) {
+            return $data;
+        }
+
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $db = \Config\Database::connect();
+        
+        do {
+            $randomString = '';
+            for ($i = 0; $i < 4; $i++) {
+                $randomString .= $characters[random_int(0, strlen($characters) - 1)];
+            }
+            $pasienId = 'PST-' . $randomString;
+            $exists = $db->table('pasien')->where('pasien_id', $pasienId)->countAllResults() > 0;
+        } while ($exists);
+
+        $data['data']['pasien_id'] = $pasienId;
+        return $data;
+    }
+
+    protected function syncLaporanInsert(array $data)
+    {
+        $pasienId = $data['id'];
+        $diagnosa = $data['data']['diagnosa'] ?? 'Tidak terklasifikasi';
+
+        $laporanModel = new \App\Models\LaporanModel();
+        $laporanModel->insert([
+            'pasien_id'  => $pasienId,
+            'diagnosa'   => $diagnosa,
+            'created_by' => session()->get('admin_id') ?? null,
+        ]);
+
+        return $data;
+    }
+
+    protected function syncLaporanUpdate(array $data)
+    {
+        if (empty($data['id'])) {
+            return $data;
+        }
+
+        $ids = is_array($data['id']) ? $data['id'] : [$data['id']];
+        $laporanModel = new \App\Models\LaporanModel();
+
+        foreach ($ids as $pasienId) {
+            $pasien = $this->find($pasienId);
+            if ($pasien) {
+                $laporanModel->where('pasien_id', $pasienId)
+                             ->set(['diagnosa' => $pasien['diagnosa']])
+                             ->update();
+            }
+        }
+
+        return $data;
+    }
 
     protected function calculateDiagnosis(array $data)
     {

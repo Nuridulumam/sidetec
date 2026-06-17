@@ -25,7 +25,8 @@ class CreateSidetectTables extends Migration
 
         // 2. Tabel pasien (gabungan skema awal dan field screening terbaru)
         $this->forge->addField([
-            'id'                            => ['type' => 'INT', 'unsigned' => true, 'auto_increment' => true],
+            'id'                            => ['type' => 'VARCHAR', 'constraint' => 36, 'default' => new \CodeIgniter\Database\RawSql('(UUID())'),],
+            'pasien_id'                     => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => true,],
             'nama'                          => ['type' => 'VARCHAR', 'constraint' => 191],
             'usia'                          => ['type' => 'INT', 'constraint' => 3, 'unsigned' => true, 'null' => true],
             'demam_pagi'                    => ['type' => 'VARCHAR', 'constraint' => 191, 'null' => true],
@@ -48,11 +49,16 @@ class CreateSidetectTables extends Migration
             'updated_at'                    => ['type' => 'DATETIME', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
+        $this->forge->addUniqueKey('pasien_id');
         $this->forge->createTable('pasien');
 
         // 3. Tabel rule_klasifikasi
         $this->forge->addField([
-            'id'                  => ['type' => 'INT', 'unsigned' => true, 'auto_increment' => true],
+            'id'                  => [
+                'type'       => 'VARCHAR',
+                'constraint' => 36,
+                'default'    => new \CodeIgniter\Database\RawSql('(UUID())'),
+            ],
             'usia'                => [
                 'type'       => 'INT',
                 'constraint' => 3,
@@ -127,18 +133,32 @@ class CreateSidetectTables extends Migration
 
         // 4. Tabel laporan
         $this->forge->addField([
-            'id'                => ['type' => 'INT', 'unsigned' => true, 'auto_increment' => true],
-            'pasien_id'         => ['type' => 'INT', 'unsigned' => true, 'null' => true],
-            'user_id'           => ['type' => 'INT', 'unsigned' => true, 'null' => true],
-            'ringkasan'         => ['type' => 'TEXT', 'null' => true],
-            'hasil_klasifikasi' => ['type' => 'VARCHAR', 'constraint' => 191, 'null' => true],
-            'detail_json'       => ['type' => 'TEXT', 'null' => true],
-            'created_at'        => ['type' => 'DATETIME', 'null' => true],
-            'updated_at'        => ['type' => 'DATETIME', 'null' => true],
+            'id'         => [
+                'type'       => 'VARCHAR',
+                'constraint' => 36,
+                'default'    => new \CodeIgniter\Database\RawSql('(UUID())'),
+            ],
+            'pasien_id'  => [
+                'type'       => 'VARCHAR',
+                'constraint' => 36,
+                'null'       => true,
+            ],
+            'diagnosa'   => [
+                'type'       => 'VARCHAR',
+                'constraint' => 191,
+                'null'       => true,
+            ],
+            'created_by' => [
+                'type'       => 'INT',
+                'unsigned'   => true,
+                'null'       => true,
+            ],
+            'created_at' => ['type' => 'DATETIME', 'null' => true],
+            'updated_at' => ['type' => 'DATETIME', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('pasien_id', 'pasien', 'id', 'SET NULL', 'CASCADE');
-        $this->forge->addForeignKey('user_id', 'users', 'id', 'SET NULL', 'CASCADE');
+        $this->forge->addForeignKey('pasien_id', 'pasien', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('created_by', 'users', 'id', 'SET NULL', 'CASCADE');
         $this->forge->createTable('laporan');
     }
 

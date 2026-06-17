@@ -3,7 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\PasienModel;
+use App\Models\LaporanModel;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -19,25 +19,26 @@ class LaporanController extends BaseController
 
     public function laporan()
     {
-        $model = model(PasienModel::class);
+        $model = model(LaporanModel::class);
+        $model->select('laporan.id, pasien.pasien_id, pasien.nama, pasien.usia, pasien.bradikardia_relatif, laporan.diagnosa, laporan.created_at')
+              ->join('pasien', 'laporan.pasien_id = pasien.id');
 
         $nama = $this->request->getGet('nama');
         if ($nama !== null && trim((string)$nama) !== '') {
-            $model->like('nama', trim((string)$nama));
+            $model->like('pasien.nama', trim((string)$nama));
         }
 
         $bradikardia = $this->request->getGet('bradikardia_relatif');
         if ($bradikardia !== null && trim((string)$bradikardia) !== '') {
-            $model->where('bradikardia_relatif', (int)$bradikardia);
+            $model->where('pasien.bradikardia_relatif', (int)$bradikardia);
         }
 
         $diagnosa = $this->request->getGet('diagnosa');
         if ($diagnosa !== null && trim((string)$diagnosa) !== '') {
-            $model->where('diagnosa', trim((string)$diagnosa));
+            $model->where('laporan.diagnosa', trim((string)$diagnosa));
         }
 
-        $rows = $model->select('id, nama, usia, bradikardia_relatif, diagnosa, created_at')
-            ->orderBy('id', 'DESC')
+        $rows = $model->orderBy('laporan.created_at', 'DESC')
             ->paginate(10, 'default');
 
         return view('admin/layout', [
@@ -57,24 +58,26 @@ class LaporanController extends BaseController
 
     public function laporanExport()
     {
-        $model = model(PasienModel::class);
+        $model = model(LaporanModel::class);
+        $model->select('laporan.created_at, laporan.diagnosa, pasien.nama, pasien.usia, pasien.demam_pagi, pasien.demam_sore, pasien.sakit_kepala, pasien.nyeri_otot, pasien.mual, pasien.muntah, pasien.nyeri_perut, pasien.diare, pasien.penurunan_kesadaran, pasien.bradikardia_relatif, pasien.lemas, pasien.tanggal_lahir, pasien.jenis_kelamin, pasien.telepon, pasien.alamat')
+              ->join('pasien', 'laporan.pasien_id = pasien.id');
 
         $nama = $this->request->getGet('nama');
         if ($nama !== null && trim((string)$nama) !== '') {
-            $model->like('nama', trim((string)$nama));
+            $model->like('pasien.nama', trim((string)$nama));
         }
 
         $bradikardia = $this->request->getGet('bradikardia_relatif');
         if ($bradikardia !== null && trim((string)$bradikardia) !== '') {
-            $model->where('bradikardia_relatif', (int)$bradikardia);
+            $model->where('pasien.bradikardia_relatif', (int)$bradikardia);
         }
 
         $diagnosa = $this->request->getGet('diagnosa');
         if ($diagnosa !== null && trim((string)$diagnosa) !== '') {
-            $model->where('diagnosa', trim((string)$diagnosa));
+            $model->where('laporan.diagnosa', trim((string)$diagnosa));
         }
 
-        $rows = $model->orderBy('id', 'DESC')->findAll();
+        $rows = $model->orderBy('laporan.created_at', 'DESC')->findAll();
 
         $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();

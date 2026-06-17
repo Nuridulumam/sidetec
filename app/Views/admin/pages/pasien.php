@@ -143,9 +143,9 @@ $demamCfg = config('DemamKlasifikasi');
                         </tr>
                     <?php else : ?>
                         <?php foreach ($rows as $r) : ?>
-                            <?php $pid = (int) ($r['id'] ?? 0); ?>
+                            <?php $pid = $r['id'] ?? ''; ?>
                             <tr class="hover:bg-slate-50/80">
-                               <td class="whitespace-nowrap px-6 py-4 font-medium"><?= esc((string) $pid) ?></td>
+                               <td class="whitespace-nowrap px-6 py-4 font-medium"><?= esc((string) ($r['pasien_id'] ?? '')) ?></td>
                                 <td class="px-6 py-4 font-medium text-slate-900"><?= esc((string) ($r['nama'] ?? '')) ?></td>
                                 <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['usia'] ?? '—')) ?> tahun</td>
                                 <td class="px-6 py-4 text-slate-700"><?= esc((string) ($r['demam_pagi'] ?? '—')) ?></td>

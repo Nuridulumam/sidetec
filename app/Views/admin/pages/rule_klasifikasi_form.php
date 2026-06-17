@@ -2,7 +2,7 @@
 /** @var array<string, mixed>|null $record */
 $isEdit     = $record !== null;
 $formAction = $isEdit
-    ? site_url('admin/rule-klasifikasi/' . (int) $record['id'] . '/update')
+    ? site_url('admin/rule-klasifikasi/' . esc($record['id'] ?? '') . '/update')
     : site_url('admin/rule-klasifikasi/store');
 
 $demamCfg = config('DemamKlasifikasi');

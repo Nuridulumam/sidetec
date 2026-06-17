@@ -18,11 +18,11 @@ function demam_detail(string $label, int $usia, $demamCfg): string
     <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
             <h2 class="text-lg font-semibold text-slate-900">Detail pasien</h2>
-            <p class="text-sm text-slate-500">ID: <?= esc((string) ($row['id'] ?? '')) ?></p>
+            <p class="text-sm text-slate-500">ID Pasien: <?= esc((string) ($row['pasien_id'] ?? '')) ?> (<?= esc((string) ($row['id'] ?? '')) ?>)</p>
         </div>
         <div class="flex flex-wrap gap-2">
             <?php if (in_array(session()->get('admin_role'), ['perawat', 'admin'], true)) : ?>
-                <a href="<?= esc(site_url('admin/pasien/' . (int) ($row['id'] ?? 0) . '/edit'), 'attr') ?>"
+                <a href="<?= esc(site_url('admin/pasien/' . esc($row['id'] ?? '') . '/edit'), 'attr') ?>"
                    class="rounded-xl border border-mint/40 bg-mint/10 px-4 py-2 text-sm font-semibold text-mint-dark hover:bg-mint/20">Edit</a>
             <?php endif; ?>
             <a href="<?= esc(site_url('admin/pasien'), 'attr') ?>"
