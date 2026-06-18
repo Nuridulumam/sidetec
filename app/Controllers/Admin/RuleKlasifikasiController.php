@@ -21,7 +21,7 @@ class RuleKlasifikasiController extends BaseController
     public function ruleKlasifikasi()
     {
         $model = model(RuleKlasifikasiModel::class);
-        $rows = $model->orderBy('id', 'ASC')
+        $rows = $model->orderBy('created_at', 'DESC')
             ->paginate(10, 'default');
 
         return view('admin/layout', [
