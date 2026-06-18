@@ -170,7 +170,7 @@ if (!empty($exportUrlParams)) {
                                     <?= isset($r['created_at']) ? date('d M Y H:i', strtotime($r['created_at'])) : '—' ?>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-right">
-                                    <a href="<?= esc(site_url('admin/pasien/' . ($r['master_pasien_id'] ?? '')), 'attr') ?>"
+                                    <a href="<?= esc(site_url('admin/laporan/pasien/' . ($r['master_pasien_id'] ?? '')), 'attr') ?>"
                                        class="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Detail</a>
                                 </td>
                             </tr>

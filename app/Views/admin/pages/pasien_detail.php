@@ -23,7 +23,7 @@ function yn_badge($v): string {
                 <a href="<?= esc(site_url('admin/pasien/' . esc($row['id'] ?? '') . '/edit'), 'attr') ?>"
                    class="rounded-xl border border-mint/40 bg-mint/10 px-4 py-2 text-sm font-semibold text-mint-dark hover:bg-mint/20">Edit Identitas</a>
             <?php endif; ?>
-            <a href="<?= esc(site_url('admin/pasien'), 'attr') ?>"
+            <a href="<?= esc($backUrl ?? site_url('admin/pasien'), 'attr') ?>"
                class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">Kembali</a>
         </div>
     </div>

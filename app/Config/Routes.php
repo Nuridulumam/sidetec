@@ -22,6 +22,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'ad
     $routes->post('pasien/(:any)/update', 'PasienController::pasienUpdate/$1', ['filter' => 'csrf']);
     $routes->post('pasien/(:any)/delete', 'PasienController::pasienDelete/$1', ['filter' => 'csrf']);
     $routes->get('pasien/(:any)', 'PasienController::pasienShow/$1');
+    $routes->get('laporan/pasien/(:any)', 'PasienController::pasienShow/$1');
     
     $routes->get('gejala/create', 'PasienController::gejalaCreate');
     $routes->post('gejala/store', 'PasienController::gejalaStore', ['filter' => 'csrf']);

@@ -99,12 +99,15 @@ class PasienController extends BaseController
             ->orderBy('created_at', 'DESC')
             ->findAll();
 
+        $isLaporan = strpos(current_url(), 'admin/laporan/pasien') !== false;
+
         return view('admin/layout', [
             'title'    => 'Detail Pasien',
-            'active'   => 'pasien',
+            'active'   => $isLaporan ? 'laporan' : 'pasien',
             'mainView' => view('admin/pages/pasien_detail', [
                 'row'     => $row,
                 'history' => $history,
+                'backUrl' => $isLaporan ? site_url('admin/laporan') : site_url('admin/pasien'),
             ]),
         ]);
     }
