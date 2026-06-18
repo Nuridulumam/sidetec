@@ -112,15 +112,25 @@ class GejalaModel extends Model
         $gejalaId = $data['id'];
         $pasienId = $data['data']['pasien_id'] ?? null;
         $diagnosa = $data['data']['diagnosa'] ?? 'Tidak terklasifikasi';
+        
+        $createdAt = $data['data']['created_at'] ?? null;
+        $updatedAt = $data['data']['updated_at'] ?? null;
 
         if ($pasienId) {
             $laporanModel = new \App\Models\LaporanModel();
-            $laporanModel->insert([
+            $insertData = [
                 'pasien_id'  => $pasienId,
                 'gejala_id'  => $gejalaId,
                 'diagnosa'   => $diagnosa,
                 'created_by' => session()->get('admin_id') ?? null,
-            ]);
+            ];
+            if ($createdAt) {
+                $insertData['created_at'] = $createdAt;
+            }
+            if ($updatedAt) {
+                $insertData['updated_at'] = $updatedAt;
+            }
+            $laporanModel->insert($insertData);
         }
 
         return $data;
@@ -138,8 +148,12 @@ class GejalaModel extends Model
         foreach ($ids as $gejalaId) {
             $gejala = $this->find($gejalaId);
             if ($gejala) {
+                $updateData = ['diagnosa' => $gejala['diagnosa']];
+                if (isset($gejala['updated_at'])) {
+                    $updateData['updated_at'] = $gejala['updated_at'];
+                }
                 $laporanModel->where('gejala_id', $gejalaId)
-                             ->set(['diagnosa' => $gejala['diagnosa']])
+                             ->set($updateData)
                              ->update();
             }
         }

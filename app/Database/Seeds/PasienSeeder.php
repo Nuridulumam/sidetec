@@ -247,7 +247,15 @@ class PasienSeeder extends Seeder
         $pasienModel = new \App\Models\PasienModel();
         $gejalaModel = new \App\Models\GejalaModel();
 
-        foreach ($data as $row) {
+        $start = strtotime('-3 months');
+        $end = strtotime('-1 month');
+        $numPatients = count($data);
+        $step = ($numPatients > 1) ? ($end - $start) / ($numPatients - 1) : 0;
+
+        foreach ($data as $idx => $row) {
+            $time = $start + ($idx * $step);
+            $timeStr = date('Y-m-d H:i:s', $time);
+
             // 1. Insert patient master data
             $pasienData = [
                 'nomor_rm'      => $row['nomor_rm'],
@@ -258,14 +266,21 @@ class PasienSeeder extends Seeder
                 'jenis_kelamin' => $row['jenis_kelamin'],
                 'telepon'       => $row['telepon'],
                 'alamat'        => $row['alamat'],
-                'created_at'    => $now,
-                'updated_at'    => $now,
+                'created_at'    => $timeStr,
+                'updated_at'    => $timeStr,
             ];
             
             // This generates id and pasien_id through beforeInsert hooks
             $pasienId = $pasienModel->insert($pasienData);
             
             if ($pasienId) {
+                // Instantly update patient timestamps to the past date
+                $db = \Config\Database::connect();
+                $db->table('pasien')->where('id', $pasienId)->update([
+                    'created_at' => $timeStr,
+                    'updated_at' => $timeStr,
+                ]);
+
                 // 2. Insert symptoms data linked to patient
                 $gejalaData = [
                     'pasien_id'           => $pasienId,
@@ -280,12 +295,21 @@ class PasienSeeder extends Seeder
                     'penurunan_kesadaran' => $row['penurunan_kesadaran'],
                     'bradikardia_relatif' => $row['bradikardia_relatif'],
                     'lemas'               => $row['lemas'],
-                    'created_at'          => $now,
-                    'updated_at'          => $now,
                 ];
                 
                 // This triggers calculation and report sync automatically
-                $gejalaModel->insert($gejalaData);
+                $gejalaId = $gejalaModel->insert($gejalaData);
+                if ($gejalaId) {
+                    // Instantly update gejala and laporan timestamps to the past date
+                    $db->table('gejala')->where('id', $gejalaId)->update([
+                        'created_at' => $timeStr,
+                        'updated_at' => $timeStr,
+                    ]);
+                    $db->table('laporan')->where('gejala_id', $gejalaId)->update([
+                        'created_at' => $timeStr,
+                        'updated_at' => $timeStr,
+                    ]);
+                }
             }
         }
     }
