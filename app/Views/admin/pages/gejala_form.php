@@ -177,7 +177,7 @@ function yn_old(string $key, ?array $record): string
                                 <option value="" data-usia="0">— Pilih Pasien —</option>
                                 <?php foreach ($patients as $p) : ?>
                                     <option value="<?= esc($p['id'], 'attr') ?>" data-usia="<?= esc($p['usia'], 'attr') ?>" <?= $selectedPasien === $p['id'] ? 'selected' : '' ?>>
-                                        <?= esc($p['nama']) ?> (RM: <?= esc($p['nomor_rm']) ?> - Usia: <?= esc($p['usia']) ?> tahun)
+                                        <?= esc($p['nama']) ?> (<?= esc($p['usia']) ?> tahun)
                                     </option>
                                 <?php endforeach; ?>
                             </select>

@@ -183,7 +183,7 @@ function yn_badge($v): string {
                             
                             <!-- Case Details -->
                             <div class="p-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                                <div>
+                                <div class="border-r-2  border-slate-100 pr-4">
                                     <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Demam</p>
                                     <dl class="mt-2 text-xs space-y-1">
                                         <div class="flex justify-between border-b border-slate-100 pb-1">
