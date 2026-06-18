@@ -20,7 +20,7 @@ class LaporanController extends BaseController
     public function laporan()
     {
         $model = model(LaporanModel::class);
-        $model->select('laporan.id, pasien.pasien_id, pasien.nama, pasien.usia, gejala.bradikardia_relatif, laporan.diagnosa, laporan.created_at')
+        $model->select('laporan.id, pasien.id as master_pasien_id, pasien.pasien_id, pasien.nama, pasien.usia, gejala.bradikardia_relatif, laporan.diagnosa, laporan.created_at')
               ->join('pasien', 'laporan.pasien_id = pasien.id')
               ->join('gejala', 'laporan.gejala_id = gejala.id', 'left');
 

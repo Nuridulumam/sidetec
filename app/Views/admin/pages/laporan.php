@@ -120,12 +120,13 @@ if (!empty($exportUrlParams)) {
                         <th class="px-6 py-3">Bradikardia Relatif</th>
                         <th class="px-6 py-3">Hasil Klasifikasi</th>
                         <th class="px-6 py-3">Tanggal Masuk</th>
+                        <th class="px-6 py-3 text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                     <?php if (empty($rows)) : ?>
                         <tr>
-                            <td colspan="6" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
+                            <td colspan="7" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
                         </tr>
                     <?php else : ?>
                         <?php
@@ -167,6 +168,10 @@ if (!empty($exportUrlParams)) {
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-slate-600">
                                     <?= isset($r['created_at']) ? date('d M Y H:i', strtotime($r['created_at'])) : '—' ?>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-right">
+                                    <a href="<?= esc(site_url('admin/pasien/' . ($r['master_pasien_id'] ?? '')), 'attr') ?>"
+                                       class="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Detail</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
