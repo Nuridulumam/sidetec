@@ -59,6 +59,7 @@ $roleVal = old('role', $isEdit ? ($record['role'] ?? 'admin') : 'admin');
                     'admin'          => 'Admin',
                     'perawat'        => 'Perawat',
                     'petugas'    => 'Petugas',
+                    'masyarakat'     => 'Masyarakat',
                 ];
                 ?>
                 <select name="role" id="role" required

@@ -25,6 +25,16 @@ class AdminAuth implements FilterInterface
 
         // Define permissions maps: allowed methods per role
         $permissions = [
+            'masyarakat' => [
+                'dashboard',
+                'pasien',
+                'pasienShow',
+                'pasienCreate',
+                'pasienStore',
+                'pasienEdit',
+                'pasienUpdate',
+                'pasienDelete',
+            ],
             'perawat' => [
                 'dashboard',
                 'pasien',

@@ -17,7 +17,7 @@ function yn_badge($v): string {
             <p class="text-sm text-slate-500">ID Pasien: <?= esc((string) ($row['pasien_id'] ?? '')) ?></p>
         </div>
         <div class="flex flex-wrap gap-2">
-            <?php if (in_array(session()->get('admin_role'), ['perawat', 'admin'], true)) : ?>
+            <?php if (in_array(session()->get('admin_role'), ['perawat', 'admin', 'masyarakat'], true)) : ?>
                 <a href="<?= esc(site_url('admin/gejala/create?pasien_id=' . esc($row['id'] ?? '')), 'attr') ?>"
                    class="rounded-xl border border-emerald-500/40 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700 hover:bg-emerald-100">Tambah Kasus</a>
                 <a href="<?= esc(site_url('admin/pasien/' . esc($row['id'] ?? '') . '/edit'), 'attr') ?>"
@@ -32,22 +32,17 @@ function yn_badge($v): string {
     <?php
     $latest = !empty($history) ? $history[0] : null;
     if ($latest) :
-        $diag = $latest['diagnosa'] ?? 'Tidak terklasifikasi';
+        $diag = $latest['diagnosa'] ?? '—';
         if ($diag === 'Suspect Typhoid Fever') {
             $bannerCls = 'bg-rose-50 border border-rose-100 text-rose-900';
             $icon = '<svg class="h-6 w-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>';
             $statusText = 'Suspect Typhoid Fever';
-            $descriptionText = 'Pemeriksaan terbaru mendeteksi gejala yang cocok dengan klasifikasi Suspect Typhoid.';
-        } elseif ($diag === 'Non Suspect Typhoid Fever') {
+            $descriptionText = 'Rekomendasi: Segera rujuk pasien ke fasilitas kesehatan/dokter untuk pemeriksaan laboratorium penunjang (seperti tes Widal/Tubex). Anjurkan pasien untuk istirahat total (bed rest), mengonsumsi makanan lunak yang rendah serat, serta menjaga asupan cairan tubuh dengan baik.';
+        } else {
             $bannerCls = 'bg-emerald-50 border border-emerald-100 text-emerald-900';
             $icon = '<svg class="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
             $statusText = 'Non Suspect Typhoid Fever';
-            $descriptionText = 'Pemeriksaan terbaru mendeteksi gejala yang cocok dengan klasifikasi Non Suspect Typhoid.';
-        } else {
-            $bannerCls = 'bg-slate-50 border border-slate-150 text-slate-900';
-            $icon = '<svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
-            $statusText = 'Tidak Terklasifikasi';
-            $descriptionText = 'Pemeriksaan terbaru tidak cocok dengan aturan klasifikasi mana pun.';
+            $descriptionText = 'Rekomendasi: Pantau perkembangan kondisi pasien secara berkala. Anjurkan istirahat cukup, menjaga hidrasi dengan banyak minum air putih, dan konsumsi obat penurun demam jika diperlukan. Apabila demam tidak mereda dalam waktu 3 hari, konsultasikan ke fasilitas kesehatan.';
         }
     ?>
         <div class="flex items-center gap-4 p-6 rounded-3xl <?= $bannerCls ?> shadow-sm">
@@ -135,7 +130,7 @@ function yn_badge($v): string {
             <?php if (empty($history)) : ?>
                 <div class="text-center py-8">
                     <p class="text-sm text-slate-500">Belum ada riwayat pemeriksaan gejala klinis.</p>
-                    <?php if (in_array(session()->get('admin_role'), ['perawat', 'admin'], true)) : ?>
+                    <?php if (in_array(session()->get('admin_role'), ['perawat', 'admin', 'masyarakat'], true)) : ?>
                         <a href="<?= esc(site_url('admin/gejala/create?pasien_id=' . esc($row['id'] ?? '')), 'attr') ?>"
                            class="mt-4 inline-flex items-center gap-2 rounded-xl bg-mint px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-mint-dark">
                             Tambah Pemeriksaan Pertama
@@ -154,16 +149,16 @@ function yn_badge($v): string {
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <?php
-                                    $diag = $h['diagnosa'] ?? 'Tidak terklasifikasi';
+                                    $diag = $h['diagnosa'] ?? '—';
                                     if ($diag === 'Suspect Typhoid Fever') {
                                         echo '<span class="inline-flex rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800">Suspect Typhoid Fever</span>';
                                     } elseif ($diag === 'Non Suspect Typhoid Fever') {
                                         echo '<span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Non Suspect Typhoid Fever</span>';
                                     } else {
-                                        echo '<span class="inline-flex rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">Tidak terklasifikasi</span>';
+                                        echo '<span class="inline-flex rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">' . esc($diag) . '</span>';
                                     }
                                     ?>
-                                    <?php if (in_array(session()->get('admin_role'), ['perawat', 'admin'], true)) : ?>
+                                    <?php if (in_array(session()->get('admin_role'), ['perawat', 'admin', 'masyarakat'], true)) : ?>
                                         <form action="<?= esc(site_url('admin/gejala/' . esc($h['id'] ?? '') . '/delete'), 'attr') ?>" method="post" class="inline"
                                                onsubmit="return confirm('Hapus riwayat kasus/gejala ini?');">
                                             <?= csrf_field() ?>

@@ -42,7 +42,7 @@ class SidetectSeeder extends Seeder
             ],
             [
                 'username'      => 'masyarakat',
-                'password_hash' => $passwordHash,
+                'password_hash' => $passwordHashMasy,
                 'full_name'     => 'Masyarakat Umum',
                 'role'          => 'masyarakat',
                 'is_active'     => 1,
