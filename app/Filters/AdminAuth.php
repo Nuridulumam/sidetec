@@ -35,7 +35,7 @@ class AdminAuth implements FilterInterface
                 'pasienUpdate',
                 'pasienDelete',
             ],
-            'petugas sik' => [
+            'petugas' => [
                 'dashboard',
                 'pasien',
                 'pasienShow',

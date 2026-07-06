@@ -12,7 +12,7 @@ use Psr\Log\LoggerInterface;
 class UserController extends BaseController
 {
     /** Nilai role yang diizinkan (harus selaras dengan dropdown di users_form). */
-    protected string $userRoleRule = 'required|in_list[admin,perawat,petugas sik]';
+    protected string $userRoleRule = 'required|in_list[admin,perawat,petugas]';
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
