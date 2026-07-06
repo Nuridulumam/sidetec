@@ -21,6 +21,7 @@ class LaporanController extends BaseController
     {
         $model = model(LaporanModel::class);
         $model->select('laporan.id, pasien.id as master_pasien_id, pasien.pasien_id, pasien.nama, pasien.usia, gejala.bradikardia_relatif, laporan.diagnosa, laporan.created_at')
+              ->select('(SELECT diagnosa FROM gejala WHERE gejala.pasien_id = pasien.id ORDER BY created_at DESC LIMIT 1) as diagnosa_terakhir')
               ->join('pasien', 'laporan.pasien_id = pasien.id')
               ->join('gejala', 'laporan.gejala_id = gejala.id', 'left');
 
@@ -61,6 +62,7 @@ class LaporanController extends BaseController
     {
         $model = model(LaporanModel::class);
         $model->select('laporan.created_at, laporan.diagnosa, pasien.nama, pasien.usia, gejala.demam_pagi, gejala.demam_sore, gejala.sakit_kepala, gejala.nyeri_otot, gejala.mual, gejala.muntah, gejala.nyeri_perut, gejala.diare, gejala.penurunan_kesadaran, gejala.bradikardia_relatif, gejala.lemas, pasien.tanggal_lahir, pasien.jenis_kelamin, pasien.telepon, pasien.alamat')
+              ->select('(SELECT diagnosa FROM gejala WHERE gejala.pasien_id = pasien.id ORDER BY created_at DESC LIMIT 1) as diagnosa_terakhir')
               ->join('pasien', 'laporan.pasien_id = pasien.id')
               ->join('gejala', 'laporan.gejala_id = gejala.id', 'left');
 
@@ -94,8 +96,8 @@ class LaporanController extends BaseController
         $year = date('Y');
         $monthName = $months[$monthNum] ?? date('F');
 
-        // 1. Report Title (Centered across columns A to T, Font size 24, Bold)
-        $sheet->mergeCells('A1:T1');
+        // 1. Report Title (Centered across columns A to U, Font size 24, Bold)
+        $sheet->mergeCells('A1:U1');
         $sheet->setCellValue('A1', "Laporan Deteksi Dini Typhoid - {$monthName} {$year}");
         $sheet->getStyle('A1')->applyFromArray([
             'font' => [
@@ -133,6 +135,7 @@ class LaporanController extends BaseController
             'Jenis Kelamin',
             'Telepon',
             'Alamat',
+            'Diagnosis Terakhir',
             'Hasil Klasifikasi',
             'Tanggal Masuk'
         ];
@@ -143,7 +146,7 @@ class LaporanController extends BaseController
             $sheet->setCellValue($headerCol . '3', $headerText);
             $headerCol++;
         }
-        $lastHeaderCol = 'T'; // Column T corresponds to index 20 (since A to T is 20 columns)
+        $lastHeaderCol = 'U'; // Column U corresponds to index 21 (since A to U is 21 columns)
 
         // Header style array
         $headerStyle = [
@@ -202,6 +205,7 @@ class LaporanController extends BaseController
                 $r['jenis_kelamin'] ?? '—',
                 $r['telepon'] ?? '—',
                 $r['alamat'] ?? '—',
+                $r['diagnosa_terakhir'] ?? 'Belum Diperiksa',
                 $r['diagnosa'] ?? 'Tidak terklasifikasi',
                 $dateMasuk
             ];

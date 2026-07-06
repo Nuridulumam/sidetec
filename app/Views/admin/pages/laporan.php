@@ -90,7 +90,6 @@ if (!empty($exportUrlParams)) {
                                 <option value="">— Semua Hasil —</option>
                                 <option value="Suspect Typhoid Fever" <?= ($filters['diagnosa'] ?? '') === 'Suspect Typhoid Fever' ? 'selected' : '' ?>>Suspect Typhoid Fever</option>
                                 <option value="Non Suspect Typhoid Fever" <?= ($filters['diagnosa'] ?? '') === 'Non Suspect Typhoid Fever' ? 'selected' : '' ?>>Non Suspect Typhoid Fever</option>
-                                <option value="Tidak terklasifikasi" <?= ($filters['diagnosa'] ?? '') === 'Tidak terklasifikasi' ? 'selected' : '' ?>>Tidak terklasifikasi</option>
                             </select>
                         </div>
                     </div>
@@ -126,7 +125,7 @@ if (!empty($exportUrlParams)) {
                 <tbody class="divide-y divide-slate-100">
                     <?php if (empty($rows)) : ?>
                         <tr>
-                            <td colspan="7" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
+                            <td colspan="8" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
                         </tr>
                     <?php else : ?>
                         <?php
@@ -156,13 +155,13 @@ if (!empty($exportUrlParams)) {
                                 </td>
                                 <td class="px-6 py-4 font-semibold">
                                     <?php
-                                    $diag = $r['diagnosa'] ?? 'Tidak terklasifikasi';
-                                    if ($diag === 'Suspect Typhoid Fever') {
+                                    $diagTerakhir = $r['diagnosa_terakhir'] ?? null;
+                                    if ($diagTerakhir === 'Suspect Typhoid Fever') {
                                         echo '<span class="inline-flex rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800">Suspect Typhoid Fever</span>';
-                                    } elseif ($diag === 'Non Suspect Typhoid Fever') {
+                                    } elseif ($diagTerakhir === 'Non Suspect Typhoid Fever') {
                                         echo '<span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Non Suspect Typhoid Fever</span>';
                                     } else {
-                                        echo '<span class="inline-flex rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">Tidak terklasifikasi</span>';
+                                        echo '<span class="inline-flex rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-500">Belum Diperiksa</span>';
                                     }
                                     ?>
                                 </td>

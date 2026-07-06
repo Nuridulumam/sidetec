@@ -33,7 +33,8 @@ class PasienController extends BaseController
             $model->where('nik', trim((string)$nik));
         }
 
-        $rows = $model->select('id, pasien_id, nama, tanggal_lahir, nik, usia, jenis_kelamin, created_at')
+        $rows = $model->select('pasien.id, pasien.pasien_id, pasien.nama, pasien.tanggal_lahir, pasien.nik, pasien.usia, pasien.jenis_kelamin, pasien.created_at')
+            ->select('(SELECT diagnosa FROM gejala WHERE gejala.pasien_id = pasien.id ORDER BY created_at DESC LIMIT 1) as diagnosa_terakhir')
             ->orderBy('created_at', 'DESC')
             ->paginate(10, 'default');
 

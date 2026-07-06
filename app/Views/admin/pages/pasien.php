@@ -95,13 +95,14 @@ foreach ($filters ?? [] as $k => $v) {
                         <th class="px-6 py-3">Tanggal Lahir</th>
                         <th class="px-6 py-3">Usia</th>
                         <th class="px-6 py-3">Jenis Kelamin</th>
+                        <th class="px-6 py-3">Diagnosis Terakhir</th>
                         <th class="px-6 py-3 text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                     <?php if (($rows ?? []) === []) : ?>
                         <tr>
-                            <td colspan="8" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
+                            <td colspan="9" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
                         </tr>
                     <?php else : ?>
                         <?php
@@ -124,6 +125,18 @@ foreach ($filters ?? [] as $k => $v) {
                                     <span class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold <?= ($r['jenis_kelamin'] ?? '') === 'L' ? 'bg-sky-100 text-sky-800' : 'bg-pink-100 text-pink-850' ?>">
                                         <?= ($r['jenis_kelamin'] ?? '') === 'L' ? 'Laki-laki' : 'Perempuan' ?>
                                     </span>
+                                </td>
+                                <td class="px-6 py-4 font-semibold">
+                                    <?php
+                                    $diag = $r['diagnosa_terakhir'] ?? null;
+                                    if ($diag === 'Suspect Typhoid Fever') {
+                                        echo '<span class="inline-flex rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800">Suspect Typhoid Fever</span>';
+                                    } elseif ($diag === 'Non Suspect Typhoid Fever') {
+                                        echo '<span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Non Suspect Typhoid Fever</span>';
+                                    } else {
+                                        echo '<span class="inline-flex rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-500">Belum Diperiksa</span>';
+                                    }
+                                    ?>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-right">
                                     <div class="flex flex-wrap items-center justify-end gap-2">
