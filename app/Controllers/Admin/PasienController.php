@@ -33,12 +33,7 @@ class PasienController extends BaseController
             $model->where('nik', trim((string)$nik));
         }
 
-        $nomorRm = $this->request->getGet('nomor_rm');
-        if ($nomorRm !== null && trim((string)$nomorRm) !== '') {
-            $model->where('nomor_rm', (int)$nomorRm);
-        }
-
-        $rows = $model->select('id, pasien_id, nomor_rm, nama, tanggal_lahir, nik, usia, jenis_kelamin, created_at')
+        $rows = $model->select('id, pasien_id, nama, tanggal_lahir, nik, usia, jenis_kelamin, created_at')
             ->orderBy('created_at', 'DESC')
             ->paginate(10, 'default');
 
@@ -51,7 +46,6 @@ class PasienController extends BaseController
                 'filters' => [
                     'nama'     => $nama,
                     'nik'      => $nik,
-                    'nomor_rm' => $nomorRm,
                 ]
             ]),
         ]);
@@ -239,7 +233,6 @@ class PasienController extends BaseController
     private function pasienRules(): array
     {
         return [
-            'nomor_rm'      => 'required|is_natural_no_zero',
             'nama'          => 'required|min_length[3]|max_length[191]',
             'tanggal_lahir' => 'required|valid_date[Y-m-d]',
             'nik'           => 'required|numeric|exact_length[16]',
@@ -253,7 +246,6 @@ class PasienController extends BaseController
     private function pasienPayloadFromRequest(): array
     {
         return [
-            'nomor_rm'      => (int) $this->request->getPost('nomor_rm'),
             'nama'          => (string) $this->request->getPost('nama'),
             'tanggal_lahir' => (string) $this->request->getPost('tanggal_lahir'),
             'nik'           => (string) $this->request->getPost('nik'),

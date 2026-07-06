@@ -2,7 +2,7 @@
 
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
-use App\Models\PasienModel;
+use App\Models\GejalaModel;
 use App\Database\Seeds\SidetectSeeder;
 
 /**
@@ -18,7 +18,7 @@ final class PasienModelTest extends CIUnitTestCase
 
     public function testDetermineDiagnosisChild(): void
     {
-        $model = new PasienModel();
+        $model = new GejalaModel();
 
         // Data matching patient Siti Aminah (usia 12)
         $childData = [
@@ -42,7 +42,7 @@ final class PasienModelTest extends CIUnitTestCase
 
     public function testDetermineDiagnosisAdult(): void
     {
-        $model = new PasienModel();
+        $model = new GejalaModel();
 
         // Data matching patient Budi Santoso (usia 25)
         $adultData = [

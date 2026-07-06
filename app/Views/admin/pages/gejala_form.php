@@ -26,6 +26,16 @@ function yn_old(string $key, ?array $record): string
                 <div class="space-y-6">
                     <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">Referensi Bradikardia Relatif</h3>
                     
+                    <!-- Info Box -->
+                    <div class="flex items-start gap-3 rounded-2xl bg-gradient-to-r from-blue-50/60 to-indigo-50/60 border border-blue-100/80 p-3.5 text-xs text-slate-650 shadow-sm">
+                        <div class="flex items-center justify-center w-7 h-7 rounded-xl bg-blue-500/10 text-blue-600 shrink-0 mt-0.5">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <p class="leading-relaxed pt-0.5 text-slate-700">Lakukan dengan cara menekan denyut nadi sendiri, hitung jumlah denyutan selama 1 menit.</p>
+                    </div>
+                    
                     <div class="space-y-6">
                         <!-- Referensi Anak-Anak -->
                         <div>
@@ -252,6 +262,16 @@ function yn_old(string $key, ?array $record): string
                 <!-- Referensi Kategori Demam -->
                 <div class="space-y-6">
                     <h3 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">Referensi Kategori Demam</h3>
+                    
+                    <!-- Info Box -->
+                    <div class="flex items-center gap-3 rounded-2xl bg-gradient-to-r from-blue-50/60 to-indigo-50/60 border border-blue-100/80 p-3.5 text-xs text-slate-650 shadow-sm">
+                        <div class="flex items-center justify-center w-7 h-7 rounded-xl bg-blue-500/10 text-blue-600 shrink-0 mt-0.5">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <p class="leading-relaxed pt-0.5 text-slate-700">Gunakan termometer agar hasil akurat</p>
+                    </div>
                     
                     <div class="space-y-6">
                         <!-- Referensi Demam Anak-Anak -->
