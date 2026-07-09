@@ -34,6 +34,9 @@ class AdminAuth implements FilterInterface
                 'pasienEdit',
                 'pasienUpdate',
                 'pasienDelete',
+                'gejalaCreate',
+                'gejalaStore',
+                'gejalaDelete',
             ],
             'perawat' => [
                 'dashboard',
