@@ -37,12 +37,12 @@ function yn_badge($v): string {
             $bannerCls = 'bg-rose-50 border border-rose-100 text-rose-900';
             $icon = '<svg class="h-6 w-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>';
             $statusText = 'Suspect Typhoid Fever';
-            $descriptionText = 'Rekomendasi: Segera rujuk pasien ke fasilitas kesehatan/dokter untuk pemeriksaan laboratorium penunjang (seperti tes Widal/Tubex). Anjurkan pasien untuk istirahat total (bed rest), mengonsumsi makanan lunak yang rendah serat, serta menjaga asupan cairan tubuh dengan baik.';
+            $descriptionText = 'Hasil ini merupakan dugaan awal. Pasien disarankan segera menjalani pemeriksaan lanjutan di fasilitas kesehatan untuk memastikan diagnosis. Selama menunggu pemeriksaan, istirahat yang cukup, perbanyak minum, dan konsumsi makanan yang lembut.';
         } else {
             $bannerCls = 'bg-emerald-50 border border-emerald-100 text-emerald-900';
             $icon = '<svg class="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
             $statusText = 'Non Suspect Typhoid Fever';
-            $descriptionText = 'Rekomendasi: Pantau perkembangan kondisi pasien secara berkala. Anjurkan istirahat cukup, menjaga hidrasi dengan banyak minum air putih, dan konsumsi obat penurun demam jika diperlukan. Apabila demam tidak mereda dalam waktu 3 hari, konsultasikan ke fasilitas kesehatan.';
+            $descriptionText = 'Pasien tidak termasuk Suspect Typhoid Fever, namun tetap disarankan menjalani pemeriksaan lebih lanjut untuk mengetahui penyebab gejala yang dialami. Selama menunggu pemeriksaan, anjurkan pasien beristirahat yang cukup, minum air putih yang cukup, dan memantau perkembangan kondisinya.';
         }
     ?>
         <div class="flex items-center gap-4 p-6 rounded-3xl <?= $bannerCls ?> shadow-sm">
