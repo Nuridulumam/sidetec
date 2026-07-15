@@ -27,6 +27,7 @@ class CreateSidetectTables extends Migration
         $this->forge->addField([
             'id'                            => ['type' => 'VARCHAR', 'constraint' => 36, 'default' => new \CodeIgniter\Database\RawSql('(UUID())'),],
             'pasien_id'                     => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => true,],
+            'nomor_rm'                      => ['type' => 'INT', 'null' => false,],
             'nama'                          => ['type' => 'VARCHAR', 'constraint' => 191],
             'tanggal_lahir'                 => ['type' => 'DATE', 'null' => true],
             'nik'                           => ['type' => 'VARCHAR', 'constraint' => 16, 'null' => false],

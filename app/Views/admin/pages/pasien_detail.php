@@ -85,6 +85,10 @@ function yn_badge($v): string {
                         <dd class="font-semibold text-slate-900"><?= esc((string) ($row['nama'] ?? '—')) ?></dd>
                     </div>
                     <div class="flex items-start justify-between gap-4">
+                        <dt class="text-slate-500">Nomor RM</dt>
+                        <dd class="font-semibold text-slate-900"><?= esc((string) ($row['nomor_rm'] ?? '—')) ?></dd>
+                    </div>
+                    <div class="flex items-start justify-between gap-4">
                         <dt class="text-slate-500">NIK (16 Digit)</dt>
                         <dd class="font-semibold text-slate-900"><?= esc((string) ($row['nik'] ?? '—')) ?></dd>
                     </div>

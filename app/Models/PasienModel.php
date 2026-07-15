@@ -19,6 +19,7 @@ class PasienModel extends Model
     protected $allowedFields = [
         'id',
         'pasien_id',
+        'nomor_rm',
         'nama',
         'tanggal_lahir',
         'nik',
@@ -29,6 +30,7 @@ class PasienModel extends Model
     ];
 
     protected array $casts = [
+        'nomor_rm'                  => 'integer',
         'usia'                      => 'integer',
     ];
 

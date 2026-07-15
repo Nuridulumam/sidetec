@@ -12,6 +12,7 @@ class PasienSeeder extends Seeder
 
         $data = [
             [
+                'nomor_rm'                      => 100001,
                 'nik'                           => '1234567890123456',
                 'nama'                          => 'Budi Santoso',
                 'usia'                          => 25,
@@ -32,6 +33,7 @@ class PasienSeeder extends Seeder
                 'alamat'                        => 'Jl. Merdeka No. 10, Jakarta',
             ],
             [
+                'nomor_rm'                      => 100002,
                 'nik'                           => '2345678901234567',
                 'nama'                          => 'Siti Aminah',
                 'usia'                          => 12,
@@ -52,6 +54,7 @@ class PasienSeeder extends Seeder
                 'alamat'                        => 'Jl. Mawar No. 4, Surabaya',
             ],
             [
+                'nomor_rm'                      => 100003,
                 'nik'                           => '3456789012345678',
                 'nama'                          => 'Andi Wijaya',
                 'usia'                          => 34,
@@ -72,6 +75,7 @@ class PasienSeeder extends Seeder
                 'alamat'                        => 'Jl. Melati No. 15, Bandung',
             ],
             [
+                'nomor_rm'                      => 100004,
                 'nik'                           => '4567890123456789',
                 'nama'                          => 'Dewi Lestari',
                 'usia'                          => 18,
@@ -92,6 +96,7 @@ class PasienSeeder extends Seeder
                 'alamat'                        => 'Jl. Kenanga No. 8, Yogyakarta',
             ],
             [
+                'nomor_rm'                      => 100005,
                 'nik'                           => '5678901234567890',
                 'nama'                          => 'Eko Prasetyo',
                 'usia'                          => 45,
@@ -112,6 +117,7 @@ class PasienSeeder extends Seeder
                 'alamat'                        => 'Jl. Dahlia No. 22, Semarang',
             ],
             [
+                'nomor_rm'                      => 100006,
                 'nik'                           => '6789012345678901',
                 'nama'                          => 'Farida Utami',
                 'usia'                          => 9,
@@ -132,6 +138,7 @@ class PasienSeeder extends Seeder
                 'alamat'                        => 'Jl. Kamboja No. 3, Malang',
             ],
             [
+                'nomor_rm'                      => 100007,
                 'nik'                           => '7890123456789012',
                 'nama'                          => 'Guntur Wibowo',
                 'usia'                          => 50,
@@ -152,6 +159,7 @@ class PasienSeeder extends Seeder
                 'alamat'                        => 'Jl. Anggrek No. 12, Solo',
             ],
             [
+                'nomor_rm'                      => 100008,
                 'nik'                           => '8901234567890123',
                 'nama'                          => 'Hani Handayani',
                 'usia'                          => 28,
@@ -172,6 +180,7 @@ class PasienSeeder extends Seeder
                 'alamat'                        => 'Jl. Flamboyan No. 7, Denpasar',
             ],
             [
+                'nomor_rm'                      => 100009,
                 'nik'                           => '9012345678901234',
                 'nama'                          => 'Irfan Hakim',
                 'usia'                          => 16,
@@ -192,6 +201,7 @@ class PasienSeeder extends Seeder
                 'alamat'                        => 'Jl. Sakura No. 19, Medan',
             ],
             [
+                'nomor_rm'                      => 100010,
                 'nik'                           => '0123456789012345',
                 'nama'                          => 'Julia Perez',
                 'usia'                          => 22,
@@ -212,6 +222,7 @@ class PasienSeeder extends Seeder
                 'alamat'                        => 'Jl. Tulip No. 11, Palembang',
             ],
             [
+                'nomor_rm'                      => 100011,
                 'nik'                           => '0987654321098765',
                 'nama'                          => 'Kurniawan Dwi',
                 'usia'                          => 60,
@@ -247,6 +258,7 @@ class PasienSeeder extends Seeder
 
             // 1. Insert patient master data
             $pasienData = [
+                'nomor_rm'      => $row['nomor_rm'],
                 'nik'           => $row['nik'],
                 'nama'          => $row['nama'],
                 'usia'          => $row['usia'],
