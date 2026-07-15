@@ -69,11 +69,13 @@ foreach ($filters ?? [] as $k => $v) {
                         </div>
 
                         <!-- Nomor RM -->
+                        <?php if (session()->get('admin_role') === 'petugas') : ?>
                         <div>
                             <label for="filter-nomor-rm" class="block text-xs font-semibold text-slate-500 uppercase tracking-wide">Nomor Rekam Medis (RM)</label>
                             <input type="number" name="nomor_rm" id="filter-nomor-rm" value="<?= esc($filters['nomor_rm'] ?? '') ?>" placeholder="Cari No RM..."
                                    class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30">
                         </div>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Buttons -->
@@ -97,7 +99,9 @@ foreach ($filters ?? [] as $k => $v) {
                     <tr>
                         <th class="px-6 py-3">No</th>
                         <th class="px-6 py-3">ID Pasien</th>
+                        <?php if (session()->get('admin_role') === 'petugas') : ?>
                         <th class="px-6 py-3">No RM</th>
+                        <?php endif; ?>
                         <th class="px-6 py-3">NIK</th>
                         <th class="px-6 py-3">Nama Lengkap</th>
                         <th class="px-6 py-3">Tanggal Lahir</th>
@@ -110,7 +114,7 @@ foreach ($filters ?? [] as $k => $v) {
                 <tbody class="divide-y divide-slate-100">
                     <?php if (($rows ?? []) === []) : ?>
                         <tr>
-                            <td colspan="9" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
+                            <td colspan="<?= session()->get('admin_role') === 'petugas' ? 10 : 9 ?>" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
                         </tr>
                     <?php else : ?>
                         <?php
@@ -125,7 +129,9 @@ foreach ($filters ?? [] as $k => $v) {
                             <tr class="hover:bg-slate-50/80">
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-slate-500"><?= esc((string) $no++) ?></td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-slate-900"><?= esc((string) ($r['pasien_id'] ?? '')) ?></td>
+                                <?php if (session()->get('admin_role') === 'petugas') : ?>
                                 <td class="whitespace-nowrap px-6 py-4 text-slate-700"><?= esc((string) ($r['nomor_rm'] ?? '—')) ?></td>
+                                <?php endif; ?>
                                 <td class="whitespace-nowrap px-6 py-4 text-slate-700"><?= esc((string) ($r['nik'] ?? '—')) ?></td>
                                 <td class="px-6 py-4 font-medium text-slate-900"><?= esc((string) ($r['nama'] ?? '')) ?></td>
                                 <td class="px-6 py-4 text-slate-700"><?= isset($r['tanggal_lahir']) ? date('d-m-Y', strtotime($r['tanggal_lahir'])) : '—' ?></td>
