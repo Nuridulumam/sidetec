@@ -60,10 +60,18 @@ class PasienController extends BaseController
 
     public function pasienCreate()
     {
+        $db = \Config\Database::connect();
+        $row = $db->table('pasien')->selectMax('nomor_rm')->get()->getRowArray();
+        $max = $row['nomor_rm'] ?? 0;
+        $nextNomorRm = ($max > 0) ? $max + 1 : 100001;
+
         return view('admin/layout', [
             'title'    => 'Tambah Pasien',
             'active'   => 'pasien',
-            'mainView' => view('admin/pages/pasien_form', ['record' => null]),
+            'mainView' => view('admin/pages/pasien_form', [
+                'record' => null,
+                'nextNomorRm' => $nextNomorRm,
+            ]),
         ]);
     }
 
@@ -240,7 +248,6 @@ class PasienController extends BaseController
     private function pasienRules(): array
     {
         return [
-            'nomor_rm'      => 'required|is_natural_no_zero',
             'nama'          => 'required|min_length[3]|max_length[191]',
             'tanggal_lahir' => 'required|valid_date[Y-m-d]',
             'nik'           => 'required|numeric|exact_length[16]',
@@ -254,7 +261,6 @@ class PasienController extends BaseController
     private function pasienPayloadFromRequest(): array
     {
         return [
-            'nomor_rm'      => (int) $this->request->getPost('nomor_rm'),
             'nama'          => (string) $this->request->getPost('nama'),
             'tanggal_lahir' => (string) $this->request->getPost('tanggal_lahir'),
             'nik'           => (string) $this->request->getPost('nik'),

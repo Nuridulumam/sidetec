@@ -34,7 +34,7 @@ class PasienModel extends Model
         'usia'                      => 'integer',
     ];
 
-    protected $beforeInsert = ['generateUuid', 'generatePasienId'];
+    protected $beforeInsert = ['generateUuid', 'generatePasienId', 'generateNomorRm'];
     protected $beforeUpdate = [];
     protected $afterInsert  = [];
     protected $afterUpdate  = [];
@@ -84,6 +84,22 @@ class PasienModel extends Model
         } while ($exists);
 
         $data['data']['pasien_id'] = $pasienId;
+        return $data;
+    }
+
+    protected function generateNomorRm(array $data)
+    {
+        if (!isset($data['data'])) {
+            return $data;
+        }
+
+        if (empty($data['data']['nomor_rm'])) {
+            $db = \Config\Database::connect();
+            $row = $db->table('pasien')->selectMax('nomor_rm')->get()->getRowArray();
+            $max = $row['nomor_rm'] ?? 0;
+            $data['data']['nomor_rm'] = ($max > 0) ? $max + 1 : 100001;
+        }
+
         return $data;
     }
 }

@@ -36,11 +36,10 @@ $formAction = $isEdit
                 <div class="grid gap-5 sm:grid-cols-2">
                     <!-- Nomor Rekam Medis (RM) -->
                     <div>
-                        <label for="nomor_rm" class="block text-sm font-medium text-slate-700">Nomor RM <span class="text-red-500">*</span></label>
-                        <input type="number" name="nomor_rm" id="nomor_rm" required min="1"
-                               value="<?= esc(old('nomor_rm', $isEdit ? ($record['nomor_rm'] ?? '') : '')) ?>"
-                               class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-mint focus:outline-none focus:ring-2 focus:ring-mint/30"
-                               placeholder="Contoh: 100293">
+                        <label for="nomor_rm" class="block text-sm font-medium text-slate-700">Nomor RM</label>
+                        <input type="text" id="nomor_rm" disabled
+                               value="<?= esc($isEdit ? ($record['nomor_rm'] ?? '') : ($nextNomorRm ?? '')) ?>"
+                               class="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-500 shadow-sm focus:outline-none cursor-not-allowed">
                     </div>
 
                     <!-- NIK (16 Digit) -->

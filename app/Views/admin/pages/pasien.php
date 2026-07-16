@@ -99,7 +99,7 @@ foreach ($filters ?? [] as $k => $v) {
                     <tr>
                         <th class="px-6 py-3">No</th>
                         <th class="px-6 py-3">ID Pasien</th>
-                        <?php if (session()->get('admin_role') === 'petugas') : ?>
+                        <?php if (session()->get('admin_role') === 'petugas' || session()->get('admin_role') === 'admin' ) : ?>
                         <th class="px-6 py-3">No RM</th>
                         <?php endif; ?>
                         <th class="px-6 py-3">NIK</th>
@@ -114,7 +114,7 @@ foreach ($filters ?? [] as $k => $v) {
                 <tbody class="divide-y divide-slate-100">
                     <?php if (($rows ?? []) === []) : ?>
                         <tr>
-                            <td colspan="<?= session()->get('admin_role') === 'petugas' ? 10 : 9 ?>" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
+                            <td colspan="<?= session()->get('admin_role') === 'petugas' || session()->get('admin_role') === 'admin' ? 10 : 9 ?>" class="px-6 py-12 text-center text-slate-500">Belum ada data pasien.</td>
                         </tr>
                     <?php else : ?>
                         <?php
@@ -129,7 +129,7 @@ foreach ($filters ?? [] as $k => $v) {
                             <tr class="hover:bg-slate-50/80">
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-slate-500"><?= esc((string) $no++) ?></td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-slate-900"><?= esc((string) ($r['pasien_id'] ?? '')) ?></td>
-                                <?php if (session()->get('admin_role') === 'petugas') : ?>
+                                <?php if (session()->get('admin_role') === 'petugas' || session()->get('admin_role') === 'admin') : ?>
                                 <td class="whitespace-nowrap px-6 py-4 text-slate-700"><?= esc((string) ($r['nomor_rm'] ?? '—')) ?></td>
                                 <?php endif; ?>
                                 <td class="whitespace-nowrap px-6 py-4 text-slate-700"><?= esc((string) ($r['nik'] ?? '—')) ?></td>

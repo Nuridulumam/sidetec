@@ -63,4 +63,31 @@ final class PasienModelTest extends CIUnitTestCase
         $diagnosis = $model->determineDiagnosis($adultData);
         $this->assertEquals('Non Suspect Typhoid Fever', $diagnosis);
     }
+
+    public function testAutoIncrementNomorRm(): void
+    {
+        $model = new \App\Models\PasienModel();
+
+        // 1. Get the current maximum nomor_rm
+        $db = \Config\Database::connect();
+        $row = $db->table('pasien')->selectMax('nomor_rm')->get()->getRowArray();
+        $initialMax = $row['nomor_rm'] ?? 0;
+
+        // 2. Insert a new patient without providing nomor_rm
+        $newPatientData = [
+            'nama'          => 'Test Patient Auto Increment',
+            'tanggal_lahir' => '1995-05-15',
+            'nik'           => '9999999999999999',
+            'usia'          => 30,
+            'jenis_kelamin' => 'L',
+        ];
+        
+        $insertedId = $model->insert($newPatientData);
+        $this->assertNotEmpty($insertedId);
+
+        // 3. Verify the inserted patient has the correct auto-incremented nomor_rm
+        $insertedPatient = $model->find($insertedId);
+        $expectedRm = ($initialMax > 0) ? $initialMax + 1 : 100001;
+        $this->assertEquals($expectedRm, $insertedPatient['nomor_rm']);
+    }
 }
