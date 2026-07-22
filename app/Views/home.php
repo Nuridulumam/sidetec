@@ -96,7 +96,7 @@
 <!-- Top floating nav -->
 <header class="sticky top-4 z-50 px-4 sm:px-6">
     <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full bg-white px-5 py-3 shadow-nav sm:px-8 sm:py-3.5">
-        <a href="#" class="flex shrink-0 items-center gap-2.5">
+        <a href="<?= esc(site_url(), 'attr') ?>" class="flex shrink-0 items-center gap-2.5">
             <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-mint shadow-sm ring-4 ring-mint/25">
                 <img
                     src="<?= esc(base_url('assets/images/logo_sidetect.png'), 'attr') ?>"
@@ -117,11 +117,12 @@
             ];
             foreach ($nav as $label => $hash) :
             ?>
-                <a href="#<?= esc($hash, 'attr') ?>" class="rounded-xl px-3 py-2 text-md font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 sm:py-0 sm:hover:bg-transparent"><?= esc($label) ?></a>
+                <a href="<?= esc(site_url('#' . $hash), 'attr') ?>" class="rounded-xl px-3 py-2 text-md font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 sm:py-0 sm:hover:bg-transparent"><?= esc($label) ?></a>
             <?php endforeach; ?>
         </div>
 
         <div class="flex items-center gap-3 sm:gap-5">
+            <a href="<?= esc(site_url('deteksi-dini'), 'attr') ?>" class="inline-flex items-center justify-center rounded-full bg-mint px-4 py-2 text-sm font-semibold text-white shadow-md hover:bg-mint-dark transition">Deteksi Dini</a>
             <button type="button" id="menu-toggle" class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-700 sm:hidden" aria-expanded="false" aria-controls="nav-links">
                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
@@ -153,6 +154,14 @@
                         <p class="mt-4 text-xs leading-relaxed text-white/75 sm:text-sm">
                             Hasil dari SIDETECT bersifat informatif dan tidak menggantikan pemeriksaan klinis, diagnosis, maupun resep dokter.
                         </p>
+                        <div class="mt-8 flex flex-wrap gap-4">
+                            <a href="<?= esc(site_url('deteksi-dini'), 'attr') ?>" class="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3.5 text-base font-semibold text-mint shadow-xl hover:bg-slate-50 transition transform hover:-translate-y-0.5 active:translate-y-0 duration-150">
+                                <svg class="mr-2 h-5 w-5 text-mint" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                Mulai Deteksi Dini
+                            </a>
+                        </div>
                     </div>
                 </div>
 

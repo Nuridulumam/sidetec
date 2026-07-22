@@ -6,6 +6,10 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+$routes->get('deteksi-dini', 'Home::deteksiDini');
+$routes->post('deteksi-dini', 'Home::prosesDeteksiDini', ['filter' => 'csrf']);
+$routes->get('deteksi-dini/hasil/(:any)', 'Home::deteksiDiniHasil/$1');
+
 
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], static function ($routes) {
     $routes->get('login', 'AuthController::login');
